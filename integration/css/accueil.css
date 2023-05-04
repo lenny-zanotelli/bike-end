@@ -1,0 +1,97 @@
+html, body {
+	height: 100%; 
+	overflow: hidden;
+	font-family: sans-serif;
+}
+
+.container {
+
+}
+
+/* HEADER */
+.container__header {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	height: 50vh;
+}
+
+.header__banner {
+	opacity: .5;
+	height: 50vh;
+}
+
+.header__title {
+	position: absolute;
+	font-size: 3.5rem;
+	font-weight: bolder;
+	font-style: italic;
+}
+
+/* BODY */
+
+.container__body {
+	margin: 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.body__content {
+	text-align: center;
+	font-size: 1rem;
+	line-height: 1.5;
+	padding: 0.5rem 0;
+}
+
+.body__create-account-btn {
+	background-color: #207868;
+	color: #fff;
+	border: .125rem solid #207868;
+	border-radius: 4px;
+	padding: 0.75rem 1rem;
+	min-width: 250px;
+	margin: 0.5rem 0;
+	font-size: 1.25rem;
+	font-weight: 400;
+
+}
+
+.body__connect-btn {
+	border: none;
+	background-color: white;
+	color: #788896;
+	font-size: 1rem;
+	text-decoration: underline;
+	text-decoration-color: #CED4D9;
+	text-underline-offset: 2px;
+	margin: 0.5rem 0;
+}
+
+/* FOOTER */
+
+.container__footer {
+	position: fixed;
+	bottom: 0;
+	background-color: #D1EFEC;
+	width: 100%;
+	padding: 1rem 2rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+
+}
+
+.footer__content {
+	font-size: 0.85rem;
+	color: #207868;
+	text-decoration: underline;
+	text-decoration-color: #92C4BC;
+	text-underline-offset: 2px;
+}
+
+
+
