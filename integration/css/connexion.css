@@ -101,6 +101,9 @@ input {
   text-underline-offset: 2px;
 }
 
+
+/* MEDIA QUERIE DESKTOP */
+
 @media only screen and (min-device-width : 1224px) {
 
   .container__connect {
@@ -125,13 +128,15 @@ input {
     font-size: 3em;
   }
 
-  .header__container {
-   
-  }
-
   .tagline {
     padding-left: 0.7rem;
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+
   }
+  .container__footer {
+		justify-content: space-evenly;
+	}
+	.footer__content {
+		font-size: 0.6rem;
+	}
 }
