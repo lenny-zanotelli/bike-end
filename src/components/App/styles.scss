@@ -1,0 +1,15 @@
+@use './../../styles/vars';
+
+.app {
+  max-width: 820px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+
+  &__title {
+    text-align: center;
+    font-size: 2rem;
+    color: vars.$primary;
+  }
+}
