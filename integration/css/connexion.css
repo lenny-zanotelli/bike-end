@@ -1,0 +1,137 @@
+body {
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* HEADER */
+
+.hidden {
+  display: none;
+}
+
+.header__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+  width: 100vw;
+  padding: 0.5rem;
+}
+
+.header-logo {
+  width: 2rem;
+  height: 2rem;
+}
+
+.header__container__title {
+  font-size: 2em;
+  font-style: italic;
+  margin-left: 2%;
+}
+
+/* CONNECTION CONTAINER - INPUT*/
+
+.container__connect {
+  width: 70%;
+  margin-top: 5rem;
+  border-radius: 5px;
+  padding: 1rem;
+  text-align: center;
+  background-color: rgb(154, 183, 192, 0.3);
+}
+
+.container__connect__title {
+  font-size: 2em;
+  padding: 1rem 2rem;
+}
+
+input {
+  width: 80%;
+  padding: 10px;
+  margin: 1rem 0;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.container__connect__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container__connect__form-btn {
+  padding: 0.7rem 1.5rem;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+}
+
+.container__connect__forgotPassword {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+
+/* FOOTER */
+
+.container__footer {
+  position: fixed;
+  bottom: 0;
+  background-color: #D1EFEC;
+  width: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footer__content {
+  font-size: 0.85rem;
+  color: #207868;
+  text-decoration: underline;
+  text-decoration-color: #92C4BC;
+  text-underline-offset: 2px;
+}
+
+@media only screen and (min-device-width : 1224px) {
+
+  .container__connect {
+    max-width: 35%;
+  }
+
+  /* HEADER DESKTOP */
+
+  .hidden {
+    display: flex
+  }
+
+  .hidden-logo {
+    display: none;
+  }
+
+  .header__container {
+    background-color: #D1EFEC;
+  }
+
+  .header__container__title {
+    font-size: 3em;
+  }
+
+  .header__container {
+   
+  }
+
+  .tagline {
+    padding-left: 0.7rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
