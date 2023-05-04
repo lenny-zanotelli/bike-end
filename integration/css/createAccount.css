@@ -1,0 +1,158 @@
+body {
+    height: 100vh;
+    font-family: sans-serif;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* HEADER */
+
+.hidden {
+    display: none;
+}
+
+.header__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100vw;
+    padding: 0.5rem;
+}
+
+.header-logo {
+    width: 2rem;
+    height: 2rem;
+}
+
+.header__container__title {
+    font-size: 2em;
+    font-style: italic;
+    margin-left: 2%;
+}
+
+/* CONNECTION CONTAINER - INPUT*/
+
+.container__createAccount {
+    width: 70%;
+    border-radius: 5px;
+    padding: 1rem 0;
+    text-align: center;
+    background-color: rgb(154, 183, 192, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.container__createAccount__title {
+    font-size: 1.8em;
+    margin-bottom: 1rem;
+
+}
+
+input {
+    width: 80%;
+    padding: 10px;
+    margin: 0.5rem 0;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+.container__createAccount__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.container__createAccount__form_cgu-input {
+    width: 10%
+}
+
+.container__createAccount__form-cgu-text {
+    font-size: 0.8em;
+    padding: 0.2rem;
+}
+
+.container__createAccount__form-btn {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+}
+
+.container-text {
+    width: 80%;
+    text-align: center;
+    margin-top: 2rem;
+    font-style: italic;
+}
+
+
+/* FOOTER */
+
+.container__footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #D1EFEC;
+    width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer__content {
+    font-size: 0.85rem;
+    color: #207868;
+    text-decoration: underline;
+    text-decoration-color: #92C4BC;
+    text-underline-offset: 2px;
+}
+
+
+/* MEDIA QUERIE DESKTOP */
+
+@media only screen and (min-device-width : 1224px) {
+
+
+    .container__createAccount {
+        max-width: 35%;
+    }
+
+    /* HEADER DESKTOP */
+
+    .hidden {
+        display: flex
+    }
+
+    .hidden-logo {
+        display: none;
+    }
+
+    .header__container {
+        background-color: #D1EFEC;
+    }
+
+    .header__container__title {
+        font-size: 3em;
+    }
+
+    .tagline {
+        padding-left: 0.7rem;
+        font-size: 1.5rem;
+
+    }
+    .container__footer {
+		justify-content: space-evenly;
+	}
+	.footer__content {
+		font-size: 0.6rem;
+	}
+}
