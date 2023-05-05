@@ -5,7 +5,7 @@ const { userDataMapper } = require('../../models');
  * @param {number} userId ID (PK) of the user searched in DB
  * @returns {object} user
  */
-const returnUserByPkIfInDatabase = async (userId) => {
+const returnRecordOrThrowError = async (userId) => {
     const user = await userDataMapper.findByPk(userId);
     if (!user) {
         throw new Error('This user does not exists', {
@@ -24,7 +24,7 @@ module.exports = {
      * @returns Route API JSON response
      */
     async getOne(req, res) {
-        const user = await returnUserByPkIfInDatabase(req.params.id);
+        const user = await returnRecordOrThrowError(req.params.id);
         return res.json(user);
     },
     /**
@@ -35,7 +35,7 @@ module.exports = {
      * @returns Route API JSON response
      */
     async update(req, res) {
-        const user = await returnUserByPkIfInDatabase(req.params.id);
+        const user = await returnRecordOrThrowError(req.params.id);
 
         if (req.body.email) {
             const userWithSameCredentials = await userDataMapper.isUnique(
