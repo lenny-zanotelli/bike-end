@@ -1,5 +1,5 @@
 const userController = require('./user');
-const signupController = require('./signup');
-const loginController = require('./login');
+const authentificationController = require('./authentification');
 
-module.exports = { userController, signupController, loginController };
+
+module.exports = { userController, authentificationController };

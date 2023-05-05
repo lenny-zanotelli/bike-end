@@ -95,11 +95,10 @@ module.exports = {
     },
 
     /**
-     * Vérifie si un user existe déjà avec le titre ou le slug
+     * Vérifie si un user existe déjà avec la meme addresse email
      * @param {object} inputData - Les données fourni par le client
-     * @param {number} userId - L'identifiant du user (optionnel)
-     * @returns {User|null} Le User existant
-     * ou null si aucun User avec ces données
+     * @param {number} userId - L'identifiant du user (optionnel - dans le cas d'une modif)
+     * @returns {boolean} soit le user existe soit il n'existe pas
      */
     async isUnique(inputData, userId) {
         const preparedQuery = {
@@ -114,10 +113,16 @@ module.exports = {
         }
         const result = await client.query(preparedQuery);
 
-        if (result.rowCount === 0) {
-            return null;
-        }
+        // Soit un user existe déja soit rien n'est renvoyé
+        // le rowcount est égal à 1 (truthy)soit non et il est égal a 0 (falsy)
+        // On cast le truthy/falsy en vrai booléen
+        return !!result.rowCount;
 
-        return result.rows[0];
+        // // si un user n'existe pas 
+        // if (result.rowCount === 0) {
+        //     return null;
+        // }
+
+        // return result.rows[0];
     },
 };

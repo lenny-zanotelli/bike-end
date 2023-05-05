@@ -15,9 +15,9 @@ router.route('/user/:id(\\d+)')
 .patch(userController.update)
 .delete(userController.delete)
 // post /login pour s'enregistrer'
-router.post('/login', loginController);
+router.post('/login', authentificationController.login);
 // post /signup pour créer un compte
-router.post('/signup', signupController);
+router.post('/signup', authentificationController.signup);
 
 module.exports = router;
 
