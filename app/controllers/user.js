@@ -1,5 +1,20 @@
 const { userDataMapper } = require('../../models');
 
+/**
+ *
+ * @param {number} userId ID (PK) of the user searched in DB
+ * @returns {object} user
+ */
+const returnUserByPkIfInDatabase = async (userId) => {
+    const user = await userDataMapper.findByPk(userId);
+    if (!user) {
+        throw new Error('This user does not exists', {
+            statusCode: 404,
+        });
+    }
+    return user;
+};
+
 module.exports = {
     /**
      * User controller to get a record.
@@ -9,12 +24,7 @@ module.exports = {
      * @returns Route API JSON response
      */
     async getOne(req, res) {
-        const user = await userDataMapper.findByPk(req.params.id);
-
-        if (!user) {
-            throw new Error('User not found', { statusCode: 404 });
-        }
-
+        const user = await returnUserByPkIfInDatabase(req.params.id);
         return res.json(user);
     },
     /**
@@ -25,12 +35,7 @@ module.exports = {
      * @returns Route API JSON response
      */
     async update(req, res) {
-        const user = await userDataMapper.findByPk(req.params.id);
-        if (!user) {
-            throw new Error('This user does not exists', {
-                statusCode: 404,
-            });
-        }
+        const user = await returnUserByPkIfInDatabase(req.params.id);
 
         if (req.body.email) {
             const userWithSameCredentials = await userDataMapper.isUnique(
@@ -44,14 +49,14 @@ module.exports = {
             }
         }
         const modifiedUser = {
-            email : req.body.email ?? user.email,
-            password : req.body.password ?? user.password,
-            firstName : req.body.firstName ?? user.firstName,
-            lastName : req.body.lastName ?? user.lastName
-        }
+            email: req.body.email ?? user.email,
+            password: req.body.password ?? user.password,
+            firstName: req.body.firstName ?? user.firstName,
+            lastName: req.body.lastName ?? user.lastName,
+        };
         const savedUser = await userDataMapper.update(
             req.params.id,
-            req.body,
+            modifiedUser
         );
         return res.json(savedUser);
     },
