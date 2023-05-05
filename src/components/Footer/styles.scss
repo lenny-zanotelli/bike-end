@@ -1,0 +1,20 @@
+@use './../../styles/vars';
+
+.container__footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #D1EFEC;
+    width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer__content {
+    font-size: 0.85rem;
+    color: #207868;
+    text-decoration: underline;
+    text-decoration-color: #92C4BC;
+    text-underline-offset: 2px;
+}
