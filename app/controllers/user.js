@@ -1,9 +1,18 @@
 const { userDataMapper } = require('../../models');
 
 /**
+ * @typedef {object} User
+ * @property {number} id - Indentifiant unique, Pk de la table
+ * @property {string} email
+ * @property {string} password 
+ * @property {string} firstName 
+ * @property {string} lastName
+ */
+
+/**
  *
  * @param {number} userId ID (PK) of the user searched in DB
- * @returns {object} user
+ * @returns {User}
  */
 const returnRecordOrThrowError = async (userId) => {
     const user = await userDataMapper.findByPk(userId);
