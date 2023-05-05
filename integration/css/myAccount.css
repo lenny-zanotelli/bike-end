@@ -2,14 +2,118 @@ body {
 	font-family: sans-serif;
 } 
 
+.container{}
+
+
+
 /* HEADER */
 
+.header{
+	display: flex;
+	justify-content: space-between;
+	margin: 0.5rem 1rem;
+}
+
 /* MAIN */
+
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.main__title {
+	font-size: 2.5rem;
+	padding-bottom: 3.125rem;
+
+}
+
+.main__card-profile {
+	width: 19rem;
+	height: 11rem;
+	background-color: #F0F4F7 ;
+	border: solid 1px #C3CFD9;
+	display: flex;
+	flex-direction: column;
+	padding: 0.875rem 0 0.875rem 0;
+
+}
+
+.card-profile__header-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 3.5rem;
+}
+
+.card-profile__title {
+	font-size: 1rem;
+	text-transform: uppercase;
+}
+
+.card-profile__info {
+	margin-top: 1rem;
+	padding-left: 1.81rem;
+}
+
+.card-profile__body {
+	margin-bottom: 1.50rem;
+}
+
+.card-profile__btn {
+	border: none;
+	background: none;
+}
+
+.main__interaction {
+	display: flex;
+	flex-direction: column;
+	margin-top: 5.75rem;
+	gap: 2rem; 
+}
+
+.interaction__link {
+	font-size: 1rem;
+	color: #13483F;
+	text-align: center;
+	text-decoration: underline;
+	text-decoration-color: #92C4BC;
+	text-underline-offset: 2px;
+	margin-bottom: 5rem;
+}
+
+ 
+.interaction__disconnect-btn {
+	min-width: 18rem;
+	background-color: #4a5761;
+	color: #fff;
+	border: .125rem solid #4a5761;
+	border-radius: 4px;
+	padding: 0.25rem 1rem;
+	margin: 0.5rem 0; 
+	font-size: 1rem;
+}
+
+.interaction__delete-btn {
+	border: none;
+	background-color: white;
+	color: #788896;
+	font-size: 0.8rem;
+	text-decoration: underline;
+	text-decoration-color: #CED4D9;
+	text-underline-offset: 2px;
+	margin: 0.5rem 0;
+}
+
+dialog::backdrop {
+	background: rgba(0, 0, 0, 0.8);
+}
 
 
 /* FOOTER */
 
-.container__footer {
+.footer {
 	position: fixed;
 	bottom: 0;
 	background-color: #D1EFEC;

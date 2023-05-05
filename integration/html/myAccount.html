@@ -9,60 +9,113 @@
   <link rel="stylesheet" href="../css/myAccount.css">
 </head>
 <body>
-
 	<div class="container">
-			<header class="container__header">
+			<header class="header">
 				<a class="header__link" href="#">
-					<img class="header__link-img" class="header-logo hidden-logo" src="../assets/search-icon.svg" alt="search-logo" height="25px" width="25px"/>
+					<img 
+					class="header__link-img" 
+					src="../assets/search-icon.svg" 
+					alt="search-logo" 
+					height="25px" 
+					width="25px"/>
 				</a>
+
 				<a class="header__link" href="#">
-					<img class="header__link-img" src="../assets/profile.svg" alt="profile-logo" height="30px" width="30px"/>
+					<img 
+					class="header__link-img" 
+					src="../assets/profile.svg" 
+					alt="profile-logo" 
+					height="30px" 
+					width="30px"/>
 				</a>
 			</header>
 
 			<main class="main">
-				<h1 class="main__title">Mon compte</h1>
+				<h1 class="main__title">
+					Mon compte
+				</h1>
 				<section class="main__card-profile">
-					<h2 class="card-profile__title">Mes informations</h2>
-
-					<button id="showDialog">
-						<img src="../assets/pen-icon.svg" alt="pen-icon-logo" height="20px" width="20px"/>
-					</button>
+					<div class="card-profile__header-container">
+						<h2 class="card-profile__title">
+							Mes informations
+						</h2>
+	
+						<button 
+						id="showDialog"
+						class="card-profile__btn" >
+							<img src="../assets/pen-icon.svg" 
+							alt="pen-icon-logo" 
+							height="20px" 
+							width="20px"/>
+						</button>
+					</div>
+					
 
 					<div class="card-profile__info">
-						<p class="card-profile__body">DUPONT</p>
-						<p class="card-profile__body">Jean</p>
-						<p class="card-profile__body">jeanjean@mail.fr</p>
+						<p class="card-profile__body">
+							DUPONT
+						</p>
+						<p class="card-profile__body">
+							Jean
+						</p>
+						<p class="card-profile__body">
+							jeanjean@mail.fr
+						</p>
 					</div>
 				</section>
 				<section class="main__interaction">
-					<a href="#">
-						<img class="interaction__link" src="../assets/pen-icon.svg" alt="pen-icon-logo" height="20px" width="20px"/>Mes voyages favoris</a>
+					<a class="interaction__link" href="#">
+						<img 
+						class="interaction__link-img" 
+						src="../assets/pen-icon.svg" 
+						alt="pen-icon-logo" 
+						height="20px" 
+						width="20px"/>
+						Mes voyages favoris
+					</a>
 
-					<button type="button" class="interaction__disconnect-btn">Se déconnecter</button>
-					<button type="button" class="interaction__delete-btn">Supprimer mon compte</button>
+					<button 
+					type="button" 
+					class="interaction__disconnect-btn">
+					Se déconnecter
+					</button>
+					<button 
+					type="button" 
+					class="interaction__delete-btn">
+					Supprimer mon compte
+					</button>
 				</section>
 
-				<!-- A modal dialog containing a form -->
+				<!-- Une modal dialog pour modifier les informations du compte -->
 				<dialog class="modal">
-					<form>
-						<div>
-							<h3>Modifier vos informations <button formmethod="dialog"><img src="../assets/cross-modal.svg" alt="" height="15px" width="15px"></button></h3>
+					<form class="modal__form">
+							<h3>Modifier vos informations 
+								<button formmethod="dialog">
+									<img 
+									src="../assets/cross-modal.svg" 
+									alt="cross-mark-icon" 
+									height="15px" 
+									width="15px">
+								</button>
+							</h3>
 								<p>Nom</p>
 								<input>
 								<p>Prénom</p>
 								<input>
 								<p>Email</p>
 								<input>
-						</div>
 						<div>
-							<button type="submit" class="modal__btn">Mettre à jour</button>
+							<button 
+							type="submit" 
+							class="modal__btn">
+							Mettre à jour
+						</button>
 						</div>
 					</form>
 				</dialog>
 
 			</main>
-			<footer class="container__footer">
+			<footer class="footer">
 				<a class="footer__content" href="#">Qui sommes-nous ?</a>
 				<a class="footer__content" href="#">Mentions Légales</a>
 			</footer>
@@ -72,14 +125,14 @@
 		const modal = document.querySelector('.modal');
 		const confirmBtn = modal.querySelector('.modal__btn');
 
-		// "Show the dialog" button opens the <dialog> modally
+		// La modal s'active en cliquant sur l'icon "stylo" à côté de mes informations
 		showButton.addEventListener('click', () => {
 			console.log('here');
 			modal.showModal();
 		});
 
 		confirmBtn.addEventListener('click', (event) => {
-			event.preventDefault(); // We don't want to submit this fake form
+			event.preventDefault(); // On ne veut pas submit le formulaire
 		});
 
 	</script>
