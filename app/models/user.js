@@ -5,16 +5,16 @@ const client = require('../config/database');
  * @property {number} id - Indentifiant unique, Pk de la table
  * @property {string} email
  * @property {string} password
- * @property {string} firstName
- * @property {string} lastName
+ * @property {string} firstname
+ * @property {string} lastname
  */
 
 /**
  * @typedef {object} InputUser
  * @property {string} email 
  * @property {string} password 
- * @property {string} firstName 
- * @property {string} lastName
+ * @property {string} firstname 
+ * @property {string} lastname
  */
 module.exports = {
     /**
@@ -42,8 +42,8 @@ module.exports = {
      */
     async insert(user) {
         const savedUser = await client.query(
-            `INSERT INTO "user" ("email", "password", "firstname", "lastname") VALUES $1, $2, $3, $4 RETURNING *`,
-            [user.email, user.password, user.firstName, user.lastName]
+            `INSERT INTO "user" ("email", "password", "firstname", "lastname") VALUES ($1, $2, $3, $4) RETURNING *`,
+            [user.email, user.password, user.firstname, user.lastname]
         );
 
         return savedUser.rows[0];
@@ -55,23 +55,23 @@ module.exports = {
      * @param {InputUser} modifiedUserData - Les données à modifier
      * @returns {User} Le User modifié
      */
-    async update(userId, modifiedUserData) {
+    async update(modifiedUserData) {
         const savedUser = await client.query(
             `
             UPDATE "user" SET
-            "email" = $1
-            "password" = $2
-            "firstname" = $3
+            "email" = $1,
+            "password" = $2,
+            "firstname" = $3,
             "lastname" = $4
-            WHERE "id" = $5
+            WHERE id = $5
             RETURNING *
         `,
             [
-                modifiedUserData.email,
-                modifiedUserData.password,
-                modifiedUserData.firstName,
-                modifiedUserData.lastName,
-                userId,
+             modifiedUserData.email,
+             modifiedUserData.password,
+             modifiedUserData.firstname,
+             modifiedUserData.lastname,
+             modifiedUserData.id
             ]
         );
 
@@ -93,31 +93,27 @@ module.exports = {
         // On cast le truthy/falsy en vrai booléen
         return !!result.rowCount;
     },
-
-    /**
-     * Vérifie si un user existe déjà avec le titre ou le slug
-     * @param {object} inputData - Les données fourni par le client
-     * @param {number} userId - L'identifiant du user (optionnel)
-     * @returns {User|null} Le User existant
-     * ou null si aucun User avec ces données
-     */
-    async isUnique(inputData, userId) {
+    async isEmailAlreadyUsed(userId, userNewEmail) {
+        // Cherche les occurences de cet email hormi celui du user en cours
         const preparedQuery = {
-            text: 'SELECT * FROM "user" WHERE ("email" = $1)',
-            values: [inputData.email],
+            text: `SELECT * FROM "user" WHERE "email" = $1 AND "id" <> $2`,
+            values: [userNewEmail, userId],
         };
-
-        // Si l'id est fourni on exclu l'enregistrement qui lui correspond
-        if (userId) {
-            preparedQuery.text += ' AND "id" <> $2';
-            preparedQuery.values.push(userId);
-        }
         const result = await client.query(preparedQuery);
 
-        if (result.rowCount === 0) {
-            return null;
-        }
-
-        return result.rows[0];
+        // Soit un user existe déja soit rien n'est renvoyé
+        // le rowcount est égal à 1 (truthy) soit non et il est égal a 0 (falsy)
+        // On cast le truthy/falsy en vrai booléen
+        return !!result.rowCount;
     },
+
+    async findByEmail (newUserEmail) {
+        const preparedQuery = {
+            text: `SELECT * FROM "user" WHERE "email" = $1`,
+            values: [newUserEmail],
+        };
+        const result = await client.query(preparedQuery);
+        
+        return result;
+    }
 };

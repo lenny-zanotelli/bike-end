@@ -7,7 +7,97 @@
 @endpoint = http://localhost:{{$dotenv PORT}}
 
 ### 404
-GET {{ endpoint }}/
+GET {{ endpoint }}/userss
+
+#########################
+#         USERS         #
+#########################
+
+### Récupérér les infos du user signedin
+GET {{ endpoint }}/user
+
+### Modifier le user signedin avec un email déja utilisé
+PATCH {{ endpoint }}/user
+content-type: application/json
+
+{
+    "email": "pierre@gmail.com"
+}
+
+### Modifier l'email du user signedin
+PATCH {{ endpoint }}/user
+content-type: application/json
+
+{
+    "email": "testing89@hotmail.com"
+}
+
+### Modifier le password et le firstname du user signedin
+PATCH {{ endpoint }}/user
+content-type: application/json
+
+{
+    "password": "Superpassword99",
+    "firstname": "Jean-Pascal"
+}
+
+### Supprimer le user signedin
+DELETE {{ endpoint }}/user
+
+#########################
+#         SIGNUP         #
+#########################
+
+### Créer un user avec email déja existant
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+    "email": "pierre@gmail.com",
+  "password": "Jjbesos-1234",
+  "firstname": "Jean",
+  "lastname": "Jacques"
+}
+
+### Créer un user
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+  "email": "jeanjacques@gmail.com",
+  "password": "Jjbesos-1234",
+  "firstname": "Jean",
+  "lastname": "Jacques"
+}
+
+#########################
+#         LOGIN         #
+#########################
+
+### Login en erreur email
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+  "email": "pierrefzerfzre@gmail.com",
+  "password": "Jjbesos-1234",
+}
+### Login en erreur password
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+  "email": "pierre@gmail.com",
+  "password": "Jjbesos-1234",
+}
+### Login
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+  "email": "pierre@gmail.com",
+  "password": "Jjbesos-1234",
+}
 
 #########################
 #       FAVORITE        #

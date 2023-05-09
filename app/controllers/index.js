@@ -1,6 +1,5 @@
 const userController = require('./user');
-const signupController = require('./signup');
-const loginController = require('./login');
+const authentificationController = require('./authentification');
 const favoriteController = require('./favorite');
 
-module.exports = { userController, signupController, loginController, favoriteController };
+module.exports = { userController, authentificationController, favoriteController };

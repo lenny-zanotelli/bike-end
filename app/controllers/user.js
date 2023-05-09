@@ -4,25 +4,10 @@ const { userDataMapper } = require('../models');
  * @typedef {object} User
  * @property {number} id - Indentifiant unique, Pk de la table
  * @property {string} email
- * @property {string} password 
- * @property {string} firstName 
- * @property {string} lastName
+ * @property {string} password
+ * @property {string} firstname
+ * @property {string} lastname
  */
-
-/**
- *
- * @param {number} userId ID (PK) of the user searched in DB
- * @returns {User}
- */
-const returnRecordOrThrowError = async (userId) => {
-    const user = await userDataMapper.findByPk(userId);
-    if (!user) {
-        throw new Error('This user does not exists', {
-            statusCode: 404,
-        });
-    }
-    return user;
-};
 
 module.exports = {
     /**
@@ -32,9 +17,17 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async getOne(req, res) {
-        const user = await returnRecordOrThrowError(req.params.id);
-        return res.json(user);
+    async getInfo(req, res) {
+        try {
+            const user = await userDataMapper.findByPk(req.userId);
+            if (!user) {
+                return res.status(400).json('This user does not exist');
+            }
+            return res.json(user);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
+        }
     },
     /**
      * User controller to update a record.
@@ -43,31 +36,23 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async update(req, res) {
-        const user = await returnRecordOrThrowError(req.params.id);
-
-        if (req.body.email) {
-            const userWithSameCredentials = await userDataMapper.isUnique(
-                req.body,
-                req.params.id
-            );
-            if (userWithSameCredentials) {
-                throw new Error(`Other user already exists with this email`, {
-                    statusCode: 400,
-                });
+    async modify(req, res) {
+        try {
+            const userInDB = await userDataMapper.findByPk(req.userId);
+            if (!userInDB) {
+                return res.status(400).json('This user does not exist');
             }
+            // completer le user avec les elements de la bdd, modifiés de ce qui est dans le user
+            const modifiedUser = {
+                ...userInDB,
+                ...req.body,
+            };
+            const savedUser = await userDataMapper.update(modifiedUser);
+            return res.json(savedUser);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
         }
-        const modifiedUser = {
-            email: req.body.email ?? user.email,
-            password: req.body.password ?? user.password,
-            firstName: req.body.firstName ?? user.firstName,
-            lastName: req.body.lastName ?? user.lastName,
-        };
-        const savedUser = await userDataMapper.update(
-            req.params.id,
-            modifiedUser
-        );
-        return res.json(savedUser);
     },
 
     /**
@@ -78,13 +63,16 @@ module.exports = {
      * @returns Route API JSON response
      */
     async delete(req, res) {
-        const deleted = await userDataMapper.delete(req.params.id);
-        if (!deleted) {
-            throw new ApiError('This user does not exists', {
-                statusCode: 404,
-            });
+        try {
+            // deleted sera un booléen TRUE si deletion success
+            const deleted = await userDataMapper.delete(req.userId);
+            if (!deleted) {
+                return res.status(400).json('This user does not exists');
+            }
+            return res.status(204).json();
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
         }
-
-        return res.status(204).json();
     },
 };
