@@ -2,3 +2,4 @@
 %project=bikeend-back
 
 structure 2023-05-05T09:20:37Z Pierre-Paul <pierrepaul@StationPP> # Bikeend DB structure setup
+other_tables 2023-05-05T14:11:27Z Franck <franckvarnava@gmail.com> # Add 2 other tables : filter & favorite

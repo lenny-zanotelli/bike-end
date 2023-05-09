@@ -1,4 +1,4 @@
-const { userDataMapper } = require('../../models');
+const { userDataMapper } = require('../models');
 
 /**
  * @typedef {object} User
