@@ -59,6 +59,13 @@ html, body {
 
 }
 
+.body__create-account-btn:hover {
+	background-color: #0b5447;
+	transition: 300ms ease-in-out;
+}
+
+
+
 .body__connect-btn {
 	border: none;
 	background-color: white;
@@ -118,6 +125,7 @@ html, body {
 		font-size: 1.15rem;
 		font-weight: 400;
 	}
+
 	.body__connect-btn {
 		font-size: 1rem;
 	}
