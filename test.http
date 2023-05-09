@@ -31,7 +31,7 @@ PATCH {{ endpoint }}/user/1
 content-type: application/json
 
 {
-    "email": "testing99@hotmail.com"
+    "email": "testing89@hotmail.com"
 }
 
 ### Supprimer un user par son id qui n'existe pas
