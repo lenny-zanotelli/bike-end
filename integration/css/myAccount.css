@@ -90,6 +90,18 @@ body {
 	text-underline-offset: 2px;
 	margin-bottom: 5rem;
 	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.interaction__link > .interaction__link-img {
+	margin-right: 1rem;
+}
+
+.interaction__link-img {
+	height: 1.5rem;
+	width: 1.5rem;
 }
 
  
@@ -115,10 +127,59 @@ body {
 	margin: 0.5rem 0;
 }
 
+/* MODAL */
+
 dialog::backdrop {
 	background: rgba(0, 0, 0, 0.8);
 }
 
+.modal {
+	min-height: 50vh;
+}
+
+.modal__form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: left;
+	gap: 1rem;
+}
+
+.form__title {
+	font-weight: bold;
+}
+
+.form__cross-btn {
+	border: none;
+	background-color: white;
+}
+
+.form__btn-img {
+	height: 15px;
+	width: 15px;							
+}
+
+.form__body {
+	font-weight: bold;
+}
+
+.modal__container-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 1.5rem;
+
+}
+
+.modal__btn {
+	color: #fff;
+	background-color: #207868;
+	padding: 0.5rem 1rem;
+	border: none;
+	border-radius: 5px;
+	font-weight: bold;
+	text-align: center;
+}
 
 /* FOOTER */
 
