@@ -100,21 +100,20 @@ module.exports = {
             values: [userNewEmail, userId],
         };
         const result = await client.query(preparedQuery);
+
         // Soit un user existe déja soit rien n'est renvoyé
         // le rowcount est égal à 1 (truthy) soit non et il est égal a 0 (falsy)
         // On cast le truthy/falsy en vrai booléen
         return !!result.rowCount;
     },
 
-    async isEmailExistsInDB (newUserEmail) {
+    async findByEmail (newUserEmail) {
         const preparedQuery = {
             text: `SELECT * FROM "user" WHERE "email" = $1`,
             values: [newUserEmail],
         };
         const result = await client.query(preparedQuery);
-        // Soit un user existe déja soit rien n'est renvoyé
-        // le rowcount est égal à 1 (truthy)soit non et il est égal a 0 (falsy)
-        // On cast le truthy/falsy en vrai booléen
-        return !!result.rowCount;
+        
+        return result;
     }
 };

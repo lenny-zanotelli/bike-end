@@ -12,33 +12,36 @@ GET {{ endpoint }}/userss
 #         USERS         #
 #########################
 
-### Récupérér un user par un id qui n'existe pas
-GET {{ endpoint }}/user/123
+### Récupérér les infos du user signedin
+GET {{ endpoint }}/user
 
-### Récupérér un user par son id
-GET {{ endpoint }}/user/1
-
-### Modifier un user avec un email déja utilisé
-PATCH {{ endpoint }}/user/1
+### Modifier le user signedin avec un email déja utilisé
+PATCH {{ endpoint }}/user
 content-type: application/json
 
 {
     "email": "pierre@gmail.com"
 }
 
-### Modifier un user par son email
-PATCH {{ endpoint }}/user/1
+### Modifier l'email du user signedin
+PATCH {{ endpoint }}/user
 content-type: application/json
 
 {
     "email": "testing89@hotmail.com"
 }
 
-### Supprimer un user par son id qui n'existe pas
-DELETE {{ endpoint }}/user/123
+### Modifier le password et le firstname du user signedin
+PATCH {{ endpoint }}/user
+content-type: application/json
 
-### Supprimer un user par son id
-DELETE {{ endpoint }}/user/1
+{
+    "password": "Superpassword99",
+    "firstname": "Jean-Pascal"
+}
+
+### Supprimer le user signedin
+DELETE {{ endpoint }}/user
 
 #########################
 #         SIGNUP         #
@@ -69,3 +72,28 @@ content-type: application/json
 #########################
 #         LOGIN         #
 #########################
+
+### Login en erreur email
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+  "email": "pierrefzerfzre@gmail.com",
+  "password": "Jjbesos-1234",
+}
+### Login en erreur password
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+  "email": "pierre@gmail.com",
+  "password": "Jjbesos-1234",
+}
+### Login
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+  "email": "pierre@gmail.com",
+  "password": "Jjbesos-1234",
+}

@@ -1,5 +1,5 @@
 const { userDataMapper } = require('../models');
-
+const bcrypt = require('bcrypt')
 /**
  * @typedef {object} User
  * @property {number} id - Indentifiant unique, Pk de la table
@@ -8,7 +8,6 @@ const { userDataMapper } = require('../models');
  * @property {string} firstname
  * @property {string} lastname
  */
-
 
 module.exports = {
     /**
@@ -20,11 +19,25 @@ module.exports = {
      */
     // TODO login
     async login(req, res) {
-        const user = await userDataMapper.findByPk(req.userId);
-        if (!user){
-            return res.status(400).json('xxxx');
+        try {
+            // TODO à ajouter en middleware 
+            const user = await userDataMapper.findByEmail(req.body.email);
+            if (!user) {
+                return res.status(401).json('Incorrect email or password');
+            }
+            const isPasswordValid = await bcrypt.compare(req.body.password, user.password)
+            if (!isPasswordValid){
+                return res.status(401).json('Incorrect email or password');
+            }
+            delete req.body.password
+
+             // On supprime de notre objet JS le password crypté avant de le renvoyer au front en confirmation
+            delete user.password
+            return res.json(user);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
         }
-        return res.json(user);
     },
     /**
      * User controller to create a record.
@@ -34,19 +47,21 @@ module.exports = {
      * @returns Route API JSON response
      */
     async signup(req, res) {
-        // TODO vérif password à basculer dans un middleware validation (JOI)
-        if (req.body.password !== req.body.passwordCheck) {
+        try {
+            const newUser = {
+                ...req.body
+            };
+            // On supprime de newUser le pswdCheck qui n'ira pas en BDD
+            delete newUser.passwordCheck
+            // On crypte le password avant de l'insérer en BDD
+            newUser.password = await bcrypt.hash(newUser.password, 10)
+            const savedUser = await userDataMapper.insert(newUser);
+            // On supprime de notre objet js le password crypté avant de le renvoyer au front en confirmation
+            delete savedUser.password 
+            return res.json(savedUser);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
         }
- 
-        // le req.body contient aussi le passwordCheck donc on ne peut pas utiliser {...req.body}
-        const newUser = {
-            email: req.body.email,
-            password: req.body.password,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-        };
-
-        const savedUser = await userDataMapper.insert(newUser);
-        return res.json(savedUser);
     },
 };

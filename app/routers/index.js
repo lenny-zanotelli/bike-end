@@ -7,22 +7,22 @@ const {
     userController,
     authentificationController,
 } = require('../controllers');
-const { isUserUnique } = require('../middlewares/isUserUnique');
 
 // TODO replace userOneIsLoggedIn by JWT
-const { userOneIsLoggedIn } = require('../middlewares/userOneIsLoggedIn');
+// TODO replace passwordCheck by JOI
+const { encryptPwd, passwordCheck, userOneIsLoggedIn, isUserUnique} = require('../middlewares');
 
 // post /login pour s'enregistrer'
 // TODO - do controller
-// router.post('/login', authentificationController.login);
+router.post('/login', authentificationController.login);
 // post /signup pour créer un compte
-router.post('/signup',isUserUnique, authentificationController.signup);
+router.post('/signup',isUserUnique, passwordCheck, encryptPwd, authentificationController.signup);
 
 router.use(userOneIsLoggedIn)
 router
     .route('/user')
     .get(userController.getInfo)
-    .patch(isUserUnique, userController.modify)
+    .patch(isUserUnique, encryptPwd, userController.modify)
     .delete(userController.delete);
 
 module.exports = router;
