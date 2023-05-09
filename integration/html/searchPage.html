@@ -37,41 +37,44 @@
 	</header>
 	<main class="container">
 		<h1 class="container__title">
-			De nouveaux horizons à découvrir, En selle !
+			De nouveaux horizons à découvrir. En selle !
 		</h1>
 		<section class="container__search-form">
-			<label>
 				<input
 				class="search-form__input-city" 
 				type="text" 
 				name="city-start" 
 				placeholder="Lieu de départ">
-			</label>
-
-			<label>
 				<input
 				class="search-form__input-city"
 				type="text" 
 				name="city-end"
 				placeholder="Lieu d'arrivé">
-			</label>
-
-			<input 
-			class="search-form__input-filter" 
-			type="date" 
-			value="24-08-2023">
-			<input 
-			class="search-form__input-filter" 
-			type="time">
+				<article class="search-form__filter-section">
+					<input 
+					class="search-form__input-filter" 
+					type="date" 
+					value="24-08-2023">
+					<input 
+					class="search-form__input-filter" 
+					type="time">
+				</article>
 		</section>
 		<section class="container__filter-form">
 			<article class="filter-form__criteria">
-				<input type="number" placeholder="Budget">
-				<input type="text" placeholder="Temps de trajet">
+				<h2 class="filter-form__title">Filtres :</h2>
+				<input 
+				class="filter-form__input_euro" 
+				type="number" 
+				placeholder="Budget">
+				<input 
+				class="filter-form__input_journey-travel" 
+				type="text"
+				placeholder="Temps de trajet">
 			</article>
 			<article class="filter-form__btn">
-				<button type="button">Recherche</button>
-				<button type="button">Réinitialiser</button>
+				<button class="filter-form__btn-search" type="button">Recherche</button>
+				<button class="filter-form__btn-reset" type="button">Réinitialiser</button>
 			</article>
 			
 		</section>
