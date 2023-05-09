@@ -1,0 +1,47 @@
+@use './../../styles/vars';
+
+.hidden {
+    display: none;
+  }
+  
+  .header__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100vw;
+    padding: 0.5rem;
+  }
+  
+  .header-logo {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .header__container__title {
+    font-size: 2em;
+    font-style: italic;
+    margin-left: 2%;
+  }
+
+  @media only screen and (min-device-width : 768px) {
+
+    /* HEADER DESKTOP */
+  
+    .hidden {
+      display: flex
+    }
+  
+    .hidden-logo {
+      display: none;
+    }
+  
+    .header__container {
+      background-color: #D1EFEC;
+    }
+  
+    .header__container__title {
+      font-size: 3em;
+    }
+  }
