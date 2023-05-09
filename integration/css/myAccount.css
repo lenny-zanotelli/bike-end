@@ -22,6 +22,12 @@ body {
 	margin-left: 2%;
 }
 
+.header__link-img {
+	width: 30px;
+	height: 30px;
+}
+
+
 /* MAIN */
 
 .main {
@@ -73,6 +79,8 @@ body {
 	border: none;
 	background: none;
 }
+
+
 
 .main__interaction {
 	display: flex;
