@@ -1,3 +1,4 @@
+const userDataMapper = require('./user');
 const favoriteDataMapper = require('./favorite');
 
-module.exports = { favoriteDataMapper };
+module.exports = { userDataMapper, favoriteDataMapper };
