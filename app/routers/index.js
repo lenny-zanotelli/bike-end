@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Importation des controllers
-const {userController, loginController, signupController} = require('../controllers')
+const {userController, authentificationController} = require('../controllers')
 
 // On préfixe les routers
 // get /user/:id pour récupere les infos du user connecté et 

@@ -4,9 +4,9 @@ const { userDataMapper } = require('../models');
  * @typedef {object} User
  * @property {number} id - Indentifiant unique, Pk de la table
  * @property {string} email
- * @property {string} password 
- * @property {string} firstName 
- * @property {string} lastName
+ * @property {string} password
+ * @property {string} firstname
+ * @property {string} lastname
  */
 
 /**
@@ -44,17 +44,24 @@ module.exports = {
      * @returns Route API JSON response
      */
     async signup(req, res) {
+        // TODO à basculer dans un middleware - JOI
         if (req.body.password !== req.body.passwordCheck) {
-
         }
         const user = await userDataMapper.isUnique(req.body);
         if (user) {
-            throw new Error(`User already exists with this email`, { statusCode: 400 });
+            throw new Error(`User already exists with this email`, {
+                statusCode: 400,
+            });
         }
-        
+        // le req.body contient aussi le passwordCheck
+        const newUser = {
+            email: req.body.email,
+            password: req.body.password,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+        };
 
-        const savedUser = await userDataMapper.insert(req.body);
+        const savedUser = await userDataMapper.insert(newUser);
         return res.json(savedUser);
     },
-
 };
