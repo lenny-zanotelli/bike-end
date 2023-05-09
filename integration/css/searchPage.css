@@ -32,6 +32,58 @@ body {
 	gap: 0.5rem;
 }
 
+/* MAIN */
+
+.container {
+	margin: 2rem;
+}
+
+.container__title {
+	font-size: 1rem;
+	text-align: center;
+	font-weight: bold;
+}
+
+.container__search-form {
+
+}
+
+
+.search-form__input-city {
+  background: url("../assets/map-pointer-icon.svg") no-repeat right;
+  background-size: 20px;
+	background-position: bottom 50% right 4%;
+	padding: 1rem;
+	border: 1px solid #C5CED6;
+	color: #C3CFD9;
+}
+
+
+
+
+
+/* FOOTER */
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	background-color: #D1EFEC;
+	width: 100%;
+	padding: 1rem 2rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+}
+
+.footer__content {
+	font-size: 0.85rem;
+	color: #207868;
+	text-decoration: underline;
+	text-decoration-color: #92C4BC;
+	text-underline-offset: 2px;
+}
+
 /* MEDIA QUERIES DESKTOP */
 
 @media screen and (min-width: 768px) {
