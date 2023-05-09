@@ -9,20 +9,6 @@ const { userDataMapper } = require('../models');
  * @property {string} lastname
  */
 
-/**
- *
- * @param {number} userId ID (PK) of the user searched in DB
- * @returns {User}
- */
-const returnRecordOrThrowError = async (userId) => {
-    const user = await userDataMapper.findByPk(userId);
-    if (!user) {
-        throw new Error('This user does not exists', {
-            statusCode: 404,
-        });
-    }
-    return user;
-};
 
 module.exports = {
     /**
@@ -35,6 +21,9 @@ module.exports = {
     // TODO login
     async login(req, res) {
         const user = await userDataMapper.findByPk(req.params.id);
+        if (!user){
+            return res.status(400).json('xxxx');
+        }
         return res.json(user);
     },
     /**
@@ -45,16 +34,11 @@ module.exports = {
      * @returns Route API JSON response
      */
     async signup(req, res) {
-        // TODO à basculer dans un middleware - JOI
+        // TODO vérif password à basculer dans un middleware validation (JOI)
         if (req.body.password !== req.body.passwordCheck) {
         }
-        const user = await userDataMapper.isEmailUnique(req.body.email);
-        if (user) {
-            throw new Error(`User already exists with this email`, {
-                statusCode: 400,
-            });
-        }
-        // le req.body contient aussi le passwordCheck
+ 
+        // le req.body contient aussi le passwordCheck donc on ne peut pas utiliser {...req.body}
         const newUser = {
             email: req.body.email,
             password: req.body.password,

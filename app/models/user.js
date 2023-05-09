@@ -55,7 +55,7 @@ module.exports = {
      * @param {InputUser} modifiedUserData - Les données à modifier
      * @returns {User} Le User modifié
      */
-    async update(userId, modifiedUserData) {
+    async update(modifiedUserData) {
         const savedUser = await client.query(
             `
             UPDATE "user" SET
@@ -67,11 +67,11 @@ module.exports = {
             RETURNING *
         `,
             [
-                modifiedUserData.email,
-                modifiedUserData.password,
-                modifiedUserData.firstname,
-                modifiedUserData.lastname,
-                userId,
+             modifiedUserData.email,
+             modifiedUserData.password,
+             modifiedUserData.firstname,
+             modifiedUserData.lastname,
+             modifiedUserData.id
             ]
         );
 
@@ -93,29 +93,27 @@ module.exports = {
         // On cast le truthy/falsy en vrai booléen
         return !!result.rowCount;
     },
+    async isEmailAlreadyUsed(userId, userNewEmail) {
+        const preparedQuery = {
+            text: `SELECT * FROM "user" WHERE "email" = $1 AND "id" <> $2`,
+            values: [userNewEmail, userId],
+        };
+        const result = await client.query(preparedQuery);
+        // Soit un user existe déja soit rien n'est renvoyé
+        // le rowcount est égal à 1 (truthy) soit non et il est égal a 0 (falsy)
+        // On cast le truthy/falsy en vrai booléen
+        return !!result.rowCount;
+    },
 
-    //! Changer cette fonction en 2 fonctions qui font qu'une seule chose (une pour un modified user vs. une pour un new user)
-    /**
-     * Vérifie si un user existe déjà avec la meme addresse email
-     * @param {object} inputData - Les données fourni par le client
-     * @param {number} userId - L'identifiant du user (optionnel - dans le cas d'une modif)
-     * @returns {boolean} soit le user existe soit il n'existe pas
-     */
-    async isEmailUnique(userEmail, userId) {
+    async isEmailExists (newUserEmail) {
         const preparedQuery = {
             text: `SELECT * FROM "user" WHERE "email" = $1`,
-            values: [userEmail],
+            values: [newUserEmail],
         };
-
-        // Si l'id est fourni on exclu l'enregistrement qui lui correspond
-        if (userId) {
-            preparedQuery.text += ' AND "id" <> $2';
-            preparedQuery.values.push(userId);
-        }
         const result = await client.query(preparedQuery);
         // Soit un user existe déja soit rien n'est renvoyé
         // le rowcount est égal à 1 (truthy)soit non et il est égal a 0 (falsy)
         // On cast le truthy/falsy en vrai booléen
         return !!result.rowCount;
-    },
+    }
 };

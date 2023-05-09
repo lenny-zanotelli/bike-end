@@ -9,21 +9,6 @@ const { userDataMapper } = require('../models');
  * @property {string} lastname
  */
 
-/**
- *
- * @param {number} userId ID (PK) of the user searched in DB
- * @returns {User}
- */
-const returnRecordOrThrowError = async (userId) => {
-    const user = await userDataMapper.findByPk(userId);
-    if (!user) {
-        throw new Error('This user does not exists', {
-            statusCode: 404,
-        });
-    }
-    return user;
-};
-
 module.exports = {
     /**
      * User controller to get a record.
@@ -32,8 +17,11 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async getOne(req, res) {
-        const user = await returnRecordOrThrowError(req.params.id);
+    async getUser(req, res) {
+        const user = await userDataMapper.findByPk(req.params.id);
+        if (!user) {
+            return res.status(400).json('This user does not exist');
+        }
         return res.json(user);
     },
     /**
@@ -43,27 +31,18 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async update(req, res) {
-        const userInDB = await returnRecordOrThrowError(req.params.id);
-        // Si l'email fait parti des éléments mis à jour, on check si cet email n'est pas utilisé par un autre user
-        if (req.body.email) {
-            const userWithSameCredentials = await userDataMapper.isEmailUnique(
-                req.body.email,
-                req.params.id
-            );
-            if (userWithSameCredentials) {
-                throw new Error(`Other user already exists with this email`, {
-                    statusCode: 400,
-                });
-            }
+    async updateUserInfo(req, res) {
+        const userInDB = await userDataMapper.findByPk(req.params.id);
+        if (!userInDB) {
+            return res.status(400).json('This user does not exist');
         }
+
         // completer l'user avec les elements de la bdd, modifiés de ce qui est dans le user
         const modifiedUser = {
             ...userInDB,
             ...req.body
         };
         const savedUser = await userDataMapper.update(
-            req.params.id,
             modifiedUser
         );
         return res.json(savedUser);
@@ -76,13 +55,11 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async delete(req, res) {
+    async deleteUser(req, res) {
         // deleted sera un booléen TRUE si deletion success
         const deleted = await userDataMapper.delete(req.params.id);
         if (!deleted) {
-            throw new ApiError('This user does not exists', {
-                statusCode: 404,
-            });
+            return res.status(400).json('This user does not exists');
         }
 
         return res.status(204).json();
