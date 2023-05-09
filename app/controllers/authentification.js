@@ -32,6 +32,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
+    // TODO login
     async login(req, res) {
         const user = await userDataMapper.findByPk(req.params.id);
         return res.json(user);
@@ -47,7 +48,7 @@ module.exports = {
         // TODO à basculer dans un middleware - JOI
         if (req.body.password !== req.body.passwordCheck) {
         }
-        const user = await userDataMapper.isUnique(req.body);
+        const user = await userDataMapper.isEmailUnique(req.body.email);
         if (user) {
             throw new Error(`User already exists with this email`, {
                 statusCode: 400,

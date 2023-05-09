@@ -5,8 +5,8 @@ const { userDataMapper } = require('../models');
  * @property {number} id - Indentifiant unique, Pk de la table
  * @property {string} email
  * @property {string} password 
- * @property {string} firstName 
- * @property {string} lastName
+ * @property {string} firstname 
+ * @property {string} lastname
  */
 
 /**
@@ -44,12 +44,11 @@ module.exports = {
      * @returns Route API JSON response
      */
     async update(req, res) {
-        const user = await returnRecordOrThrowError(req.params.id);
-
+        const userInDB = await returnRecordOrThrowError(req.params.id);
         // Si l'email fait parti des éléments mis à jour, on check si cet email n'est pas utilisé par un autre user
         if (req.body.email) {
-            const userWithSameCredentials = await userDataMapper.isUnique(
-                req.body,
+            const userWithSameCredentials = await userDataMapper.isEmailUnique(
+                req.body.email,
                 req.params.id
             );
             if (userWithSameCredentials) {
@@ -58,11 +57,10 @@ module.exports = {
                 });
             }
         }
+        // completer l'user avec les elements de la bdd, modifiés de ce qui est dans le user
         const modifiedUser = {
-            email: req.body.email ?? user.email,
-            password: req.body.password ?? user.password,
-            firstName: req.body.firstName ?? user.firstName,
-            lastName: req.body.lastName ?? user.lastName,
+            ...userInDB,
+            ...req.body
         };
         const savedUser = await userDataMapper.update(
             req.params.id,

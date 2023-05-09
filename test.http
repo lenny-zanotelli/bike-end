@@ -3,7 +3,7 @@
 # Nécessite l'extension REST Client pour VSCode
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 ################################################################################
-@endpoint = http://localhost:{{$dotenv PORT}}/api
+@endpoint = http://localhost:{{$dotenv PORT}}
 
 ### 404
 GET {{ endpoint }}/userss
@@ -18,13 +18,54 @@ GET {{ endpoint }}/user/123
 ### Récupérér un user par son id
 GET {{ endpoint }}/user/1
 
-### Modifier un post
+### Modifier un user avec un email déja utilisé
 PATCH {{ endpoint }}/user/1
 content-type: application/json
 
 {
-    "email": "testing@hotmail.com"
+    "email": "pierre@gmail.com"
 }
 
-### Supprimer un post par son id
-DELETE {{ endpoint }}/posts/1
+### Modifier un user par son email
+PATCH {{ endpoint }}/user/1
+content-type: application/json
+
+{
+    "email": "testing99@hotmail.com"
+}
+
+### Supprimer un user par son id qui n'existe pas
+DELETE {{ endpoint }}/user/123
+
+### Supprimer un user par son id
+DELETE {{ endpoint }}/user/1
+
+#########################
+#         SIGNUP         #
+#########################
+
+### Créer un user avec email déja existant
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+    "email": "pierre@gmail.com",
+  "password": "Jjbesos-1234",
+  "firstname": "Jean",
+  "lastname": "Jacques"
+}
+
+### Créer un user
+POST {{ endpoint }}/signup
+content-type: application/json
+
+{
+  "email": "jeanjacques@gmail.com",
+  "password": "Jjbesos-1234",
+  "firstname": "Jean",
+  "lastname": "Jacques"
+}
+
+#########################
+#         LOGIN         #
+#########################
