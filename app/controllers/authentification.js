@@ -20,7 +20,7 @@ module.exports = {
      */
     // TODO login
     async login(req, res) {
-        const user = await userDataMapper.findByPk(req.params.id);
+        const user = await userDataMapper.findByPk(req.userId);
         if (!user){
             return res.status(400).json('xxxx');
         }

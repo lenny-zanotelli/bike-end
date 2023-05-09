@@ -17,8 +17,8 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async getUser(req, res) {
-        const user = await userDataMapper.findByPk(req.params.id);
+    async getInfo(req, res) {
+        const user = await userDataMapper.findByPk(req.userId);
         if (!user) {
             return res.status(400).json('This user does not exist');
         }
@@ -31,8 +31,8 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async updateUserInfo(req, res) {
-        const userInDB = await userDataMapper.findByPk(req.params.id);
+    async modify(req, res) {
+        const userInDB = await userDataMapper.findByPk(req.userId);
         if (!userInDB) {
             return res.status(400).json('This user does not exist');
         }
@@ -55,9 +55,9 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async deleteUser(req, res) {
+    async delete(req, res) {
         // deleted sera un booléen TRUE si deletion success
-        const deleted = await userDataMapper.delete(req.params.id);
+        const deleted = await userDataMapper.delete(req.userId);
         if (!deleted) {
             return res.status(400).json('This user does not exists');
         }

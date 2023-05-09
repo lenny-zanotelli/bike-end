@@ -1,15 +1,15 @@
-const { isEmailAlreadyUsed, isEmailExists } = require("../models/user");
+const { isEmailAlreadyUsed, isEmailExistsInDB } = require("../models/user");
 
 const isUserUnique = async (req, res, next) => {
     let error;
     switch (req.method) {
         // en methode PATCH (mise à jour user) on veut voir si un autre user utilise cet email
         case 'PATCH':
-            error = await isEmailAlreadyUsed(req.params.id, req.body.email);
+            error = await isEmailAlreadyUsed(req.userId, req.body.email);
             break;
         // en méthode POST (signup) on veut voir si il existe un user avec cet email
         case 'POST':
-            error = await isEmailExists(req.body.email);
+            error = await isEmailExistsInDB(req.body.email);
             break;
     }
     if (error) {

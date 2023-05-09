@@ -94,6 +94,7 @@ module.exports = {
         return !!result.rowCount;
     },
     async isEmailAlreadyUsed(userId, userNewEmail) {
+        // Cherche les occurences de cet email hormi celui du user en cours
         const preparedQuery = {
             text: `SELECT * FROM "user" WHERE "email" = $1 AND "id" <> $2`,
             values: [userNewEmail, userId],
@@ -105,7 +106,7 @@ module.exports = {
         return !!result.rowCount;
     },
 
-    async isEmailExists (newUserEmail) {
+    async isEmailExistsInDB (newUserEmail) {
         const preparedQuery = {
             text: `SELECT * FROM "user" WHERE "email" = $1`,
             values: [newUserEmail],
