@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "psql -d bikeend -f data/seed.sql",
-    "resetdb": "sqitch revert && sqitch deploy && psql -d bikeend -f data/seed.sql"
+    "resetdb": "sqitch revert -y && sqitch deploy && psql -d bikeend -f data/seed.sql"
   },
   "repository": {
     "type": "git",
