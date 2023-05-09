@@ -3,6 +3,7 @@
 # Nécessite l'extension REST Client pour VSCode
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 ################################################################################
+
 @endpoint = http://localhost:{{$dotenv PORT}}
 
 ### 404
@@ -97,3 +98,35 @@ content-type: application/json
   "email": "pierre@gmail.com",
   "password": "Jjbesos-1234",
 }
+
+#########################
+#       FAVORITE        #
+#########################
+
+### Liste des favoris
+GET {{ endpoint }}/favorite
+
+### Récupérér un favori par son id
+GET {{ endpoint }}/favorite/7
+
+### Créer un favori
+POST {{ endpoint }}/favorite
+content-type: application/json
+
+{
+    "origin": "TestUserOneIsLoggedIn",
+    "destination": "EssaiUserOneIsLoggedIn",
+    "comment": "NoCommentUserOneIsLoggedIn",
+    "journey_time": 56789
+}
+
+### Modifier un favori
+PATCH {{ endpoint }}/favorite/8
+content-type: application/json
+
+{
+    "comment": "Commentaire du user_id 1 Ok ça marche"
+}
+
+### Supprimer un favori par son id
+DELETE {{ endpoint }}/favorite/7
