@@ -1,0 +1,18 @@
+@use './../../styles/vars';
+
+html, body {
+	overflow: hidden;
+	font-family: sans-serif;
+}
+
+.header__banner {
+	opacity: .5;
+	height: 50vh;
+}
+
+@media screen and (min-width: 768px) {
+	.header__banner {
+		min-width: 100vw;
+	}
+
+}
