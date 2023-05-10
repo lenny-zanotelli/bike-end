@@ -16,7 +16,8 @@ module.exports = {
      * @returns {Favorite[]} Tous les favoris d'un seul USER dans la base de données
      */
     async findAllByUser(userId) {
-        const result = await client.query(`SELECT * FROM "favorite" WHERE "user_id" = $1;`,
+        const result = await client.query(`SELECT * FROM "favorite"
+            WHERE "user_id" = $1;`,
             [
                 userId
             ]
@@ -31,7 +32,8 @@ module.exports = {
      * @returns {Favorite|null} Le favori souhaité ou null si aucun favori ne correspond à cet id
      */
     async findByPk(userId, favoriteId) {
-        const result = await client.query(`SELECT * FROM "favorite" WHERE "id" = $2 AND "user_id" = $1;`,
+        const result = await client.query(`SELECT * FROM "favorite"
+            WHERE "id" = $2 AND "user_id" = $1;`,
             [
                 userId,
                 favoriteId
@@ -59,7 +61,8 @@ module.exports = {
                 "journey_time",
                 "user_id"
             ) 
-            VALUES ($1, $2, $3, $4, $5);`,
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING *;`,
             [
                 newFavorite.origin,
                 newFavorite.destination,
@@ -79,8 +82,12 @@ module.exports = {
      */
     async update(userId, favoriteId, comment) {
 
-        const result = await client.query(`UPDATE "favorite" SET "comment" = $2 WHERE "id" = $1;`,
+        const result = await client.query(`UPDATE "favorite"
+            SET "comment" = $3, "updated_at" = now()
+            WHERE "id" = $2 AND "user_id" = $1
+            RETURNING *;`,
             [
+                userId,
                 favoriteId,
                 comment
             ]
@@ -94,9 +101,12 @@ module.exports = {
      * @param {number} id - L'id à supprimer
      * @returns {boolean} Le résultat de la suppression
      */
-    async delete(favoriteId) {
-        const result = await client.query(`DELETE FROM "favorite" WHERE "id" = $1`,
+    async delete(userId, favoriteId) {
+        const result = await client.query(`DELETE FROM "favorite"
+            WHERE "id" = $2 AND "user_id" = $1
+            RETURNING *;`,
             [
+                userId,
                 favoriteId
             ]
         );
