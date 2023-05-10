@@ -1,10 +1,6 @@
 @use './../../styles/vars';
 
-html, body {
-	overflow: hidden;
-	font-family: sans-serif;
-}
-
+// Je mets le css ici à la place de MUI car img ne prend pas de sx
 .header__banner {
 	opacity: .5;
 	height: 50vh;
