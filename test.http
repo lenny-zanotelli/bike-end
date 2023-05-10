@@ -55,8 +55,10 @@ content-type: application/json
 {
     "email": "pierre@gmail.com",
   "password": "Jjbesos-1234",
+   "passwordCheck": "Jjbesos-1234",
   "firstname": "Jean",
-  "lastname": "Jacques"
+  "lastname": "Jacques",
+  "acceptedConditions": true
 }
 
 ### Créer un user
@@ -66,8 +68,10 @@ content-type: application/json
 {
   "email": "jeanjacques@gmail.com",
   "password": "Jjbesos-1234",
+  "passwordCheck": "Jjbesos-1234",
   "firstname": "Jean",
-  "lastname": "Jacques"
+  "lastname": "Jacques",
+  "acceptedConditions": true
 }
 
 #########################
@@ -75,28 +79,28 @@ content-type: application/json
 #########################
 
 ### Login en erreur email
-POST {{ endpoint }}/signup
+POST {{ endpoint }}/login
 content-type: application/json
 
 {
   "email": "pierrefzerfzre@gmail.com",
-  "password": "Jjbesos-1234",
+  "password": "Jjbesos-1234"
 }
 ### Login en erreur password
-POST {{ endpoint }}/signup
+POST {{ endpoint }}/login
 content-type: application/json
 
 {
   "email": "pierre@gmail.com",
-  "password": "Jjbesos-1234",
+  "password": "Bcde!1234"
 }
 ### Login
-POST {{ endpoint }}/signup
+POST {{ endpoint }}/login
 content-type: application/json
 
 {
-  "email": "pierre@gmail.com",
-  "password": "Jjbesos-1234",
+  "email": "jeanjacques@gmail.com",
+  "password": "Jjbesos-1234"
 }
 
 #########################
@@ -107,7 +111,8 @@ content-type: application/json
 GET {{ endpoint }}/favorite
 
 ### Récupérér un favori par son id
-GET {{ endpoint }}/favorite/7
+GET {{ endpoint }}/favorite/8
+
 
 ### Créer un favori
 POST {{ endpoint }}/favorite
@@ -129,4 +134,4 @@ content-type: application/json
 }
 
 ### Supprimer un favori par son id
-DELETE {{ endpoint }}/favorite/7
+DELETE {{ endpoint }}/favorite/8

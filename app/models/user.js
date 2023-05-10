@@ -1,20 +1,22 @@
 const client = require('../config/database');
 
 /**
- * @typedef {object} User
+ * @typedef {object} User le user issus de la bdd
  * @property {number} id - Indentifiant unique, Pk de la table
  * @property {string} email
  * @property {string} password
  * @property {string} firstname
  * @property {string} lastname
+ * @property {boolean} accepted_conditions
  */
 
 /**
  * @typedef {object} InputUser
- * @property {string} email 
- * @property {string} password 
- * @property {string} firstname 
+ * @property {string} email
+ * @property {string} password
+ * @property {string} firstname
  * @property {string} lastname
+ * @property {boolean} acceptedConditions
  */
 module.exports = {
     /**
@@ -37,13 +39,19 @@ module.exports = {
 
     /**
      * Ajoute dans la base de données
-     * @param {InputUser} user - Les données à insérer
+     * @param {InputUser} userData - Les données à insérer
      * @returns {User} Le User inséré
      */
-    async insert(user) {
+    async insert(userData) {
         const savedUser = await client.query(
-            `INSERT INTO "user" ("email", "password", "firstname", "lastname") VALUES ($1, $2, $3, $4) RETURNING *`,
-            [user.email, user.password, user.firstname, user.lastname]
+            `INSERT INTO "user" ("email", "password", "firstname", "lastname", "accepted_conditions") VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+            [
+                userData.email,
+                userData.password,
+                userData.firstname,
+                userData.lastname,
+                userData.acceptedConditions,
+            ]
         );
 
         return savedUser.rows[0];
@@ -62,16 +70,18 @@ module.exports = {
             "email" = $1,
             "password" = $2,
             "firstname" = $3,
-            "lastname" = $4
-            WHERE id = $5
+            "lastname" = $4,
+            "accepted_conditions" = $5
+            WHERE id = $6
             RETURNING *
         `,
             [
-             modifiedUserData.email,
-             modifiedUserData.password,
-             modifiedUserData.firstname,
-             modifiedUserData.lastname,
-             modifiedUserData.id
+                modifiedUserData.email,
+                modifiedUserData.password,
+                modifiedUserData.firstname,
+                modifiedUserData.lastname,
+                modifiedUserData.accepted_conditions,
+                modifiedUserData.id,
             ]
         );
 
@@ -93,7 +103,12 @@ module.exports = {
         // On cast le truthy/falsy en vrai booléen
         return !!result.rowCount;
     },
-    async isEmailAlreadyUsed(userId, userNewEmail) {
+    /**
+     * Vérifie si
+     * @param {number} userId - L'id à supprimer
+     * @returns {boolean} Le résultat de la suppression
+     */
+    async isEmailUsedByOthers(userId, userNewEmail) {
         // Cherche les occurences de cet email hormi celui du user en cours
         const preparedQuery = {
             text: `SELECT * FROM "user" WHERE "email" = $1 AND "id" <> $2`,
@@ -107,13 +122,16 @@ module.exports = {
         return !!result.rowCount;
     },
 
-    async findByEmail (newUserEmail) {
+    async findByEmail(newUserEmail) {
         const preparedQuery = {
             text: `SELECT * FROM "user" WHERE "email" = $1`,
             values: [newUserEmail],
         };
         const result = await client.query(preparedQuery);
-        
-        return result;
-    }
+        if (result.rowCount === 0) {
+            return null;
+        }
+
+        return result.rows[0];
+    },
 };

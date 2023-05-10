@@ -23,7 +23,10 @@ module.exports = {
             if (!user) {
                 return res.status(400).json('This user does not exist');
             }
-            return res.json(user);
+            // On supprime de notre objet js le password crypté avant de le renvoyer au front en confirmation
+            delete user.password;
+            // on renvoie un code 200 = success
+            return res.status(200).json(user);
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occured');
@@ -48,7 +51,11 @@ module.exports = {
                 ...req.body,
             };
             const savedUser = await userDataMapper.update(modifiedUser);
-            return res.json(savedUser);
+
+            // On supprime de notre objet js le password crypté avant de le renvoyer au front en confirmation
+            delete savedUser.password;
+            // on renvoie un code 200 = success
+            return res.status(200).json(savedUser);
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occured');
@@ -69,6 +76,7 @@ module.exports = {
             if (!deleted) {
                 return res.status(400).json('This user does not exists');
             }
+            // on renvoie un code 204 = no content
             return res.status(204).json();
         } catch (error) {
             console.error(error);
