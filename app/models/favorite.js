@@ -83,7 +83,7 @@ module.exports = {
     async update(userId, favoriteId, comment) {
 
         const result = await client.query(`UPDATE "favorite"
-            SET "comment" = $3
+            SET "comment" = $3, "updated_at" = now()
             WHERE "id" = $2 AND "user_id" = $1
             RETURNING *;`,
             [
