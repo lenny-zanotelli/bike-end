@@ -44,7 +44,7 @@ module.exports = {
      */
     async insert(userData) {
         const savedUser = await client.query(
-            `INSERT INTO "user" ("email", "password", "firstname", "lastname", "accepted_conditions") VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+            `INSERT INTO "user" ("email", "password", "firstname", "lastname", "accepted_conditions","updated_at") VALUES ($1, $2, $3, $4, $5, now()) RETURNING *`,
             [
                 userData.email,
                 userData.password,
@@ -71,7 +71,8 @@ module.exports = {
             "password" = $2,
             "firstname" = $3,
             "lastname" = $4,
-            "accepted_conditions" = $5
+            "accepted_conditions" = $5,
+            "updated_at" = now()
             WHERE id = $6
             RETURNING *
         `,
