@@ -10,7 +10,6 @@ function Home() {
     >
       <HomeHeader />
       <HomeBody />
-
     </Container>
   );
 }

@@ -7,11 +7,18 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    '@media screen and (min-width: 768px)': {
+      marginTop: '4rem',
+    },
   },
   bodyContent: {
     textAlign: 'center',
     fontSize: '1rem',
     py: '0.5rem',
+    '@media screen and (min-width: 768px)': {
+      fontSize: '1.15rem',
+      fontWeight: 'bold',
+    },
   },
 };
 
@@ -49,6 +56,7 @@ function HomeBody() {
           Rejoindre l&apos;Aventure
         </Button>
       </a>
+      {/* router pas encore fait, je laisse un anchor pour l'instant */}
       <a href="#">
         <Button
           className="body__connect-btn"
