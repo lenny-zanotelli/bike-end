@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const { jwtAuth } = require('.');
 
-module.exports = (req, res, next) => {
+const jwtAuth = (req, res, next) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
     if (!token) {
         return res.status(401).json('Invalid token');
@@ -18,3 +19,5 @@ module.exports = (req, res, next) => {
         return res.status(500).json('Internal error');
     }
 };
+
+module.exports = { jwtAuth };

@@ -7,12 +7,10 @@ const { userController, authentificationController, favoriteController } = requi
 
 // Importation des middlewares
 
-// TODO replace userOneIsLoggedIn by JWT
 // TODO replace passwordCheck by JOI
 const { encryptPwd, passwordCheck, jwtAuth, isUserUnique} = require('../middlewares');
 
 // post /login pour s'enregistrer'
-// TODO - do controller
 router.post('/login', authentificationController.login);
 // post /signup pour créer un compte
 router.post('/signup',[isUserUnique, passwordCheck, encryptPwd], authentificationController.signup);
