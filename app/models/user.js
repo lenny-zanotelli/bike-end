@@ -53,7 +53,7 @@ module.exports = {
                 userData.acceptedConditions,
             ]
         );
-
+        
         return savedUser.rows[0];
     },
 
@@ -71,7 +71,8 @@ module.exports = {
             "password" = $2,
             "firstname" = $3,
             "lastname" = $4,
-            "accepted_conditions" = $5
+            "accepted_conditions" = $5,
+            "updated_at" = now()
             WHERE id = $6
             RETURNING *
         `,
