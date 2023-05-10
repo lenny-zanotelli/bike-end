@@ -3,10 +3,11 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 
-import React, { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 function SignupPage() {
+  const [checked, setChecked] = useState(true);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -15,7 +16,7 @@ function SignupPage() {
     confirmPassword: '',
   });
 
-  const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
+  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -23,12 +24,17 @@ function SignupPage() {
     }));
   };
 
-  const [checked, setChecked] = React.useState(true);
-
   // eslint-disable-next-line max-len
-  const handleCheckboxChange = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+  const handleChangeCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
     console.log('test checkbox');
+  };
+
+  const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('submit');
+
+    // TODO : dispatch(submitPayload)));
   };
 
   return (
@@ -36,14 +42,14 @@ function SignupPage() {
 
       <div className="container__createAccount">
         <h2 className="container__createAccount__title">Créer mon compte</h2>
-        <form className="container__createAccount__form">
+        <form onSubmit={handleSubmitForm} className="container__createAccount__form">
           <TextField
             required
             fullWidth
             name="firstName"
             label="Prénom"
             value={formData.firstName}
-            onChange={handleInputChange}
+            onChange={handleChangeInput}
           />
 
           <TextField
@@ -52,7 +58,7 @@ function SignupPage() {
             name="lastName"
             label="Nom"
             value={formData.lastName}
-            onChange={handleInputChange}
+            onChange={handleChangeInput}
           />
 
           <TextField
@@ -62,7 +68,7 @@ function SignupPage() {
             name="email"
             label="Adresse e-mail"
             value={formData.email}
-            onChange={handleInputChange}
+            onChange={handleChangeInput}
           />
 
           <TextField
@@ -72,7 +78,7 @@ function SignupPage() {
             name="password"
             label="Mot de passe"
             value={formData.password}
-            onChange={handleInputChange}
+            onChange={handleChangeInput}
           />
 
           <TextField
@@ -82,12 +88,12 @@ function SignupPage() {
             name="confirmPassword"
             label="Confirmer le mot de passe"
             value={formData.confirmPassword}
-            onChange={handleInputChange}
+            onChange={handleChangeInput}
           />
 
           <div className="container__createAccount__form_cgu">
             <FormControlLabel
-              control={<Checkbox checked={checked} onChange={handleCheckboxChange} />}
+              control={<Checkbox checked={checked} onChange={handleChangeCheckBox} />}
               label="J'accepte les CGU"
             />
           </div>
