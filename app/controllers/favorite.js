@@ -9,13 +9,18 @@ module.exports = {
      * @returns Route API JSON response
      */
     async getAllFavorites(req, res) {
-        const favorites = await favoriteDataMapper.findAllByUser(req.userId);
+        try {
+            const favorites = await favoriteDataMapper.findAllByUser(req.userId);
 
-        if (!favorites) {
-            return res.status(400).json('No favorite in Database');
+            if (!favorites) {
+                return res.status(400).json('No favorite in Database');
+            }
+
+            return res.status(200).json(favorites);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
         }
-
-        return res.json(favorites);
     },
 
     /**
@@ -26,13 +31,18 @@ module.exports = {
      * @returns Route API JSON response
      */
     async getOneFavorite(req, res) {
-        const favorite = await favoriteDataMapper.findByPk(req.userId, req.params.id);
+        try {
+            const favorite = await favoriteDataMapper.findByPk(req.userId, req.params.id);
 
-        if (!favorite) {
-            return res.status(400).json('Favorite not found');
+            if (!favorite) {
+                return res.status(400).json('Favorite not found');
+            }
+
+            return res.status(200).json(favorite);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
         }
-
-        return res.json(favorite);
     },
 
     /**
@@ -43,9 +53,14 @@ module.exports = {
      * @returns Route API JSON response
      */
     async addToFavorites(req, res) {
-        const newFavorite = await favoriteDataMapper.insert(req.userId, req.body);
+        try {
+            const newFavorite = await favoriteDataMapper.insert(req.userId, req.body);
 
-        return res.json(newFavorite);
+            return res.status(200).json(newFavorite);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
+        }
     },
 
     /**
@@ -56,15 +71,20 @@ module.exports = {
      * @returns Route API JSON response
      */
     async modifyComment(req, res) {
-        const favoriteToSet = await favoriteDataMapper.findByPk(req.userId, req.params.id);
+        try {
+            const favoriteToSet = await favoriteDataMapper.findByPk(req.userId, req.params.id);
 
-        if (!favoriteToSet) {
-            return res.status(400).json('This favorite does not exist');
+            if (!favoriteToSet) {
+                return res.status(400).json('This favorite does not exist');
+            }
+
+            const favoriteToSetOK = await favoriteDataMapper.update(req.userId, req.params.id, req.body.comment);
+
+            return res.status(200).json(favoriteToSetOK);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
         }
-
-        const favoriteToSetOK = await favoriteDataMapper.update(req.userId, req.params.id, req.body.comment);
-
-        return res.json(favoriteToSetOK);
     },
 
     /**
@@ -75,12 +95,17 @@ module.exports = {
      * @returns Route API JSON response
      */
     async deleteOneFavorite(req, res) {
-        const deletedFavorite = await favoriteDataMapper.delete(req.params.id);
+        try {
+            const deletedFavorite = await favoriteDataMapper.delete(req.userId, req.params.id);
 
-        if (!deletedFavorite) {
-            return res.status(400).json('This favorite does not exist');
+            if (!deletedFavorite) {
+                return res.status(400).json('This favorite does not exist');
+            }
+
+            return res.status(400).json('Favorite deleted !');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('An error occured');
         }
-
-        return res.status(204).json();
     }
 };
