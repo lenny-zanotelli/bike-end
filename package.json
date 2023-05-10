@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "psql -d bikeend -f data/seed.sql data/favorite_seed.sql",
+    "seed": "psql -d bikeend -f data/seed.sql -f data/favorite_seed.sql",
     "createdb": "createdb bikeend && sqitch deploy && psql -d bikeend -f data/seed.sql && psql -d bikeend -f data/favorite_seed.sql",
     "resetdb": "sqitch revert -y && sqitch deploy && psql -d bikeend -f data/seed.sql && psql -d bikeend -f data/favorite_seed.sql"
   },
