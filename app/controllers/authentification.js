@@ -17,7 +17,6 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    // TODO login
     async login(req, res) {
         try {
             // TODO à ajouter en middleware 
@@ -25,15 +24,20 @@ module.exports = {
             if (!user) {
                 return res.status(401).json('Incorrect email or password');
             }
+            console.log(user)
+            console.log('req.body.password : ',req.body.password)
+            console.log('user.password : ',user.password)
             const isPasswordValid = await bcrypt.compare(req.body.password, user.password)
+            console.log('isPasswordValid : ',isPasswordValid)
             if (!isPasswordValid){
                 return res.status(401).json('Incorrect email or password');
             }
             delete req.body.password
 
-             // On supprime de notre objet JS le password crypté avant de le renvoyer au front en confirmation
+            // On supprime de notre objet js le password crypté avant de le renvoyer au front en confirmation
             delete user.password
-            return res.json(user);
+            // on renvoie un code 200 = success
+            return res.status(200).json(user);
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occured');
@@ -51,14 +55,11 @@ module.exports = {
             const newUser = {
                 ...req.body
             };
-            // On supprime de newUser le pswdCheck qui n'ira pas en BDD
-            delete newUser.passwordCheck
-            // On crypte le password avant de l'insérer en BDD
-            newUser.password = await bcrypt.hash(newUser.password, 10)
             const savedUser = await userDataMapper.insert(newUser);
             // On supprime de notre objet js le password crypté avant de le renvoyer au front en confirmation
             delete savedUser.password 
-            return res.json(savedUser);
+            // On renvoie un code 201 = Created
+            return res.status(201).json(savedUser);
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occured');

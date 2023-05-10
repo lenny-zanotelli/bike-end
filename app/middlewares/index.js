@@ -1,48 +1,51 @@
-const { isEmailAlreadyUsed, findByEmail } = require('../models/user');
+// import dependencies
+const bcrypt = require('bcrypt');
 
-const encryptPwd = async (req, res, next) => {
-    if (req.body.password) {
-        req.body.password = await bcrypt.hash(req.body.password, 10);
-    }
-    next();
-};
+// import datamapper functions
+const { isEmailUsedByOthers, findByEmail } = require('../models/user');
 
-const isUserUnique = async (req, res, next) => {
-    let error = false;
-    switch (req.method) {
-        // en methode PATCH (mise à jour user) on veut voir si un autre user utilise cet email
-        case 'PATCH':
-            error = await isEmailAlreadyUsed(req.userId, req.body.email);
-            break;
-        // en méthode POST (signup) on veut voir si il existe un user avec cet email
-        case 'POST':
-            const existingUser = await findByEmail(req.body.email);
-            // Soit un user existe déja soit rien n'est renvoyé
-            // le rowcount est égal à 1 (truthy) soit non et il est égal a 0 (falsy)
-            // On cast le truthy/falsy en vrai booléen
-            error = !!existingUser.rowCount;
-            break;
-    }
-    if (error) {
-        res.status(400).json('User already exists with this email');
-    } else {
+module.exports = {
+    encryptPwd: async (req, res, next) => {
+        if (req.body.password) {
+            req.body.password = await bcrypt.hash(req.body.password, 10);
+        }
         next();
-    }
-};
-
-const userOneIsLoggedIn = (req, res, next) => {
-    req.userId = 1;
-    next();
-};
-
-const passwordCheck = (req, res, next) => {
-    if (req.body.password !== req.body.passwordCheck) {
-        res.status(400).json(
-            'Password and verification password are different'
-        );
-    } else {
+    },
+    isUserUnique: async (req, res, next) => {
+        let error = false;
+        switch (req.method) {
+            // en methode PATCH (mise à jour user) on veut voir si un autre user utilise cet email
+            case 'PATCH':
+                error = await isEmailUsedByOthers(req.userId, req.body.email);
+                break;
+            // en méthode POST (signup) on veut voir si il existe un user avec cet email
+            case 'POST':
+                const existingUser = await findByEmail(req.body.email);
+                // Soit un user existe déja (objet user) soit rien n'est renvoyé (null)
+                // C'est donc soit user (truthy) soit null (falsy)
+                // On cast le truthy/falsy en vrai booléen
+                error = !!existingUser
+                break;
+        }
+        if (error) {
+            res.status(400).json('User already exists with this email');
+        } else {
+            next();
+        }
+    },
+    userOneIsLoggedIn: (req, res, next) => {
+        req.userId = 1;
         next();
-    }
+    },
+    passwordCheck: (req, res, next) => {
+        if (req.body.password != req.body.passwordCheck) {
+            res.status(400).json(
+                'Password and verification password are different'
+            );
+        } else {
+            // On supprime de newUser le pswdCheck qui n'ira pas en BDD
+            delete req.body.passwordCheck;
+            next();
+        }
+    },
 };
-
-module.exports = { isUserUnique, userOneIsLoggedIn, encryptPwd, passwordCheck };
