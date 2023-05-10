@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const { isEmailUsedByOthers, findByEmail } = require('../models/user');
 
 module.exports = {
+    jwtAuth: require('./jwtAuth'),
     encryptPwd: async (req, res, next) => {
         if (req.body.password) {
             req.body.password = await bcrypt.hash(req.body.password, 10);
@@ -32,10 +33,6 @@ module.exports = {
         } else {
             next();
         }
-    },
-    userOneIsLoggedIn: (req, res, next) => {
-        req.userId = 1;
-        next();
     },
     passwordCheck: (req, res, next) => {
         if (req.body.password != req.body.passwordCheck) {

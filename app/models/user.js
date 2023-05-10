@@ -53,7 +53,7 @@ module.exports = {
                 userData.acceptedConditions,
             ]
         );
-
+        
         return savedUser.rows[0];
     },
 
