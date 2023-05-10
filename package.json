@@ -1,0 +1,30 @@
+{
+  "name": "bike-end-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "createdb": "createdb bikeend && sqitch deploy && psql -d bikeend -f data/seed.sql && psql -d bikeend -f data/favorite_seed.sql",
+    "resetdb": "sqitch revert -y && sqitch deploy && psql -d bikeend -f data/seed.sql && psql -d bikeend -f data/favorite_seed.sql"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/O-clock-Quarks/Bike-End-Back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/O-clock-Quarks/Bike-End-Back/issues"
+  },
+  "homepage": "https://github.com/O-clock-Quarks/Bike-End-Back#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.10.0"
+  }
+}

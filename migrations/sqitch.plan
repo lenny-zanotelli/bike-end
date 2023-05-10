@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=bikeend-back
+
+structure 2023-05-05T09:20:37Z Pierre-Paul <pierrepaul@StationPP> # Bikeend DB structure setup
+user_seeding 2023-05-10T12:09:23Z Franck <franckvarnava@gmail.com> # Seeding user table
+other_tables 2023-05-05T14:11:27Z Franck <franckvarnava@gmail.com> # Add 2 other tables : filter & favorite
+favorite_seeding 2023-05-10T12:17:37Z Franck <franckvarnava@gmail.com> # Seeding favorite table
