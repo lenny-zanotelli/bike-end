@@ -15,9 +15,7 @@
 					<img 
 					class="header__link-img" 
 					src="../assets/search-icon.svg" 
-					alt="search-logo" 
-					height="25px" 
-					width="25px"/>
+					alt="search-logo" />
 				</a>
 				<div class="header__title-tagline">
 					<h2 class="header__title hidden">BikeEnd</h2>
@@ -27,9 +25,7 @@
 					<img 
 					class="header__link-img" 
 					src="../assets/profile.svg" 
-					alt="profile-logo" 
-					height="30px" 
-					width="30px"/>
+					alt="profile-logo" />
 				</a>
 			</header>
 
@@ -46,10 +42,11 @@
 						<button 
 						id="showDialog"
 						class="card-profile__btn" >
-							<img src="../assets/pen-icon.svg" 
+							<img 
+							class="interaction__link-img"
+							src="../assets/pen-icon.svg" 
 							alt="pen-icon-logo" 
-							height="20px" 
-							width="20px"/>
+							/>
 						</button>
 					</div>
 					
@@ -72,8 +69,7 @@
 						class="interaction__link-img" 
 						src="../assets/pen-icon.svg" 
 						alt="pen-icon-logo" 
-						height="20px" 
-						width="20px"/>
+						/>
 						Mes voyages favoris
 					</a>
 
@@ -92,22 +88,23 @@
 				<!-- Une modal dialog pour modifier les informations du compte -->
 				<dialog class="modal">
 					<form class="modal__form">
-							<h3>Modifier vos informations 
-								<button formmethod="dialog">
-									<img 
+							<h3 class="form__title">Modifier vos informations 
+								<button 
+								class="form__cross-btn"
+								formmethod="dialog">
+									<img
+									class="form__btn-img" 
 									src="../assets/cross-modal.svg" 
-									alt="cross-mark-icon" 
-									height="15px" 
-									width="15px">
+									alt="cross-mark-icon">
 								</button>
 							</h3>
-								<p>Nom</p>
-								<input>
-								<p>Prénom</p>
-								<input>
-								<p>Email</p>
-								<input>
-						<div>
+								<p class="form__body">Nom</p>
+								<input type="text">
+								<p class="form__body">Prénom</p>
+								<input type="text">
+								<p class="form__body">Email</p>
+								<input type="email">
+						<div class="modal__container-btn">
 							<button 
 							type="submit" 
 							class="modal__btn">
@@ -119,7 +116,7 @@
 
 			</main>
 			<footer class="footer">
-				<a class="footer__content" href="#">Qui sommes-nous ?</a>
+				<a class="footer__content" href="aboutUs.html">Qui sommes-nous ?</a>
 				<a class="footer__content" href="#">Mentions Légales</a>
 			</footer>
 	</div>

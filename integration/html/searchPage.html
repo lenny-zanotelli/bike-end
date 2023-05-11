@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/searchPage.css">
+	<title>Page de Recherche</title>
+</head>
+<body>
+	<header class="header">
+		<a class="header__link" href="#">
+			<img 
+			class="header__link-img" 
+			src="../assets/search-icon.svg" 
+			alt="search-logo" />
+		</a>
+		<div class="header__title-tagline">
+			<h2 class="header__title hidden">BikeEnd</h2>
+			<h2 class="header__tagline hidden">Le planificateur des week-ends qui font du bien à la tête et à la planète !</h2>
+		</div>
+		<div class="header__container-right-icons">
+		<a class="header__link" href="#">
+			<img 
+			class="header__link-img" 
+			src="../assets/heart-favorite.svg" 
+			alt="profile-logo" />
+		</a>
+		<a class="header__link" href="#">
+			<img 
+			class="header__link-img" 
+			src="../assets/profile.svg" 
+			alt="profile-logo" />
+		</a>
+	</div>
+	</header>
+	<div class="desktop-container">
+
+	<main class="container">
+		<h1 class="container__title">
+			De nouveaux horizons à découvrir. En selle !
+		</h1>
+		<h2 class="container__subtitle hidden">
+			<span class="underline-desktop">Saisissez votre voyage</span>
+		</h2>
+		<section class="container__search-form">
+				<input
+				class="search-form__input-city" 
+				type="text" 
+				name="city-start" 
+				placeholder="Lieu de départ">
+				<input
+				class="search-form__input-city"
+				type="text" 
+				name="city-end"
+				placeholder="Lieu d'arrivé">
+				<article class="search-form__filter-section">
+					<input 
+					class="search-form__input-filter" 
+					type="date" 
+					value="24-08-2023">
+					<input 
+					class="search-form__input-filter" 
+					type="time">
+				</article>
+		</section>
+		<section class="container__filter-form">
+			<article class="filter-form__criteria">
+				<h2 class="filter-form__title">Filtres :</h2>
+				<input 
+				class="filter-form__input_euro" 
+				type="number" 
+				placeholder="Budget">
+				<input 
+				class="filter-form__input_journey-travel" 
+				type="text"
+				placeholder="Temps de trajet">
+			</article>
+			<article class="filter-form__btn">
+				<button class="filter-form__btn-search" type="button">Recherche</button>
+				<button class="filter-form__btn-reset" type="button">Réinitialiser</button>
+			</article>
+			
+		</section>
+
+	</main>
+	<div class="desktop-container__img">
+		<img class="desktop-img hidden" src="../assets/test-searchPage-desktop.jpg" alt="town-image ">
+	</div>
+
+</div>
+	<footer class="footer">
+		<a class="footer__content" href="aboutUs.html">Qui sommes-nous ?</a>
+		<a class="footer__content" href="#">Mentions Légales</a>
+	</footer>
+	
+</body>
+</html>
