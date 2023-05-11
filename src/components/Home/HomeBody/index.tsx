@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const styles = {
   containerBody: {
@@ -41,7 +42,7 @@ function HomeBody() {
         amet facere ratione vel distinctio.
       </Typography>
       {/* router pas encore fait, je laisse un anchor pour l'instant */}
-      <a href="#">
+      <Link to="signup">
         <Button
           className="body__create-account-btn"
           variant="contained"
@@ -55,9 +56,9 @@ function HomeBody() {
         >
           Rejoindre l&apos;Aventure
         </Button>
-      </a>
+      </Link>
       {/* router pas encore fait, je laisse un anchor pour l'instant */}
-      <a href="#">
+      <Link to="login">
         <Button
           className="body__connect-btn"
           variant="text"
@@ -73,7 +74,7 @@ function HomeBody() {
         >
           Se connecter
         </Button>
-      </a>
+      </Link>
 
     </Box>
 
