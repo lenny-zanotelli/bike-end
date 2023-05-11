@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "init":"npm i && npm run createdb",
     "test": "echo \"Error: no test specified\" && exit 1",
     "createdb": "createdb bikeend && sqitch deploy && psql -d bikeend -f data/seed.sql && psql -d bikeend -f data/favorite_seed.sql",
     "resetdb": "sqitch revert -y && sqitch deploy && psql -d bikeend -f data/seed.sql && psql -d bikeend -f data/favorite_seed.sql"
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/O-clock-Quarks/Bike-End-Back#readme",
   "dependencies": {
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
