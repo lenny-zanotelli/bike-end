@@ -1,34 +1,46 @@
 import './styles.scss';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { SetStateAction, useState } from 'react';
+import {
+  Button, Container, Box, TextField, Typography,
+} from '@mui/material';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+  const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+  const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
-    console.log(`email : ${email} et password : ${password}`);
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(`email : ${email} et password : ${password}`);
     // logique d'authentification / appel API + jeton JWT
     // Redirection si login OK
   };
 
   return (
 
-    <main className="container">
-      <section className="container__connect">
-        <h2 className="container__connect__title">Connexion</h2>
+    <Container
+      className="container"
+    >
+      <Box
+        className="container__connect"
+      >
+        <Typography
+          className="container__connect__title"
+        >
+          Connexion
+        </Typography>
 
-        <form className="container__connect__form" onSubmit={handleSubmit}>
+        <form
+          className="container__connect__form"
+          onSubmit={handleSubmit}
+        >
           <TextField
             sx={{ width: '80%' }}
             variant="outlined"
@@ -38,7 +50,7 @@ function LoginPage() {
             label="Adresse email"
             name="email"
             value={email}
-            onChange={handleEmailChange}
+            onChange={handleChangeEmail}
           />
           <TextField
             sx={{ width: '80%' }}
@@ -50,7 +62,7 @@ function LoginPage() {
             type="password"
             id="password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={handleChangePassword}
           />
           <Button
             sx={{ width: '30%' }}
@@ -62,9 +74,14 @@ function LoginPage() {
             Valider
           </Button>
         </form>
-        <a className="container__connect__forgotPassword" href="/">Mot de passe oublié ?</a>
-      </section>
-    </main>
+        <Button
+          className="container__connect__forgotPassword"
+          href="/"
+        >
+          Mot de passe oublié ?
+        </Button>
+      </Box>
+    </Container>
   );
 }
 
