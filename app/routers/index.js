@@ -6,7 +6,6 @@ const router = express.Router();
 const { userController, authentificationController, favoriteController } = require('../controllers');
 
 // Importation des middlewares
-
 // TODO replace passwordCheck by JOI
 const { encryptPwd, passwordCheck, jwtAuth, isUserUnique} = require('../middlewares');
 
@@ -49,4 +48,9 @@ router.route('/favorite/:id(\\d+)')
     // On supprime un favori
     .delete(favoriteController.deleteOneFavorite);
 
+/**
+ * SEARCH
+ */
+
+router.get('/search/*', searchController)
 module.exports = router;
