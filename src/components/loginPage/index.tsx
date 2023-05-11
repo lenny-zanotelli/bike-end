@@ -2,7 +2,10 @@ import './styles.scss';
 import {
   Button, Container, Box, TextField, Typography,
 } from '@mui/material';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import {
+  ChangeEvent, FormEvent, useState, useContext,
+} from 'react';
+import { AuthContext } from '../../utils/authContext';
 
 const styles = {
   containerConnect: {
@@ -40,21 +43,24 @@ const styles = {
 };
 
 function LoginPage() {
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-  }
+  };
 
   const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-  }
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log();
+    const token = 'jwt_token';
+    login(token);
+    
 
     setEmail('');
     setPassword('');
