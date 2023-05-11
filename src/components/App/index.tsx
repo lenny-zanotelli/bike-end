@@ -4,6 +4,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import Home from '../Home';
 import SignupPage from '../SignupPage';
+import LoginPage from '../loginPage';
 
 function App() {
   return (
@@ -17,7 +18,11 @@ function App() {
         <Route
           path="/signup"
           element={<SignupPage />}
-          />
+        />
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
       </Routes>
       <Footer />
     </div>
