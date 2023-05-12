@@ -10,7 +10,7 @@
 GET {{ endpoint }}/userss
 
 #########################
-#         SIGNUP         #
+#         SIGNUP        #
 #########################
 
 ### Créer un user avec email déja existant
@@ -18,9 +18,9 @@ POST {{ endpoint }}/signup
 content-type: application/json
 
 {
-    "email": "pierre@gmail.com",
+  "email": "pierre@gmail.com",
   "password": "Jjbesos-1234",
-   "passwordCheck": "Jjbesos-1234",
+  "passwordCheck": "Jjbesos-1234",
   "firstname": "Jean",
   "lastname": "Jacques",
   "acceptedConditions": true
@@ -51,6 +51,7 @@ content-type: application/json
   "email": "pierrefzerfzre@gmail.com",
   "password": "Jjbesos-1234"
 }
+
 ### Login en erreur password
 POST {{ endpoint }}/login
 content-type: application/json
@@ -59,6 +60,7 @@ content-type: application/json
   "email": "pierre@gmail.com",
   "password": "Bcde!1234"
 }
+
 ### Login
 POST {{ endpoint }}/login
 content-type: application/json
@@ -82,7 +84,7 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
 
 {
-    "email": "pierre@gmail.com"
+  "email": "pierre@gmail.com"
 }
 
 ### Modifier l'email du user signedin
@@ -91,22 +93,22 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
 
 {
-    "email": "testing89@hotmail.com"
+  "email": "testing89@hotmail.com"
 }
 
-### Modifier le password et le firstname du user signedin
+### Modifier le password (attention à la conformité) et le firstname du user signedin
 PATCH {{ endpoint }}/user
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
 
 {
-    "password": "Superpassword99",
-    "firstname": "Jean-Pascal"
+  "password": "Superpassword-99",
+  "firstname": "Jean-Pascal"
 }
 
 ### Supprimer le user signedin
 DELETE {{ endpoint }}/user
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
 
 #########################
 #       FAVORITE        #
@@ -144,4 +146,3 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
 ### Supprimer un favori par son id
 DELETE {{ endpoint }}/favorite/3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
-

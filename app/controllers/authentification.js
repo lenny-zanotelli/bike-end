@@ -68,7 +68,7 @@ module.exports = {
             delete user.password;
 
             // On ajoute en header un token JWT contenant les informations du user
-            const token = createToken(user);
+            const token = await createToken(user);
             res.setHeader('Authorization', token);
 
             // On renvoie un code 201 = Created
