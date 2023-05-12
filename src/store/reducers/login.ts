@@ -76,7 +76,7 @@ export const register = createAppAsyncThunk(
       password,
       acceptedConditions,
     });
-    // localStorage.setItem('token', JSON.stringify(data));
+    localStorage.setItem('login', JSON.stringify(data));
     return data;
   },
 );
