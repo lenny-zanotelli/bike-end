@@ -4,9 +4,7 @@ import {
   Button, Container, Box, TextField, Typography,
 } from '@mui/material';
 import {
-  ChangeEvent, FormEvent, useState, useContext,
-} from 'react';
-import { AuthContext } from '../../utils/authContext';
+  ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { login, KeysOfCredentials, changeCredentialsField } from '../../store/reducers/login';
 
@@ -46,27 +44,6 @@ const styles = {
 };
 
 function LoginPage() {
-  // const { login } = useContext(AuthContext);
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-
-  // const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(e.target.value);
-  // };
-
-  // const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(e.target.value);
-  // };
-
-  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   const token = 'jwt_token';
-  //   login(token);
-  //   setEmail('');
-  //   setPassword('');
-  // };
-
   const dispatch = useAppDispatch();
   const email = useAppSelector((state) => state.login.credentials.email);
   const password = useAppSelector((state) => state.login.credentials.password);
