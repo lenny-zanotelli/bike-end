@@ -1,16 +1,12 @@
+const jwt = require('jsonwebtoken');
+
 module.exports = {
-    createToken: async (user) => {
-        try {
+    createTokenForUserId: async (userId) => {
             // On renvoie un JWT avec le user id
-            const token = await jwt.sign(
-                { ...user },
-                process.env.AUTH_API_SECRET,
-                { algorithm: 'HS256', expiresIn: 7 }
-            );
-            return token
-        } catch (error) {
-            console.log(error)
-            throw error
-        }
+            const jwtContent = { userId };
+            const jwtSecret = process.env.AUTH_API_SECRET;
+            const jwtOptions = { algorithm: 'HS256', expiresIn: '7d' };
+            const token = await jwt.sign(jwtContent, jwtSecret, jwtOptions);
+            return token;
     },
 };
