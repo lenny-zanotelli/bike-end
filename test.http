@@ -31,9 +31,8 @@ POST {{ endpoint }}/signup
 content-type: application/json
 
 {
-  "email": "jeanjacques@gmail.com",
-  "password": "Jjbesos-1234",
-  "passwordCheck": "Jjbesos-1234",
+  "email": "jeanjacques1@gmaifeel.com",
+  "password": "Bcde!1234",
   "firstname": "Jean",
   "lastname": "Jacques",
   "acceptedConditions": true
@@ -43,23 +42,7 @@ content-type: application/json
 #         LOGIN         #
 #########################
 
-### Login en erreur email
-POST {{ endpoint }}/login
-content-type: application/json
-
-{
-  "email": "pierrefzerfzre@gmail.com",
-  "password": "Jjbesos-1234"
-}
-### Login en erreur password
-POST {{ endpoint }}/login
-content-type: application/json
-
-{
-  "email": "pierre@gmail.com",
-  "password": "Bcde!1234"
-}
-### Login
+### Login du nouveau compte créé
 POST {{ endpoint }}/login
 content-type: application/json
 
@@ -67,6 +50,32 @@ content-type: application/json
   "email": "jeanjacques@gmail.com",
   "password": "Jjbesos-1234"
 }
+
+### Login d'un compte seedé
+POST {{ endpoint }}/login
+content-type: application/json
+
+{
+  "email": "pierre@gmail.com",
+  "password": "Bcde!1234"
+}
+### Login en erreur email
+POST {{ endpoint }}/login
+content-type: application/json
+
+{
+  "email": "pierree@gmail.com",
+  "password": "Bcde!1234"
+}
+### Login en erreur password
+POST {{ endpoint }}/login
+content-type: application/json
+
+{
+  "email": "pierre@gmail.com",
+  "password": "Bcde!1235"
+}
+
 
 #########################
 #         USERS         #
@@ -106,7 +115,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
 
 ### Supprimer le user signedin
 DELETE {{ endpoint }}/user
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
 
 #########################
 #       FAVORITE        #
