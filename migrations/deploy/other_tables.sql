@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS "filter" (
 );
 
 ALTER TABLE "favorite"
-    ADD COLUMN "user_id" int REFERENCES "user"("id");
+    ADD COLUMN "user_id" int REFERENCES "user"("id") ON DELETE CASCADE;
 -- user FAVORS favorite
 
 ALTER TABLE "filter"
-    ADD COLUMN "user_id" int REFERENCES "user"("id");
+    ADD COLUMN "user_id" int REFERENCES "user"("id") ON DELETE CASCADE;
 -- user SAVES filter
 
 COMMIT;

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 // importation des modules
 const { userDataMapper } = require('../models');
-const { createToken } = require('../services/jwt');
+const { createTokenForUserId } = require('../services/jwt');
 /**
  * @typedef {object} User
  * @property {number} id - Indentifiant unique, Pk de la table
@@ -27,28 +27,26 @@ module.exports = {
             // TODO mettre vérif password et email en middleware validation
             const user = await userDataMapper.findByEmail(req.body.email);
             if (!user) {
-                return res.status(401).json('Incorrect email or password');
+                throw new Error("Email unknown");
             }
             const isPasswordValid = await bcrypt.compare(
                 req.body.password,
                 user.password
             );
             if (!isPasswordValid) {
-                return res.status(401).json('Incorrect email or password');
+                throw new Error("Wrong email/password pairing")
             }
 
-            // On supprime de notre objet js le password crypté avant de le renvoyer au front en confirmation
-            delete user.password;
 
-            // On ajoute en header un token JWT contenant les informations du user
-            const token = createToken(user);
-            res.setHeader('Authorization', token);
+            // On renvoi un token JWT contenant l'id du user
+            const token = await createTokenForUserId(user.id);
+            // res.setHeader('Authorization', token);
 
             // on renvoie un code 200 = success
-            return res.status(200).json(user);
+            return res.status(200).json(token);
         } catch (error) {
             console.error(error);
-            res.status(500).send('An error occured');
+            return res.status(401).json('Access denied');;
         }
     },
     /**
@@ -64,15 +62,12 @@ module.exports = {
                 ...req.body,
             };
             const user = await userDataMapper.insert(newUser);
-            // On supprime de notre objet js le password crypté avant de le renvoyer au front en confirmation
-            delete user.password;
 
-            // On ajoute en header un token JWT contenant les informations du user
-            const token = createToken(user);
-            res.setHeader('Authorization', token);
+            // On renvoi un token JWT contenant l'id du user
+            const token = await createTokenForUserId(user.id);
 
             // On renvoie un code 201 = Created
-            return res.status(201).json(user);
+            return res.status(201).json(token);
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occured');
