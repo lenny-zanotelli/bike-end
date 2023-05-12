@@ -3,8 +3,7 @@ import './styles.scss';
 import {
   Button, Container, Box, TextField, Typography,
 } from '@mui/material';
-import {
-  ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { login, KeysOfCredentials, changeCredentialsField } from '../../store/reducers/login';
 

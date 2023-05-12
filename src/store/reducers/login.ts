@@ -28,6 +28,10 @@ const initialState: LoginStates = {
   ...userData,
 };
 
+// MONINTERFACE['propriété'] permet de récupérer le typage d'un propriété.
+// 'type' me permet de créer un type comme 'interface'
+// Car 'interface' est obligatoirement un objet
+// Donc avec 'type' cela peut être une ou des valeurs.
 export type KeysOfCredentials = keyof LoginStates['credentials'];
 
 export const login = createAppAsyncThunk(
@@ -59,7 +63,6 @@ const loginReducer = createReducer(initialState, (builder) => {
     .addCase(login.rejected, (state) => {
       state.error = 'Mauvais Identifiants';
       state.isLoading = false;
-
     })
     .addCase(login.pending, (state) => {
       state.error = null;
@@ -68,8 +71,8 @@ const loginReducer = createReducer(initialState, (builder) => {
     .addCase(login.fulfilled, (state, action) => {
       state.isLoading = false;
       state.token = action.payload.token;
-			// Réinitialiser le state des credentials
-			state.credentials.email = '';
+      // Réinitialiser le state des credentials
+      state.credentials.email = '';
       state.credentials.password = '';
     });
 });
