@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import './styles.scss';
 import {
   Button, Container, Box, TextField, Typography,
@@ -6,6 +7,8 @@ import {
   ChangeEvent, FormEvent, useState, useContext,
 } from 'react';
 import { AuthContext } from '../../utils/authContext';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { login, KeysOfCredentials, changeCredentialsField } from '../../store/reducers/login';
 
 const styles = {
   containerConnect: {
@@ -43,28 +46,45 @@ const styles = {
 };
 
 function LoginPage() {
-  const { login } = useContext(AuthContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const { login } = useContext(AuthContext);
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
 
-  const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+  // const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(e.target.value);
+  // };
 
-  const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+  // const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setPassword(e.target.value);
+  // };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    const token = 'jwt_token';
-    login(token);
-    
+  //   const token = 'jwt_token';
+  //   login(token);
+  //   setEmail('');
+  //   setPassword('');
+  // };
 
-    setEmail('');
-    setPassword('');
-  };
+  const dispatch = useAppDispatch();
+  const email = useAppSelector((state) => state.login.credentials.email);
+  const password = useAppSelector((state) => state.login.credentials.password);
+  // const isLoading = useAppSelector((state) => state.login.error);
+
+  function handleChangeField(event: ChangeEvent<HTMLInputElement>): void {
+    const newValue = event.target.value;
+    const fieldName = event.target.name as KeysOfCredentials;
+    dispatch(changeCredentialsField({
+      propertyKey: fieldName,
+      value: newValue,
+    }));
+  }
+
+  function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    dispatch(login());
+  }
 
   return (
 
@@ -93,7 +113,7 @@ function LoginPage() {
 
         <form
           className="container__connect__form"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitLogin}
         >
           <TextField
             sx={styles.input}
@@ -105,7 +125,7 @@ function LoginPage() {
             label="Adresse email"
             name="email"
             value={email}
-            onChange={handleChangeEmail}
+            onChange={handleChangeField}
           />
           <TextField
             sx={styles.input}
@@ -118,7 +138,7 @@ function LoginPage() {
             type="password"
             id="password"
             value={password}
-            onChange={handleChangePassword}
+            onChange={handleChangeField}
           />
           <Button
             className="container__connect__form-btn"
