@@ -47,3 +47,8 @@ Authorization: 3b036afe-0110-4202-b9ed-99718476c2e0
 ### test itinéraires de Paris avec première section en vélo
 GET {{ endpointnavitia }}/journeys?from=admin:fr:75056&first_section_mode[]=bike
 Authorization: 3b036afe-0110-4202-b9ed-99718476c2e0
+
+### Ne fonctionne pas
+### je veux : pas de tspt sans vélo, vélo start and end, sortir de ma ville/département
+GET {{ endpointnavitia }}/journeys?from=admin:fr:75056&first_section_mode[]=bike&last_section_mode[]=bike&datetime=20230511180000&max_duration=10800&forbidden_uris[physical_mode:Air]&forbidden_uris[physical_mode:Boat]&forbidden_uris[physical_mode:Bus]&forbidden_uris[physical_mode:BusRapidTransit]&forbidden_uris[physical_mode:Coach]&forbidden_uris[physical_mode:Funicular]&forbidden_uris[physical_mode:Metro]&forbidden_uris[physical_mode:Shuttle]&forbidden_uris[physical_mode:SuspendedCableCar]&forbidden_uris[physical_mode:Taxi]
+Authorization: 3b036afe-0110-4202-b9ed-99718476c2e0
