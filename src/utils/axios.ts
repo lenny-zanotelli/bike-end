@@ -3,7 +3,7 @@ import { getUserDataFromLocalStorage } from './login';
 
 // eslint-disable-next-line import/prefer-default-export
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: 'http://localhost:3000',
 });
 
 axiosInstance.interceptors.request.use((config) => {

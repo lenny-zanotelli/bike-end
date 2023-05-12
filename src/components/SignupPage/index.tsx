@@ -3,7 +3,11 @@ import {
   Button, TextField, Checkbox, Container, Box, FormControlLabel, Typography,
 } from '@mui/material';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import {
+  KeysOfCredentials, changeCredentialsField, register, toggleAcceptedConditions,
+} from '../../store/reducers/login';
 
 const buttonStyle = {
   mt: '1rem',
@@ -26,32 +30,54 @@ const inputStyle = {
 } as const;
 
 function SignupPage() {
-  const [checked, setChecked] = useState(true);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const dispatch = useAppDispatch();
+  // const [checked, setChecked] = useState(true);
+  // const [formData, setFormData] = useState({
+  //   firstName: '',
+  //   lastName: '',
+  //   email: '',
+  //   password: '',
+  //   confirmPassword: '',
+  // });
 
-  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
+  const email = useAppSelector((state) => state.login.credentials.email);
+  const password = useAppSelector((state) => state.login.credentials.password);
+  const firstname = useAppSelector((state) => state.login.credentials.firstname);
+  const lastname = useAppSelector((state) => state.login.credentials.lastname);
+  const confirmPassword = useAppSelector((state) => state.login.credentials.confirmPassword);
+  const acceptedConditions = useAppSelector((state) => state.login.acceptedConditions);
+
+  // const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+  //   dispatch((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: value,
+  //   }));
+  // };
+
+  const handleChangeField = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    const fieldName = event.target.name as KeysOfCredentials;
+    dispatch(changeCredentialsField({
+      propertyKey: fieldName,
+      value: newValue,
     }));
   };
 
   // eslint-disable-next-line max-len
-  const handleChangeCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+  const handleChangeCheckBox = () => {
+    dispatch(toggleAcceptedConditions());
     console.log('test checkbox');
   };
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('submit');
+    if (password !== confirmPassword) {
+      console.log('ca match pas');
+    } else {
+      dispatch(register());
+      console.log('submit');
+    }
 
     // TODO : dispatch(submitPayload)));
   };
@@ -104,10 +130,10 @@ function SignupPage() {
             color="success"
             fullWidth
             required
-            name="firstName"
+            name="firstname"
             label="Prénom"
-            value={formData.firstName}
-            onChange={handleChangeInput}
+            value={firstname}
+            onChange={handleChangeField}
             size="small"
           />
 
@@ -115,10 +141,10 @@ function SignupPage() {
             required
             sx={inputStyle}
             color="success"
-            name="lastName"
+            name="lastname"
             label="Nom"
-            value={formData.lastName}
-            onChange={handleChangeInput}
+            value={lastname}
+            onChange={handleChangeField}
             size="small"
           />
 
@@ -129,8 +155,8 @@ function SignupPage() {
             type="email"
             name="email"
             label="Adresse e-mail"
-            value={formData.email}
-            onChange={handleChangeInput}
+            value={email}
+            onChange={handleChangeField}
             size="small"
           />
 
@@ -141,8 +167,8 @@ function SignupPage() {
             type="password"
             name="password"
             label="Mot de passe"
-            value={formData.password}
-            onChange={handleChangeInput}
+            value={password}
+            onChange={handleChangeField}
             size="small"
           />
 
@@ -153,8 +179,8 @@ function SignupPage() {
             type="password"
             name="confirmPassword"
             label="Confirmer le mot de passe"
-            value={formData.confirmPassword}
-            onChange={handleChangeInput}
+            value={confirmPassword}
+            onChange={handleChangeField}
             size="small"
           />
 
@@ -162,7 +188,7 @@ function SignupPage() {
             <FormControlLabel
               control={(
                 <Checkbox
-                  checked={checked}
+                  checked={acceptedConditions}
                   onChange={handleChangeCheckBox}
                   color="success"
                 />
