@@ -59,6 +59,11 @@ html, body {
 
 }
 
+.body__create-account-btn:hover {
+	background-color: #0b5447;
+	transition: 300ms ease-in-out;
+}
+
 .body__connect-btn {
 	border: none;
 	background-color: white;
@@ -93,39 +98,44 @@ html, body {
 }
 
 
-@media (min-width: 768px) {
+
+@media screen and (min-width: 768px) {
+
 	.header__banner {
 		min-width: 100vw;
 	}
 	.header__title {
-		font-size: 5rem;
-
+		font-size: 8rem;
 	}
 	.container__body {
-		margin: 0.5rem;
+		margin: 2rem;
 
 	}
 	.body__content {
-		width: 20rem;
-		font-size: 0.8rem;
+		width: 25rem;
+		font-size: 1rem;
+		font-weight: bold;
 	}
 
 	.body__create-account-btn {
-		padding: 0.75rem 1rem;
+		padding: 1rem 2rem;
 		min-width: 250px;
-		margin: 0.5rem 0;
-		font-size: 1rem;
+		margin: 2rem 0;
+		font-size: 1.15rem;
 		font-weight: 400;
 	}
+
 	.body__connect-btn {
-		font-size: 0.6rem;
-	}
+		font-size: 1rem;
+  }
+
 
 	.container__footer {
 		justify-content: space-evenly;
+		height: 5rem;
 	}
 	.footer__content {
-		font-size: 0.6rem;
+		font-size: 1rem;
 	}
 
 }

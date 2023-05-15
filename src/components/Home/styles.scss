@@ -1,0 +1,24 @@
+@use './../../styles/vars';
+
+// Je mets le css ici à la place de MUI car img ne prend pas de sx
+.header__banner {
+	opacity: .5;
+	height: 50vh;
+}
+
+@media screen and (min-width: 768px) {
+	.header__banner {
+		min-width: 100vw;
+	}
+	.container__body {
+		// margin: 5rem;
+
+	}
+	.body__content {
+		margin-top: 5rem;
+		width: 25rem;
+		font-size: 1rem;
+		font-weight: bold;
+	}
+
+}
