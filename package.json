@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "init": "npm i && npm run createdb",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "createdb": "createdb bikeend && sqitch deploy && psql -d bikeend -f data/seed.sql && psql -d bikeend -f data/favorite_seed.sql",
-    "resetdb": "sqitch revert -y && sqitch deploy && psql -d bikeend -f data/seed.sql && psql -d bikeend -f data/favorite_seed.sql"
+    "createdb": "createdb bikeend && sqitch deploy",
+    "resetdb": "sqitch revert -y && sqitch deploy"
   },
   "repository": {
     "type": "git",

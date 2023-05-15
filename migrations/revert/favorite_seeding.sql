@@ -2,6 +2,6 @@
 
 BEGIN;
 
-TRUNCATE "favorite";
+TRUNCATE TABLE "favorite";
 
 COMMIT;

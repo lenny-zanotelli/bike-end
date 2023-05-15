@@ -16,11 +16,10 @@ const updateSchema = require('../validation/schemas/userUpdateSchema');
 const { encryptPwd, passwordCheck, jwtAuth, isUserUnique } = require('../middlewares');
 
 // post /login pour se connecter
-router.route('/login')
-    .post(validate('body', loginSchema), authentificationController.login);
+router.post('/login', [validate('body', loginSchema)], authentificationController.login);
+
 // post /signup pour créer un compte
-router.route('/signup')
-    .post(validate('body', createSchema), [isUserUnique, passwordCheck, encryptPwd], authentificationController.signup);
+router.post('/signup', [validate('body', createSchema), isUserUnique, encryptPwd], authentificationController.signup);
 
 // Middleware vérifiant le token JWT afin d'authoriser
 // une connexion aux routes et désignant le user signed in (req.userId)
