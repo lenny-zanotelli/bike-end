@@ -64,8 +64,6 @@ html, body {
 	transition: 300ms ease-in-out;
 }
 
-
-
 .body__connect-btn {
 	border: none;
 	background-color: white;
@@ -100,13 +98,14 @@ html, body {
 }
 
 
+
 @media screen and (min-width: 768px) {
+
 	.header__banner {
 		min-width: 100vw;
 	}
 	.header__title {
 		font-size: 8rem;
-
 	}
 	.container__body {
 		margin: 2rem;
@@ -128,7 +127,8 @@ html, body {
 
 	.body__connect-btn {
 		font-size: 1rem;
-	}
+  }
+
 
 	.container__footer {
 		justify-content: space-evenly;
