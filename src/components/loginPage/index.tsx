@@ -1,8 +1,11 @@
+/* eslint-disable react/jsx-no-bind */
 import './styles.scss';
 import {
   Button, Container, Box, TextField, Typography,
 } from '@mui/material';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { login, KeysOfCredentials, changeCredentialsField } from '../../store/reducers/login';
 
 const styles = {
   containerConnect: {
@@ -40,23 +43,24 @@ const styles = {
 };
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const email = useAppSelector((state) => state.login.credentials.email);
+  const password = useAppSelector((state) => state.login.credentials.password);
+  // const isLoading = useAppSelector((state) => state.login.error);
 
-  const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
+  function handleChangeField(event: ChangeEvent<HTMLInputElement>): void {
+    const newValue = event.target.value;
+    const fieldName = event.target.name as KeysOfCredentials;
+    dispatch(changeCredentialsField({
+      propertyKey: fieldName,
+      value: newValue,
+    }));
+  }
 
-  const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    console.log(`email : ${email} et password : ${password}`);
-    // logique d'authentification / appel API + jeton JWT
-    // Redirection si login OK
-  };
+    dispatch(login());
+  }
 
   return (
 
@@ -85,7 +89,7 @@ function LoginPage() {
 
         <form
           className="container__connect__form"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitLogin}
         >
           <TextField
             sx={styles.input}
@@ -97,7 +101,7 @@ function LoginPage() {
             label="Adresse email"
             name="email"
             value={email}
-            onChange={handleChangeEmail}
+            onChange={handleChangeField}
           />
           <TextField
             sx={styles.input}
@@ -110,7 +114,7 @@ function LoginPage() {
             type="password"
             id="password"
             value={password}
-            onChange={handleChangePassword}
+            onChange={handleChangeField}
           />
           <Button
             className="container__connect__form-btn"
