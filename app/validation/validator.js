@@ -18,6 +18,6 @@ module.exports = (prop, schema) => async (request, res, next) => {
         // On doit afficher l'erreur à l'utilisateur
         // STATUS HTTP pour une erreur de saisie : 400
         console.error(error);
-        res.status(400).send('Bad request');
+        res.status(400).send('Bad request : ' + error.message);
     }
 };
