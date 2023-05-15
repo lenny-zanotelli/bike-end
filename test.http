@@ -18,9 +18,8 @@ POST {{ endpoint }}/signup
 content-type: application/json
 
 {
-    "email": "pierre@gmail.com",
+  "email": "pierre@gmail.com",
   "password": "Jjbesos-1234",
-   "passwordCheck": "Jjbesos-1234",
   "firstname": "Jean",
   "lastname": "Jacques",
   "acceptedConditions": true
@@ -33,7 +32,6 @@ content-type: application/json
 {
   "email": "jeanjacques@gmail.com",
   "password": "Jjbesos-1234",
-  "passwordCheck": "Jjbesos-1234",
   "firstname": "Jean",
   "lastname": "Jacques",
   "acceptedConditions": true
@@ -43,23 +41,7 @@ content-type: application/json
 #         LOGIN         #
 #########################
 
-### Login en erreur email
-POST {{ endpoint }}/login
-content-type: application/json
-
-{
-  "email": "pierrefzerfzre@gmail.com",
-  "password": "Jjbesos-1234"
-}
-### Login en erreur password
-POST {{ endpoint }}/login
-content-type: application/json
-
-{
-  "email": "pierre@gmail.com",
-  "password": "Bcde!1234"
-}
-### Login
+### Login du nouveau compte créé
 POST {{ endpoint }}/login
 content-type: application/json
 
@@ -68,18 +50,44 @@ content-type: application/json
   "password": "Jjbesos-1234"
 }
 
+### Login d'un compte seedé
+POST {{ endpoint }}/login
+content-type: application/json
+
+{
+  "email": "pierre@gmail.com",
+  "password": "Bcde!1234"
+}
+### Login en erreur email
+POST {{ endpoint }}/login
+content-type: application/json
+
+{
+  "email": "pierree@gmail.com",
+  "password": "Bcde!1234"
+}
+### Login en erreur password
+POST {{ endpoint }}/login
+content-type: application/json
+
+{
+  "email": "pierre@gmail.com",
+  "password": "Bcde!1235"
+}
+
+
 #########################
 #         USERS         #
 #########################
 
 ### Récupérér les infos du user signedin
 GET {{ endpoint }}/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY4MzkxMjUxMywiZXhwIjoxNjg0NTE3MzEzfQ.F0o4aGsGh-Z7M3XLzEZmTyS_gI7AhU22Jjm3EOqOQHw
 
 ### Modifier le user signedin avec un email déja utilisé
 PATCH {{ endpoint }}/user
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY4MzkxMjUxMywiZXhwIjoxNjg0NTE3MzEzfQ.F0o4aGsGh-Z7M3XLzEZmTyS_gI7AhU22Jjm3EOqOQHw
 
 {
     "email": "pierre@gmail.com"
@@ -88,7 +96,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
 ### Modifier l'email du user signedin
 PATCH {{ endpoint }}/user
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY4MzkxMjUxMywiZXhwIjoxNjg0NTE3MzEzfQ.F0o4aGsGh-Z7M3XLzEZmTyS_gI7AhU22Jjm3EOqOQHw
 
 {
     "email": "testing89@hotmail.com"
@@ -97,7 +105,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
 ### Modifier le password et le firstname du user signedin
 PATCH {{ endpoint }}/user
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY4MzkxMjUxMywiZXhwIjoxNjg0NTE3MzEzfQ.F0o4aGsGh-Z7M3XLzEZmTyS_gI7AhU22Jjm3EOqOQHw
 
 {
     "password": "Superpassword99",
@@ -106,7 +114,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
 
 ### Supprimer le user signedin
 DELETE {{ endpoint }}/user
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY4MzkxMjUxMywiZXhwIjoxNjg0NTE3MzEzfQ.F0o4aGsGh-Z7M3XLzEZmTyS_gI7AhU22Jjm3EOqOQHw
 
 #########################
 #       FAVORITE        #
@@ -114,12 +122,12 @@ DELETE {{ endpoint }}/user
 
 ### Liste des favoris
 GET {{ endpoint }}/favorite
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
 
 ### Créer un favori
 POST {{ endpoint }}/favorite
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
 
 {
     "origin": "TestUserOneIsLoggedIn",
@@ -129,19 +137,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
 }
 
 ### Récupérér un favori par son id
-GET {{ endpoint }}/favorite/3
+GET {{ endpoint }}/favorite/5
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
 
 ### Modifier un favori
-PATCH {{ endpoint }}/favorite/3
+PATCH {{ endpoint }}/favorite/5
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
 
 {
     "comment": "Commentaire du user_id 1 Ok ça marche"
 }
 
 ### Supprimer un favori par son id
-DELETE {{ endpoint }}/favorite/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqZWFuamFjcXVlc0BnbWFpbC5jb20iLCJmaXJzdG5hbWUiOiJKZWFuIiwibGFzdG5hbWUiOiJKYWNxdWVzIiwiYWNjZXB0ZWRfY29uZGl0aW9ucyI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjMtMDUtMTBUMTQ6Mjg6NDQuMzY4WiIsInVwZGF0ZWRfYXQiOiIyMDIzLTA1LTEwVDE0OjI4OjQ0LjM2OFoiLCJpYXQiOjE2ODM3Mjg5MjQsImV4cCI6MTY4NDMzMzcyNH0.QbB8ShQEaQic9rFEp9EGULMg1THT3sx39b2nRk8p9Rw
+DELETE {{ endpoint }}/favorite/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
 

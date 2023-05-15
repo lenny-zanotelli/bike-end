@@ -6,14 +6,13 @@ const router = express.Router();
 const { userController, authentificationController, favoriteController } = require('../controllers');
 
 // Importation des middlewares
-
 // TODO replace passwordCheck by JOI
 const { encryptPwd, passwordCheck, jwtAuth, isUserUnique} = require('../middlewares');
 
 // post /login pour s'enregistrer'
 router.post('/login', authentificationController.login);
 // post /signup pour créer un compte
-router.post('/signup',[isUserUnique, passwordCheck, encryptPwd], authentificationController.signup);
+router.post('/signup',[isUserUnique, encryptPwd], authentificationController.signup);
 
 // Middleware vérifiant le token JWT afin d'authoriser 
 // une connection aux routes et désignant le user signed in (req.userId)
@@ -49,4 +48,9 @@ router.route('/favorite/:id(\\d+)')
     // On supprime un favori
     .delete(favoriteController.deleteOneFavorite);
 
+/**
+ * SEARCH
+ */
+
+// router.get('/search/*', searchController)
 module.exports = router;

@@ -2,6 +2,6 @@
 
 BEGIN;
 
-TRUNCATE "user";
+TRUNCATE TABLE "user";
 
 COMMIT;

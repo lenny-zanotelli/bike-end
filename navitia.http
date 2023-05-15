@@ -1,0 +1,54 @@
+# API sncf via navitia
+# Bonjour Bike,
+# Merci de vous être inscrit à l’API SNCF.
+# Voici votre clé d’authentification :
+# d89b1fe0-fba5-49b5-97b5-834ac3b06573
+# Comment vous authentifier à l'API ?
+# Accédez à l'API : https://api.sncf.com/v1
+# Username : copiez puis collez votre clé
+# Password : laissez le champ vide
+# ou copiez votre clé directement dans l'URL.
+# Comment utiliser l’API ?
+# Quelques exemples :
+
+@endpointsncf = https://api.sncf.com/v1
+@endpointnavitia = https://api.navitia.io/v1
+
+### ROOT sncf
+GET {{ endpointsncf }}/
+
+### ROOT navitia
+GET {{ endpointnavitia }}/
+
+### Le détail des modes de transport couvert par l’API
+GET {{ endpointsncf }}/coverage/sncf/commercial_modes
+Authorization: d89b1fe0-fba5-49b5-97b5-834ac3b06573
+
+### Tous les points d'arrêt sncf
+GET {{ endpointsncf }}/coverage/sncf/stop_areas
+Authorization: d89b1fe0-fba5-49b5-97b5-834ac3b06573
+
+### Itinéraires entre Paris et Lyon
+GET {{ endpointsncf }}/coverage/sncf/journeys?from=admin:fr:75056&to=admin:fr:69123&datetime=20230511
+Authorization: d89b1fe0-fba5-49b5-97b5-834ac3b06573
+
+### Prochains départs à Montparnasse
+GET {{ endpointsncf }}/coverage/sncf/stop_areas/stop_area:SNCF:87391003/departures?datetime=20230511
+Authorization: d89b1fe0-fba5-49b5-97b5-834ac3b06573
+
+### Itinéraires à partir de Paris
+GET {{ endpointsncf }}/coverage/sncf/journeys?from=admin:fr:75056&datetime=20230511&max_duration=3600
+Authorization: d89b1fe0-fba5-49b5-97b5-834ac3b06573
+
+### autocomplete on geographical data to find the departure and destination points from an input text
+GET {{ endpointnavitia }}/coverage/sandbox/places?q=aligre
+Authorization: 3b036afe-0110-4202-b9ed-99718476c2e0
+
+### test itinéraires de Paris avec première section en vélo
+GET {{ endpointnavitia }}/journeys?from=admin:fr:75056&first_section_mode[]=bike
+Authorization: 3b036afe-0110-4202-b9ed-99718476c2e0
+
+### Ne fonctionne pas
+### je veux : pas de tspt sans vélo, vélo start and end, sortir de ma ville/département
+GET {{ endpointnavitia }}/journeys?from=admin:fr:75056&first_section_mode[]=bike&last_section_mode[]=bike&datetime=20230511180000&max_duration=10800&forbidden_uris[physical_mode:Air]&forbidden_uris[physical_mode:Boat]&forbidden_uris[physical_mode:Bus]&forbidden_uris[physical_mode:BusRapidTransit]&forbidden_uris[physical_mode:Coach]&forbidden_uris[physical_mode:Funicular]&forbidden_uris[physical_mode:Metro]&forbidden_uris[physical_mode:Shuttle]&forbidden_uris[physical_mode:SuspendedCableCar]&forbidden_uris[physical_mode:Taxi]
+Authorization: 3b036afe-0110-4202-b9ed-99718476c2e0
