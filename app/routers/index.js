@@ -3,29 +3,35 @@ const express = require('express');
 const router = express.Router();
 
 // Importation des controllers
-const { userController, authentificationController, favoriteController } = require('../controllers');
+const { userController, authentificationController, favoriteController } = require('../controllers/');
+
+// Importation de la validation par JOI
+const validate = require('../validation/validator');
+const createSchema = require('../validation/schemas/userCreateSchema');
+const loginSchema = require('../validation/schemas/userLoginSchema');
+const updateSchema = require('../validation/schemas/userUpdateSchema');
 
 // Importation des middlewares
 // TODO replace passwordCheck by JOI
-const { encryptPwd, passwordCheck, jwtAuth, isUserUnique} = require('../middlewares');
+const { encryptPwd, passwordCheck, jwtAuth, isUserUnique } = require('../middlewares');
 
-// post /login pour s'enregistrer'
-router.post('/login', authentificationController.login);
+// post /login pour se connecter
+router.post('/login', [validate('body', loginSchema)], authentificationController.login);
+
 // post /signup pour créer un compte
-router.post('/signup',[isUserUnique, encryptPwd], authentificationController.signup);
+router.post('/signup', [validate('body', createSchema), isUserUnique, encryptPwd], authentificationController.signup);
 
-// Middleware vérifiant le token JWT afin d'authoriser 
-// une connection aux routes et désignant le user signed in (req.userId)
+// Middleware vérifiant le token JWT afin d'authoriser
+// une connexion aux routes et désignant le user signed in (req.userId)
 router.use(jwtAuth)
 
 /**
  * USER
  */
 
-router
-    .route('/user')
+router.route('/user')
     .get(userController.getInfo)
-    .patch([isUserUnique, encryptPwd], userController.modify)
+    .patch(validate('body', updateSchema), [isUserUnique, encryptPwd], userController.modify)
     .delete(userController.delete);
 
 /**
@@ -53,4 +59,5 @@ router.route('/favorite/:id(\\d+)')
  */
 
 // router.get('/search/*', searchController)
+
 module.exports = router;

@@ -10,7 +10,7 @@
 GET {{ endpoint }}/userss
 
 #########################
-#         SIGNUP         #
+#         SIGNUP        #
 #########################
 
 ### Créer un user avec email déja existant
@@ -58,6 +58,7 @@ content-type: application/json
   "email": "pierre@gmail.com",
   "password": "Bcde!1234"
 }
+
 ### Login en erreur email
 POST {{ endpoint }}/login
 content-type: application/json
@@ -90,7 +91,7 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY4MzkxMjUxMywiZXhwIjoxNjg0NTE3MzEzfQ.F0o4aGsGh-Z7M3XLzEZmTyS_gI7AhU22Jjm3EOqOQHw
 
 {
-    "email": "pierre@gmail.com"
+  "email": "pierre@gmail.com"
 }
 
 ### Modifier l'email du user signedin
@@ -99,17 +100,17 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY4MzkxMjUxMywiZXhwIjoxNjg0NTE3MzEzfQ.F0o4aGsGh-Z7M3XLzEZmTyS_gI7AhU22Jjm3EOqOQHw
 
 {
-    "email": "testing89@hotmail.com"
+  "email": "testing89@hotmail.com"
 }
 
-### Modifier le password et le firstname du user signedin
+### Modifier le password (attention à la conformité) et le firstname du user signedin
 PATCH {{ endpoint }}/user
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY4MzkxMjUxMywiZXhwIjoxNjg0NTE3MzEzfQ.F0o4aGsGh-Z7M3XLzEZmTyS_gI7AhU22Jjm3EOqOQHw
 
 {
-    "password": "Superpassword99",
-    "firstname": "Jean-Pascal"
+  "password": "Superpassword-99",
+  "firstname": "Jean-Pascal"
 }
 
 ### Supprimer le user signedin
@@ -152,4 +153,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhd
 ### Supprimer un favori par son id
 DELETE {{ endpoint }}/favorite/4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
+
 
