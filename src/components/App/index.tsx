@@ -5,6 +5,7 @@ import Footer from '../Footer';
 import Home from '../Home';
 import SignupPage from '../SignupPage';
 import LoginPage from '../loginPage';
+import ErrorPage from '../Error';
 
 function App() {
   const location = useLocation();
@@ -26,6 +27,10 @@ function App() {
         <Route
           path="/login"
           element={<LoginPage />}
+        />
+        <Route
+          path="*"
+          element={<ErrorPage />}
         />
       </Routes>
       <Footer />
