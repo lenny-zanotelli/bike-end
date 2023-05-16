@@ -1,9 +1,11 @@
+import parseJwt from './parseJwt';
+
 export const getUserDataFromLocalStorage = () => {
-  const userDataStr = localStorage.getItem('login');
-  const userData = userDataStr ? (JSON.parse(userDataStr)) : null;
+  const token = localStorage.getItem('token');
+  const userData = token ? parseJwt(token) : null;
   return userData;
 };
 
 export const removeUserDataFromLocalStorage = () => {
-  localStorage.removeItem('login');
+  localStorage.removeItem('token');
 };

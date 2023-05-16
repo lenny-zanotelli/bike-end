@@ -20,6 +20,7 @@ interface LoginStates {
 
 // Récupération de données dans le localStorage
 const userData = getUserDataFromLocalStorage();
+const savedToken = localStorage.getItem('token');
 
 const initialState: LoginStates = {
   logged: false,
@@ -33,7 +34,7 @@ const initialState: LoginStates = {
   acceptedConditions: false,
   isLoading: false,
   error: null,
-  token: '',
+  token: savedToken || '',
   ...userData,
 };
 
@@ -53,7 +54,7 @@ export const login = createAppAsyncThunk(
       email,
       password,
     });
-    localStorage.setItem('login', JSON.stringify(data));
+    localStorage.setItem('token', JSON.stringify(data));
     return data;
   },
 );
@@ -75,7 +76,7 @@ export const register = createAppAsyncThunk(
       passwordCheck,
       acceptedConditions,
     });
-    localStorage.setItem('register', JSON.stringify(data));
+    localStorage.setItem('token', JSON.stringify(data));
     return data;
   },
 );
@@ -85,8 +86,13 @@ export const changeCredentialsField = createAction<{
   value: string;
 }>('login/CHANGE_CREDENTIALS_FIELD');
 
+export const updateLoginStatus = createAction<boolean>('login/UPDATE_LOGIN_STATUS');
+
 const loginReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(updateLoginStatus, (state, action) => {
+      state.logged = action.payload;
+    })
     .addCase(toggleAcceptedConditions, (state) => {
       state.acceptedConditions = !state.acceptedConditions;
     })
