@@ -10,6 +10,32 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     my: '0.5rem',
+    '@media screen and (min-width : 768px)': {
+      display: 'flex',
+      justifyContent: 'space-around',
+      gap: '15rem',
+      alignItems: 'center',
+      textAlign: 'center',
+      width: '100vw',
+      height: '5rem',
+      px: '3rem',
+      m: '0',
+      marginBottom: '1rem',
+      background: '#D1EFEC',
+    },
+  },
+  headerTitleTagline: {
+    '@media screen and (min-width : 768px)': {
+      display: 'flex',
+      width: '60rem',
+      alignItems: 'center',
+    },
+  },
+  headerTagline: {
+    '@media screen and (min-width: 768px)': {
+      paddingLeft: '0.7rem',
+      fontSize: '1.44rem',
+    },
   },
   headerTitle: {
     fontSize: '2rem',
@@ -25,6 +51,7 @@ function SearchHeader() {
     <Container
       component="header"
       className="header"
+      maxWidth={false}
       sx={styles.header}
     >
       <Link
@@ -38,6 +65,7 @@ function SearchHeader() {
       <Container
         component="section"
         className="header__title-tagline"
+        sx={styles.headerTitleTagline}
 
       >
         <Typography
@@ -49,6 +77,7 @@ function SearchHeader() {
         </Typography>
         <Typography
           className="header__tagline hidden"
+          sx={styles.headerTagline}
         >
           Le planificateur des week-ends qui font du bien à la tête et à la planète !
         </Typography>

@@ -1,11 +1,12 @@
 import Footer from '../Footer';
+import SearchBody from './SearchBody';
 import SearchHeader from './SearchHeader';
 
 function searchPage() {
   return (
     <>
       <SearchHeader />
-      <h2> C&apos;est la page de recherche</h2>
+      <SearchBody />
       <Footer />
     </>
   );
