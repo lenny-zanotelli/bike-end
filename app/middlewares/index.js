@@ -35,16 +35,5 @@ const isUserUnique = async (req, res, next) => {
         next();
     }
 };
-const passwordCheck = (req, res, next) => {
-    if (req.body.password != req.body.passwordCheck) {
-        res.status(400).json(
-            'Password and verification password are different'
-        );
-    } else {
-        // On supprime de newUser le pswdCheck qui n'ira pas en BDD
-        delete req.body.passwordCheck;
-        next();
-    }
-};
 
-module.exports = { jwtAuth, passwordCheck, isUserUnique, encryptPwd };
+module.exports = { jwtAuth, isUserUnique, encryptPwd };
