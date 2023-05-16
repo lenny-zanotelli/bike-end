@@ -2,7 +2,6 @@ import { createAction, createReducer } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../utils/redux';
 import { getUserDataFromLocalStorage } from '../../utils/login';
 import { axiosInstance } from '../../utils/axios';
-import { LoginResponse } from '../../@types/login';
 
 interface LoginStates {
   logged: boolean;
@@ -11,7 +10,7 @@ interface LoginStates {
     lastname: string;
     email: string;
     password: string;
-    confirmPassword: string;
+    passwordCheck: string;
   },
   acceptedConditions: boolean;
   isLoading: boolean;
@@ -29,7 +28,7 @@ const initialState: LoginStates = {
     lastname: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    passwordCheck: '',
   },
   acceptedConditions: false,
   isLoading: false,
@@ -49,14 +48,13 @@ export const login = createAppAsyncThunk(
   'login/LOGIN',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
-
     const { email, password } = state.login.credentials;
     const { data } = await axiosInstance.post('/login', {
       email,
       password,
     });
     localStorage.setItem('login', JSON.stringify(data));
-    return data as LoginResponse;
+    return data;
   },
 );
 
@@ -66,7 +64,7 @@ export const register = createAppAsyncThunk(
     const state = thunkAPI.getState();
     // const body = JSON.stringify(newUser);
     const {
-      firstname, lastname, email, password,
+      firstname, lastname, email, password, passwordCheck,
     } = state.login.credentials;
     const { acceptedConditions } = state.login;
     const { data } = await axiosInstance.post('/signup', {
@@ -74,9 +72,10 @@ export const register = createAppAsyncThunk(
       lastname,
       email,
       password,
+      passwordCheck,
       acceptedConditions,
     });
-    localStorage.setItem('login', JSON.stringify(data));
+    localStorage.setItem('register', JSON.stringify(data));
     return data;
   },
 );
@@ -103,7 +102,7 @@ const loginReducer = createReducer(initialState, (builder) => {
       state.isLoading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      state.logged = action.payload.logged;
+      state.logged = true;
       state.isLoading = false;
       state.token = action.payload.token;
       // Réinitialiser le state des credentials

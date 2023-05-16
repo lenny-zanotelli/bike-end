@@ -44,16 +44,9 @@ function SignupPage() {
   const password = useAppSelector((state) => state.login.credentials.password);
   const firstname = useAppSelector((state) => state.login.credentials.firstname);
   const lastname = useAppSelector((state) => state.login.credentials.lastname);
-  const confirmPassword = useAppSelector((state) => state.login.credentials.confirmPassword);
+  const passwordCheck = useAppSelector((state) => state.login.credentials.passwordCheck);
   const acceptedConditions = useAppSelector((state) => state.login.acceptedConditions);
-
-  // const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.target;
-  //   dispatch((prevFormData) => ({
-  //     ...prevFormData,
-  //     [name]: value,
-  //   }));
-  // };
+  const isError = useAppSelector((state) => state.login.error);
 
   const handleChangeField = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -71,15 +64,18 @@ function SignupPage() {
   };
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
+    const regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{8,16}$/;
     event.preventDefault();
-    if (password !== confirmPassword) {
+    if (password !== passwordCheck) {
       console.log('ca match pas');
-    } else {
-      dispatch(register());
-      console.log('submit');
+      return;
     }
-
-    // TODO : dispatch(submitPayload)));
+    if (!regex.test(password)) {
+      console.log('le mot de passe doit contenir...');
+      return;
+    }
+    dispatch(register());
+    console.log('submit');
   };
 
   return (
@@ -126,6 +122,7 @@ function SignupPage() {
         >
 
           <TextField
+          // TODO Créer des errors sous les TextField pour informer l'user
             sx={inputStyle}
             color="success"
             fullWidth
@@ -177,9 +174,9 @@ function SignupPage() {
             sx={inputStyle}
             color="success"
             type="password"
-            name="confirmPassword"
+            name="passwordCheck"
             label="Confirmer le mot de passe"
-            value={confirmPassword}
+            value={passwordCheck}
             onChange={handleChangeField}
             size="small"
           />
@@ -192,7 +189,7 @@ function SignupPage() {
                   onChange={handleChangeCheckBox}
                   color="success"
                 />
-)}
+                )}
               label="J'accepte les CGU"
             />
           </div>
