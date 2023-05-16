@@ -9,8 +9,6 @@ module.exports = Joi.object({
         .regex(RegExp(pattern))
         .min(8)
         .max(20),
-    passwordCheck: Joi.any()
-        .valid(Joi.ref('password')),
     firstname: Joi.string()
         .min(2),
     lastname: Joi.string()

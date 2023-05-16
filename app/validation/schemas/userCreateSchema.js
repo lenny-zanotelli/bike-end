@@ -11,15 +11,14 @@ module.exports = Joi.object({
         .min(8)
         .max(20)
         .required(),
-    passwordCheck: Joi.any()
-        .valid(Joi.ref('password'))
-        .required(),
     firstname: Joi.string()
         .min(2)
         .required(),
     lastname: Joi.string()
         .min(2)
         .required(),
-    acceptedConditions: Joi.bool()
+    acceptedConditions: Joi.boolean()
+        .strict()
+        .valid(true)
         .required()
 }).required();

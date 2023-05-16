@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "init": "npm i && npm run createdb",
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "builddev" : "npm i && sqitch deploy",
+    "buildprod": "sqitch --target production deploy",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "createdb": "createdb bikeend && sqitch deploy",
     "resetdb": "sqitch revert -y && sqitch deploy"
   },
   "repository": {
