@@ -102,7 +102,7 @@ module.exports = {
                 return res.status(400).json('This favorite does not exist');
             }
 
-            return res.status(400).json('Favorite deleted !');
+            return res.status(204).json('Favorite deleted !');
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occured');

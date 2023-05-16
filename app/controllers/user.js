@@ -77,7 +77,7 @@ module.exports = {
                 return res.status(400).json('This user does not exists');
             }
             // on renvoie un code 204 = no content
-            return res.status(204).json();
+            return res.status(204).json('User deleted');
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occured');
