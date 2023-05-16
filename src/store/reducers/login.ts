@@ -125,10 +125,14 @@ const loginReducer = createReducer(initialState, (builder) => {
       state.isLoading = true;
     })
     .addCase(register.fulfilled, (state, action) => {
-      state.logged = false;
+      state.logged = true;
       state.isLoading = false;
       state.acceptedConditions = true;
       state.token = action.payload.token;
+      // Réinitialiser le state des credentials
+      state.credentials.email = '';
+      state.credentials.password = '';
+      state.credentials.passwordCheck = '';
     });
 });
 

@@ -2,7 +2,7 @@ import './styles.scss';
 import {
   Button, TextField, Checkbox, Container, Box, FormControlLabel, Typography,
 } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
@@ -31,14 +31,7 @@ const inputStyle = {
 
 function SignupPage() {
   const dispatch = useAppDispatch();
-  // const [checked, setChecked] = useState(true);
-  // const [formData, setFormData] = useState({
-  //   firstName: '',
-  //   lastName: '',
-  //   email: '',
-  //   password: '',
-  //   confirmPassword: '',
-  // });
+  const navigate = useNavigate();
 
   const email = useAppSelector((state) => state.login.credentials.email);
   const password = useAppSelector((state) => state.login.credentials.password);
@@ -64,7 +57,13 @@ function SignupPage() {
   };
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
-    const regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{8,16}$/;
+    // This regex matches only when all the following are true:
+    // password must contain 1 number (0-9)
+    // password must contain 1 uppercase letters
+    // password must contain 1 lowercase letters
+    // password must contain 1 non-alpha numeric number
+    // password is 8-16 characters with no space
+    const regex = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/;
     event.preventDefault();
     if (password !== passwordCheck) {
       console.log('ca match pas');
@@ -76,6 +75,7 @@ function SignupPage() {
     }
     dispatch(register());
     console.log('submit');
+    navigate('/');
   };
 
   return (
