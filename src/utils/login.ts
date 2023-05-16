@@ -1,8 +1,6 @@
-import { LoginResponse } from '../@types/login';
-
 export const getUserDataFromLocalStorage = () => {
   const userDataStr = localStorage.getItem('login');
-  const userData = userDataStr ? (JSON.parse(userDataStr) as LoginResponse) : null;
+  const userData = userDataStr ? (JSON.parse(userDataStr)) : null;
   return userData;
 };
 
