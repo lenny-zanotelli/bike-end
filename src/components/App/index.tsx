@@ -6,6 +6,7 @@ import Home from '../Home';
 import SignupPage from '../SignupPage';
 import LoginPage from '../loginPage';
 import ErrorPage from '../Error';
+import MyAccount from '../MyAccount';
 
 function App() {
   const location = useLocation();
@@ -27,6 +28,10 @@ function App() {
         <Route
           path="/login"
           element={<LoginPage />}
+        />
+        <Route
+          path="/Account"
+          element={<MyAccount />}
         />
         <Route
           path="*"

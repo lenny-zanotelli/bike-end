@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { RootState } from '../../store';
-import { fetchUser } from '../../store/reducers/user';
+import { fetchUser, deleteUser } from '../../store/reducers/user';
 import { logout } from '../../store/reducers/login';
 import { removeUserDataFromLocalStorage } from '../../utils/login';
 
@@ -79,9 +79,13 @@ function MyAccount() {
 
   const handleLoggout = () => {
     dispatch(logout());
-    removeUserDataFromLocalStorage();
     navigate("/");
   };
+
+  const handleDeleteUser = () => {
+    dispatch(deleteUser());
+    navigate("/");
+  }
 
   const { firstname, lastname, email } = useAppSelector((state: RootState) => state.user);
 
@@ -255,15 +259,14 @@ function MyAccount() {
       >
         Se deconnecter
       </Button>
-      <Link
-        sx={{
-          mt: '4rem',
-        }}
-        href="/"
-        underline="always"
+      <Button
+        type="submit"
+        sx={styles.buttonStyle}
+        variant="contained"
+        onClick={handleDeleteUser}
       >
         Supprimer mon compte
-      </Link>
+      </Button>
     </Container>
 
   );

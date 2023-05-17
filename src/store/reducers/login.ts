@@ -139,6 +139,7 @@ const loginReducer = createReducer(initialState, (builder) => {
     // LOGGOUT
     .addCase(logout, (state) => {
       state.logged = false;
+      removeUserDataFromLocalStorage();
     });
 });
 
