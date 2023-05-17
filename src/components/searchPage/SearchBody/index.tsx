@@ -1,12 +1,10 @@
 import {
+  Button,
   Container, InputAdornment, TextField, Typography,
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const styles = {
-  container: {
-    // m: '2rem',
-  },
   containerTitle: {
     fontSize: '1.2rem',
     textAlign: 'center',
@@ -19,12 +17,15 @@ const styles = {
     gap: '0.7rem',
     px: '1.5rem',
   },
-  // // searchFormInputCity: {
-  //   backgroundImage: `url(${mapPointerIcon})`,
-  //   backgroundSize: '20px',
-  //   backgroundRepeat: 'no-repeat',
-  //   backgroundPosition: 'bottom 50% right 4%',
-  // },
+  searchFormFilterSection: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    px: '0',
+  },
+  searchFormInputFilter: {
+    padding: '0.6rem',
+    width: '40vw',
+  },
 } as const;
 
 function SearchBody() {
@@ -32,7 +33,6 @@ function SearchBody() {
     <Container
       component="main"
       className="container"
-      sx={styles.container}
     >
       <Typography
         component="h1"
@@ -77,11 +77,71 @@ function SearchBody() {
           }}
         />
         <Container
-          component="section"
+          component="article"
           className="search-form__filter-section"
+          sx={styles.searchFormFilterSection}
+        >
+          <TextField
+            className="search-form__input-filter"
+            type="date"
+            name="date"
+            color="success"
+          />
+          <TextField
+            className="search-form__input-filter"
+            type="time"
+            name="time"
+            color="success"
+          />
+        </Container>
+      </Container>
+      <Container
+        component="section"
+        className="container__filter-form"
+      />
+      <Container
+        component="article"
+      >
+        <Typography
+          component="h2"
+          className="filter-form__title"
+        >
+          Filtres :
+        </Typography>
+        <TextField
+          type="number"
+          placeholder="Budget"
+          className="filter-form__input_euro"
         />
-        <TextField />
-        <TextField />
+        <TextField
+          className="filter-form__input_journey-travel"
+          type="text"
+          placeholder="Temps de trajet"
+        />
+      </Container>
+      <Container
+        component="article"
+        className="filter-form__btn"
+      >
+        <Button
+          className=""
+          type="button"
+          size="large"
+          variant="contained"
+          color="success"
+        >
+          Recherche
+        </Button>
+        <Button
+          className=""
+          type="button"
+          size="large"
+          variant="contained"
+          color="error"
+        >
+          Réinitialiser
+        </Button>
+
       </Container>
     </Container>
 
