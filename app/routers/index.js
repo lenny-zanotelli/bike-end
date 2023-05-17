@@ -13,7 +13,7 @@ const updateSchema = require('../validation/schemas/userUpdateSchema');
 
 // Importation des middlewares
 // TODO replace passwordCheck by JOI
-const { encryptPwd, passwordCheck, jwtAuth, isUserUnique } = require('../middlewares');
+const { encryptPwd, jwtAuth, isUserUnique } = require('../middlewares');
 
 // post /login pour se connecter
 router.post('/login', [validate('body', loginSchema)], authentificationController.login);
@@ -31,7 +31,7 @@ router.use(jwtAuth)
 
 router.route('/user')
     .get(userController.getInfo)
-    .patch(validate('body', updateSchema), [isUserUnique, encryptPwd], userController.modify)
+    .patch([validate('body', updateSchema), isUserUnique, encryptPwd], userController.modify)
     .delete(userController.delete);
 
 /**

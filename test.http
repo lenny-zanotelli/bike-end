@@ -6,6 +6,8 @@
 
 # Base URL
 @endpoint = http://localhost:{{$dotenv PORT}}
+@tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDE2MTI2MywiZXhwIjoxNjg0NzY2MDYzfQ.0DGt8YAZLq_L5JjuSPHHZ3xS56rfJ0sfhlcsDS2ouDc
+@tokenDeJean = 
 
 # Token du user connecté
 @authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY4NDIyNjE2MCwiZXhwIjoxNjg0ODMwOTYwfQ.g64TjLgTkIpyQjJflUD6Frnt-wzqTYKOc2PRTJVMOB4
@@ -87,21 +89,21 @@ content-type: application/json
 
 ### Récupérér les infos du user signedin
 GET {{ endpoint }}/user
-Authorization: {{ authorization }}
+Authorization: Bearer {{tokenDePierre}}
 
 ### Modifier le user signedin avec un email déja utilisé
 PATCH {{ endpoint }}/user
 content-type: application/json
-Authorization: {{ authorization }}
+Authorization: Bearer {{tokenDePierre}}
 
 {
-  "email": "pierrepaul@gmail.com"
+  "email": "jeanjacques@gmail.com"
 }
 
 ### Modifier l'email du user signedin
 PATCH {{ endpoint }}/user
 content-type: application/json
-Authorization: {{ authorization }}
+Authorization: Bearer {{tokenDePierre}}
 
 {
   "email": "testing89@hotmail.com"
@@ -110,16 +112,16 @@ Authorization: {{ authorization }}
 ### Modifier le password (attention à la conformité) et le firstname du user signedin
 PATCH {{ endpoint }}/user
 content-type: application/json
-Authorization: {{ authorization }}
+Authorization: Bearer {{tokenDePierre}}
 
 {
-  "password": "Superpassword-99",
+  "password": "Superpassword99",
   "firstname": "Jean-Pascal"
 }
 
 ### Supprimer le user signedin
 DELETE {{ endpoint }}/user
-Authorization: {{ authorization }}
+Authorization: Bearer {{tokenDeJean}}
 
 #########################
 #       FAVORITE        #
@@ -127,12 +129,12 @@ Authorization: {{ authorization }}
 
 ### Liste des favoris
 GET {{ endpoint }}/favorite
-Authorization: {{ authorization }}
+Authorization: Bearer {{tokenDePierre}}
 
 ### Créer un favori
 POST {{ endpoint }}/favorite
 content-type: application/json
-Authorization: {{ authorization }}
+Authorization: Bearer {{tokenDePierre}}
 
 {
     "origin": "TestUserOneIsLoggedIn",
@@ -142,13 +144,13 @@ Authorization: {{ authorization }}
 }
 
 ### Récupérér un favori par son id
-GET {{ endpoint }}/favorite/3
-Authorization: {{ authorization }}
+GET {{ endpoint }}/favorite/5
+Authorization: Bearer {{tokenDePierre}}
 
 ### Modifier un favori
 PATCH {{ endpoint }}/favorite/3
 content-type: application/json
-Authorization: {{ authorization }}
+Authorization: Bearer {{tokenDePierre}}
 
 {
     "comment": "Commentaire du user_id 1 Ok ça marche"
@@ -156,4 +158,6 @@ Authorization: {{ authorization }}
 
 ### Supprimer un favori par son id
 DELETE {{ endpoint }}/favorite/4
-Authorization: {{ authorization }}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
+
+
