@@ -3,7 +3,8 @@ import { getUserDataFromLocalStorage } from './login';
 
 // eslint-disable-next-line import/prefer-default-export
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://bikeend-api.up.railway.app',
+  // baseURL: 'http://localhost:3000',
 });
 
 axiosInstance.interceptors.request.use((config) => {
