@@ -56,7 +56,17 @@ Authorization: 3b036afe-0110-4202-b9ed-99718476c2e0
 ### je veux : pas de tspt sans vélo, vélo start and end, sortir de ma ville/département
 GET {{ endpointnavitia }}/journeys?from=2.37825371181375;48.84915325462162
 Authorization: {{tokenNavitia}}
-
 # &first_section_mode[]=bike&last_section_mode[]=bike&datetime=20230511180000&max_duration=10800&forbidden_uris[physical_mode:Air]&forbidden_uris[physical_mode:Boat]&forbidden_uris[physical_mode:Bus]&forbidden_uris[physical_mode:BusRapidTransit]&forbidden_uris[physical_mode:Coach]&forbidden_uris[physical_mode:Funicular]&forbidden_uris[physical_mode:Metro]&forbidden_uris[physical_mode:Shuttle]&forbidden_uris[physical_mode:SuspendedCableCar]&forbidden_uris[physical_mode:Taxi]
 
 
+### list of stop_areas
+GET {{ endpointsncf }}/coverage/sncf/stop_areas/
+Authorization: d89b1fe0-fba5-49b5-97b5-834ac3b06573
+
+### Autour de Paris
+GET https://api.sncf.com/v1/coverage/sncf/places?q=paris&type[]=address
+Authorization: d89b1fe0-fba5-49b5-97b5-834ac3b06573
+
+### Places autres que SNCF avec token NAVITIA
+GET https://api.navitia.io/v1/places?q=New%20York&type[]=address
+Authorization: a3719a36-24fa-4219-be58-381c5a869b5f

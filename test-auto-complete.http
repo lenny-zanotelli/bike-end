@@ -1,0 +1,19 @@
+# TESTS search auto-complete
+
+# Base URL
+@endpoint = http://localhost:{{$dotenv PORT}}
+
+# Token du user connecté
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY4NDIyNjE2MCwiZXhwIjoxNjg0ODMwOTYwfQ.g64TjLgTkIpyQjJflUD6Frnt-wzqTYKOc2PRTJVMOB4
+
+### 404
+GET {{ endpoint }}/search
+Authorization: {{ authorization }}
+
+#########################
+#         SEARCH        #
+#########################
+
+### Obtenir des places existantes en auto-complete
+GET {{ endpoint }}/search/auber
+Authorization: {{ authorization }}

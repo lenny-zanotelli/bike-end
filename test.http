@@ -4,12 +4,17 @@
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 ################################################################################
 
+# Base URL
 @endpoint = http://localhost:{{$dotenv PORT}}
 @tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDE2MTI2MywiZXhwIjoxNjg0NzY2MDYzfQ.0DGt8YAZLq_L5JjuSPHHZ3xS56rfJ0sfhlcsDS2ouDc
 @tokenDeJean = 
 
+# Token du user connecté
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY4NDIyNjE2MCwiZXhwIjoxNjg0ODMwOTYwfQ.g64TjLgTkIpyQjJflUD6Frnt-wzqTYKOc2PRTJVMOB4
+
 ### 404
-GET {{ endpoint }}/userss
+GET {{ endpoint }}/usersss
+Authorization: {{ authorization }}
 
 #########################
 #         SIGNUP        #
@@ -78,7 +83,6 @@ content-type: application/json
   "password": "Bcde!1235"
 }
 
-
 #########################
 #         USERS         #
 #########################
@@ -144,7 +148,7 @@ GET {{ endpoint }}/favorite/5
 Authorization: Bearer {{tokenDePierre}}
 
 ### Modifier un favori
-PATCH {{ endpoint }}/favorite/5
+PATCH {{ endpoint }}/favorite/3
 content-type: application/json
 Authorization: Bearer {{tokenDePierre}}
 
@@ -154,6 +158,6 @@ Authorization: Bearer {{tokenDePierre}}
 
 ### Supprimer un favori par son id
 DELETE {{ endpoint }}/favorite/4
-Authorization: Bearer {{tokenDePierre}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
 
 
