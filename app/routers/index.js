@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Importation des controllers
-const { userController, authentificationController, favoriteController } = require('../controllers/');
+const { userController, authentificationController, favoriteController, autoCompleteController } = require('../controllers/');
 
 // Importation de la validation par JOI
 const validate = require('../validation/validator');
@@ -59,5 +59,9 @@ router.route('/favorite/:id(\\d+)')
  */
 
 // router.get('/search/*', searchController)
+
+// On récupère les suggestions de lieux en auto-complete
+router.route('/search/:place')
+    .get(autoCompleteController.getPlacesByQuery);
 
 module.exports = router;
