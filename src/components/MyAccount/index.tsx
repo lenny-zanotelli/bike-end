@@ -8,9 +8,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { RootState } from '../../store';
 import { fetchUser } from '../../store/reducers/user';
+import { logout } from '../../store/reducers/login';
+import { removeUserDataFromLocalStorage } from '../../utils/login';
 
 const styles = {
   containerAccount: {
@@ -55,6 +58,8 @@ const styles = {
 };
 
 function MyAccount() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   // MODAL
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
@@ -72,13 +77,17 @@ function MyAccount() {
     handleClose();
   };
 
-  const dispatch = useAppDispatch();
+  const handleLoggout = () => {
+    dispatch(logout());
+    removeUserDataFromLocalStorage();
+    navigate("/");
+  };
+
   const { firstname, lastname, email } = useAppSelector((state: RootState) => state.user);
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
-
 
   return (
     <Container
@@ -242,6 +251,7 @@ function MyAccount() {
         type="submit"
         sx={styles.buttonStyle}
         variant="contained"
+        onClick={handleLoggout}
       >
         Se deconnecter
       </Button>

@@ -1,5 +1,5 @@
 import { createAsyncThunk, PayloadAction, createReducer } from '@reduxjs/toolkit';
-import { axiosInstance } from '../../utils/axios';
+import axios from 'axios';
 
 interface UserState {
   firstname: string;
@@ -18,9 +18,23 @@ const initialState: UserState = {
 };
 
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
-  const response = await axiosInstance.get('/user');
-  console.log(response.data);
-  return response.data;
+  const tokenWithQuotes = localStorage.getItem('token');
+  if (tokenWithQuotes) {
+    try {
+      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get('http://localhost:3000/user', { headers });
+      const userData = response.data;
+      return userData;
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    console.log('Pas de TOKEN');
+  }
 });
 
 const userReducer = createReducer(initialState, (builder) => {

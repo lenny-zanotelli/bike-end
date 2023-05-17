@@ -10,6 +10,7 @@ axiosInstance.interceptors.request.use((config) => {
   const userData = getUserDataFromLocalStorage();
 
   // eslint-disable-next-line no-param-reassign
+  console.log(userData);
   config.headers.Authorization = userData ? `Bearer ${userData}` : null;
   return config;
 });

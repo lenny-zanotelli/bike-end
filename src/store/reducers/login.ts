@@ -1,6 +1,6 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../utils/redux';
-import { getUserDataFromLocalStorage } from '../../utils/login';
+import { getUserDataFromLocalStorage, removeUserDataFromLocalStorage } from '../../utils/login';
 import { axiosInstance } from '../../utils/axios';
 
 interface LoginStates {
@@ -81,6 +81,8 @@ export const register = createAppAsyncThunk(
   },
 );
 
+export const logout = createAction('login/LOGOUT');
+
 export const changeCredentialsField = createAction<{
   propertyKey: KeysOfCredentials
   value: string;
@@ -133,6 +135,10 @@ const loginReducer = createReducer(initialState, (builder) => {
       state.credentials.email = '';
       state.credentials.password = '';
       state.credentials.passwordCheck = '';
+    })
+    // LOGGOUT
+    .addCase(logout, (state) => {
+      state.logged = false;
     });
 });
 
