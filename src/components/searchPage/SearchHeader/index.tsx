@@ -60,6 +60,7 @@ function SearchHeader() {
       >
         <TravelExploreRoundedIcon
           fontSize="large"
+          color="action"
         />
       </Link>
       <Container
@@ -88,6 +89,7 @@ function SearchHeader() {
       >
         <AccountCircleRoundedIcon
           fontSize="large"
+          color="action"
         />
       </Link>
 
