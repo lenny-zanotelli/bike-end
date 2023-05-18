@@ -43,7 +43,16 @@ router.route('/favorite')
     // On récupère tous les favoris
     .get(favoriteController.getAllFavorites)
     // On ajoute un favori
-    .post(favoriteController.addToFavorites);
+    .post(favoriteController.addToFavorites); // ---->     (body {link/from/to/autres})
+// {
+//     "departure_date_time": "20230517T180000",
+//     "duration": "480",
+//     "from_name": "9 Place d'Aligre (Paris)",
+//     "from_id": "2.378441;48.84916",
+//     "to_name": "Faidherbe - Chaligny (Paris)",
+//     "to_id": "stop_point:IDFM:463172",
+//     "link": "https://api.navitia.io/v1/journeys?from=2.37825371181375%3B48.84915325462162&datetime=20230517T180000&max_duration=1200&to=stop_point%3AIDFM%3A463172"
+//   }
 
 // GET/PATCH/DELETE - /favorite/:id
 router.route('/favorite/:id(\\d+)')
@@ -61,10 +70,23 @@ router.route('/favorite/:id(\\d+)')
 // router.get('/search/*', searchController)
 
 // On récupère les suggestions de lieux en auto-complete
-router.route('/search/:place')
+router.route('/autocomplete/:place')
     .get(autoCompleteController.getPlacesByQuery);
+
 // On récupère les suggestions d'itinéraires après choix du lieu de départ
 router.route('/search/journeys/:from/:datetime/:maxduration')
     .get(journeyController.getJourneysByPlace);
+
+// V.PP On récupère les suggestions d'itinéraires après choix du lieu de départ
+router.route('/journey/search*') // ---- > get search/journeys .... searchParams
+    .get(journeyController.getJourneysByFilters);
+
+// On récupère un itinéraire détaillé après choix dans la liste des suggestions
+router.route('/journey/details/:link')//  ---->  search/details  (body {link})
+    .get(journeyController.getJourneyDetails);
+
+// V.PP On récupère un itinéraire détaillé après choix dans la liste des suggestions
+router.route('/journey/details*')//  ---->  search/details  (body {link})
+    .get(journeyController.getJourneyDetails);
 
 module.exports = router;
