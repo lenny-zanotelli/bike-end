@@ -15,5 +15,9 @@ Authorization: {{ authorization }}
 #########################
 
 ### Obtenir des places existantes en auto-complete
-GET {{ endpoint }}/search/auber
+GET {{ endpoint }}/search/aligre
+Authorization: {{ authorization }}
+
+### Obtenir des itinéraires en fonction d'un lieu choisi
+GET {{ endpoint }}/search/journeys/2.37825371181375%3B48.84915325462162/20230517T180000/1200
 Authorization: {{ authorization }}

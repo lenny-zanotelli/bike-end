@@ -1,13 +1,16 @@
 const axios = require('axios');
 
 module.exports = {
-    async findAll(queryParam) {
+    async findAll({ from, datetime = "20230531T180000", maxduration = 1200 }) {
         try {
             // On reconstruit l'url nécessaire à notre requête
             const URLtoFetch = process.env.SNCF_API_URL_NAVITIA +
-                '/places?q=' +
-                queryParam +
-                '&type[]=address&type[]=stop_area&depth=1&count=100';
+                '/journeys?from=' +
+                from +
+                '&datetime=' +
+                datetime +
+                '&max_duration=' +
+                maxduration;
             // On lance la requête get via axios avec le token valide
             const data = await axios.get(URLtoFetch,
                 {
@@ -16,8 +19,8 @@ module.exports = {
                     }
                 }
             );
-            // On renvoie uniquement un tableau de "places"
-            return data.data.places;
+            // On renvoie uniquement un tableau de "journeys"
+            return data.data.journeys;
         } catch (error) {
             console.log(error);
             throw error;
