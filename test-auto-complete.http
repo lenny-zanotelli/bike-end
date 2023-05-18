@@ -4,8 +4,8 @@
 @endpoint = http://localhost:{{$dotenv PORT}}
 
 # Token du user connecté
-@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY4NDIyNjE2MCwiZXhwIjoxNjg0ODMwOTYwfQ.g64TjLgTkIpyQjJflUD6Frnt-wzqTYKOc2PRTJVMOB4
-
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDE2MTI2MywiZXhwIjoxNjg0NzY2MDYzfQ.0DGt8YAZLq_L5JjuSPHHZ3xS56rfJ0sfhlcsDS2ouDc
+q
 ### 404
 GET {{ endpoint }}/search
 Authorization: {{ authorization }}
@@ -15,9 +15,61 @@ Authorization: {{ authorization }}
 #########################
 
 ### Obtenir des places existantes en auto-complete
-GET {{ endpoint }}/search/aligre
+GET {{ endpoint }}/autocomplete/pornic
 Authorization: {{ authorization }}
+# ATTENDU : url = /autocomplete/<les caracteres recherchés>
+# RENVOI : results = {id: string, name: string}[]
 
-### Obtenir des itinéraires en fonction d'un lieu choisi
-GET {{ endpoint }}/search/journeys/2.37825371181375%3B48.84915325462162/20230517T180000/1200
+### Obtenir des itineraires par filtre
+GET {{ endpoint }}/journey/search?from=-2.1048366;47.115432899999995&datetime=20230603T120000&max_duration=3600
 Authorization: {{ authorization }}
+# ATTENDU : url = /journey/search 
+#           & req.query = {from: string, datetime: string(YYYYMMDDThhmmss), max_duration: integer(seconds)}
+# RENVOI : results = {
+#    departure_date_time: string(YYYYMMDDThhmmss),
+#    duration: integer(seconds),
+#    from: {
+#        id: string,
+#        name: string,
+#    },
+#    to: {
+#        id: string,
+#        name: string,
+#    },
+#    nb_transfers: integer,
+#    queryUrl:string
+# }[]
+
+### Obtenir le détail d'un itinéraire sélectionné
+GET {{ endpoint }}/journey/detail?from=-2.1048366%3B47.115432899999995&datetime=20230603T120000&max_duration=7200&to=stop_point%3AP44%3A44PORTecomA
+Authorization: {{ authorization }}
+# ATTENDU : url = /journey/detail/ + journey.queryUrl
+# RENVOI : results = {
+#    departure_date_time: string(YYYYMMDDThhmmss),
+#    arrival_date_time: string(YYYYMMDDThhmmss),
+#    duration: integer(seconds),
+#    nb_transfers: integer,
+#    from: {
+#        id: string,
+#        name: string,
+#    },
+#    to: {
+#        id: string,
+#        name: string,
+#    },
+#    sections: {
+#       departure_date_time: string(YYYYMMDDThhmmss),
+#       arrival_date_time: string(YYYYMMDDThhmmss),
+#       duration: integer(seconds),
+#       nb_transfers: integer,
+#       from: {
+#           id: string,
+#           name: string,
+#       },
+#       to: {
+#           id: string,
+#           name: string,
+#       },
+#       transportMode: string
+#    }[]
+#   }
