@@ -29,6 +29,7 @@ const inputStyle = {
 } as const;
 
 function SignupPage() {
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -49,9 +50,9 @@ function SignupPage() {
     }));
   };
 
-  // eslint-disable-next-line max-len
   const handleChangeCheckBox = () => {
     dispatch(toggleAcceptedConditions());
+
     console.log('test checkbox');
   };
 
@@ -126,6 +127,7 @@ function SignupPage() {
             color="success"
             fullWidth
             required
+
             name="firstname"
             label="Prénom"
             value={firstname}
@@ -153,6 +155,7 @@ function SignupPage() {
             label="Adresse e-mail"
             value={email}
             onChange={handleChangeField}
+
             size="small"
           />
 
@@ -189,6 +192,7 @@ function SignupPage() {
                   color="success"
                 />
                 )}
+
               label="J'accepte les CGU"
             />
           </div>

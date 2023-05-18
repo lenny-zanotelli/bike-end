@@ -70,6 +70,7 @@ function LoginPage() {
     dispatch(updateLoginStatus(isUserLogged));
   });
 
+
   return (
 
     <Container
@@ -148,6 +149,7 @@ function LoginPage() {
         </Box>
 
       )}
+
     </Container>
   );
 }

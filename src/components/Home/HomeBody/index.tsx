@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+
 const styles = {
   containerBody: {
     m: '2rem',
@@ -59,6 +60,7 @@ function HomeBody() {
       </Link>
       {/* router pas encore fait, je laisse un anchor pour l'instant */}
       <Link to="login">
+
         <Button
           className="body__connect-btn"
           variant="text"
@@ -75,6 +77,7 @@ function HomeBody() {
           Se connecter
         </Button>
       </Link>
+
 
     </Box>
 
