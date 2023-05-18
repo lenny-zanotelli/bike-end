@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Importation des controllers
-const { userController, authentificationController, favoriteController, autoCompleteController } = require('../controllers/');
+const { userController, authentificationController, favoriteController, autoCompleteController, journeyController } = require('../controllers/');
 
 // Importation de la validation par JOI
 const validate = require('../validation/validator');
@@ -63,5 +63,8 @@ router.route('/favorite/:id(\\d+)')
 // On récupère les suggestions de lieux en auto-complete
 router.route('/search/:place')
     .get(autoCompleteController.getPlacesByQuery);
+// On récupère les suggestions d'itinéraires après choix du lieu de départ
+router.route('/search/journeys/:from/:datetime/:maxduration')
+    .get(journeyController.getJourneysByPlace);
 
 module.exports = router;
