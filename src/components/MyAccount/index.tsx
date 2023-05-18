@@ -6,11 +6,13 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchUser } from '../../store/reducers/user';
-import { deleteUser, logout } from '../../store/reducers/login';
+import {
+  KeysOfCredentials, changeCredentialsField, deleteUser, logout,
+} from '../../store/reducers/login';
 
 const styles = {
   containerAccount: {
@@ -64,9 +66,19 @@ const styles = {
 function MyAccount() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { firstname, lastname, email } = useAppSelector((state) => state.user);
   // MODAL
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
+
+  const handleChangeField = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    const fieldName = event.target.name as KeysOfCredentials;
+    dispatch(changeCredentialsField({
+      propertyKey: fieldName,
+      value: newValue,
+    }));
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -90,8 +102,6 @@ function MyAccount() {
     dispatch(deleteUser());
     navigate('/');
   };
-
-  const { firstname, lastname, email } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchUser());
