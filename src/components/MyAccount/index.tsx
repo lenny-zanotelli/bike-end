@@ -5,15 +5,12 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { RootState } from '../../store';
-import { fetchUser, deleteUser } from '../../store/reducers/user';
-import { logout } from '../../store/reducers/login';
-import { removeUserDataFromLocalStorage } from '../../utils/login';
+import { fetchUser } from '../../store/reducers/user';
+import { deleteUser, logout } from '../../store/reducers/login';
 
 const styles = {
   containerAccount: {
@@ -33,7 +30,7 @@ const styles = {
     px: '2rem',
   },
   buttonStyle: {
-    width: '35%',
+    width: '60%',
     mt: '1rem',
     py: '0.7rem',
     px: '1.5rem',
@@ -44,6 +41,9 @@ const styles = {
     color: 'white',
     border: 'none',
     borderRadius: '3px',
+    '@media only screen and (min-device-width : 768px)': {
+      width: '35%',
+    },
   },
   inputStyle: {
     width: '80%',
@@ -54,6 +54,10 @@ const styles = {
     position: 'absolute',
     top: '8px',
     right: '8px',
+  },
+  deleteAccountButton: {
+    my: '1rem',
+    fontSize: '0.7rem',
   },
 };
 
@@ -79,15 +83,15 @@ function MyAccount() {
 
   const handleLoggout = () => {
     dispatch(logout());
-    navigate("/");
+    navigate('/');
   };
 
   const handleDeleteUser = () => {
     dispatch(deleteUser());
-    navigate("/");
-  }
+    navigate('/');
+  };
 
-  const { firstname, lastname, email } = useAppSelector((state: RootState) => state.user);
+  const { firstname, lastname, email } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -252,6 +256,7 @@ function MyAccount() {
         Mes voyages favoris
       </Link>
       <Button
+        fullWidth
         type="submit"
         sx={styles.buttonStyle}
         variant="contained"
@@ -261,8 +266,8 @@ function MyAccount() {
       </Button>
       <Button
         type="submit"
-        sx={styles.buttonStyle}
-        variant="contained"
+        size="small"
+        sx={styles.deleteAccountButton}
         onClick={handleDeleteUser}
       >
         Supprimer mon compte

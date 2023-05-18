@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-bind */
-import './styles.scss';
 import {
   Button, Container, Box, TextField, Typography,
 } from '@mui/material';

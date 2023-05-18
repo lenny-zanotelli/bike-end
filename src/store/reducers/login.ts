@@ -1,4 +1,5 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
+import axios from 'axios';
 import { createAppAsyncThunk } from '../../utils/redux';
 import { getUserDataFromLocalStorage, removeUserDataFromLocalStorage } from '../../utils/login';
 import { axiosInstance } from '../../utils/axios';
@@ -65,7 +66,7 @@ export const register = createAppAsyncThunk(
     const state = thunkAPI.getState();
     // const body = JSON.stringify(newUser);
     const {
-      firstname, lastname, email, password, passwordCheck,
+      firstname, lastname, email, password,
     } = state.login.credentials;
     const { acceptedConditions } = state.login;
     const { data } = await axiosInstance.post('/signup', {
@@ -73,13 +74,27 @@ export const register = createAppAsyncThunk(
       lastname,
       email,
       password,
-      // passwordCheck,
       acceptedConditions,
     });
     localStorage.setItem('token', JSON.stringify(data));
     return data;
   },
 );
+
+export const deleteUser = createAppAsyncThunk('login/deleteUser', async () => {
+  const tokenWithQuotes = localStorage.getItem('token');
+  if (tokenWithQuotes) {
+    try {
+      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      await axios.delete('https://bikeend-api.up.railway.app/user', { headers });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
 
 export const logout = createAction('login/LOGOUT');
 
@@ -140,6 +155,21 @@ const loginReducer = createReducer(initialState, (builder) => {
     .addCase(logout, (state) => {
       state.logged = false;
       removeUserDataFromLocalStorage();
+    })
+  // DELETE USER
+    .addCase(deleteUser.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(deleteUser.fulfilled, (state) => {
+      state.logged = false;
+      state.isLoading = false;
+      state.error = null;
+      removeUserDataFromLocalStorage();
+    })
+    .addCase(deleteUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || 'Une erreur est survenue';
     });
 });
 
