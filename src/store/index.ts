@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './reducers/user';
 import loginReducer from './reducers/login';
+import searchReducer from './reducers/search';
 
 const store = configureStore({
   reducer: {
     login: loginReducer,
     user: userReducer,
+    search: searchReducer,
   },
 });
 
