@@ -1,4 +1,3 @@
-import './styles.scss';
 import {
   Button, TextField, Checkbox, Container, Box, FormControlLabel, Typography,
 } from '@mui/material';
