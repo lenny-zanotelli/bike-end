@@ -14,7 +14,7 @@
 
 ### 404
 GET {{ endpoint }}/usersss
-Authorization: {{ authorization }}
+Authorization: {{ tokenDePierre }}
 
 #########################
 #         SIGNUP        #

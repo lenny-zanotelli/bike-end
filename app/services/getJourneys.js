@@ -45,10 +45,10 @@ module.exports = {
             throw error;
         }
     },
-    async findByParams(params) {
+    async findByQueryUrl(queryUrl) {
         try {
             // On reconstruit l'url nécessaire à notre requête
-            const URLtoFetch = process.env.SNCF_API_URL_NAVITIA+'journeys'+params;
+            const URLtoFetch = process.env.SNCF_API_URL_NAVITIA+queryUrl;
             // On lance la requête get via axios avec le token valide
             const data = await axios.get(URLtoFetch,
                 {
