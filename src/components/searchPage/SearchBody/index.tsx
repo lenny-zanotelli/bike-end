@@ -8,7 +8,7 @@ import { Image } from 'mui-image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
 import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import testImg from '../../../assets/images/test-searchPage-desktop.jpg';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { fetchResult } from '../../../store/reducers/search';
@@ -113,10 +113,8 @@ function SearchBody() {
     dispatch(fetchResult(newValue));
   };
 
-  const queryItems = query ? query.map((item) => ({
-    id: item.id,
-    name: item.name,
-  })) : [];
+  const uniqueOptions = Array.from(new Set(query?.map((item) => item.name)));
+
   return (
     <Container
       className="desktop-container"
@@ -155,16 +153,17 @@ function SearchBody() {
             disableClearable
             clearOnEscape
             noOptionsText="No Destination"
-            options={queryItems}
-            getOptionLabel={(option) => (typeof option === 'string' ? option : option.name)}
+            options={uniqueOptions}
             renderInput={(params) => (
               <TextField
+                variant="outlined"
+                label="Lieu de départ"
+                margin="dense"
                 {...params}
                 className="search-form__input-city"
                 fullWidth
                 onChange={handleAutoCompleteChange}
                 name="city-start"
-                placeholder="Lieu de départ"
                 aria-placeholder="Lieu de départ"
                 color="success"
                 InputProps={{

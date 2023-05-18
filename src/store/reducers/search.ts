@@ -45,9 +45,9 @@ const searchReducer = createReducer(initialState, (builder) => {
     .addCase(fetchResult.fulfilled, (state, action) => {
       state.query = action.payload;
     })
-    // .addCase(fetchResult.pending, (state, action) => {
-    //   state = initialState;
-    // })
+    .addCase(fetchResult.pending, (state, action) => {
+      state.query = initialState.query;
+    })
     .addCase(fetchResult.rejected, (state, action) => {
       state.error = action.error.message || 'NUL';
     });
