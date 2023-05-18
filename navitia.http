@@ -72,9 +72,9 @@ GET https://api.navitia.io/v1/places?q=New%20York&type[]=address
 Authorization: a3719a36-24fa-4219-be58-381c5a869b5f
 
 ### Journeys en fonction d'une place avec token NAVITIA
-GET https://api.navitia.io/v1/journeys?from=2.37825371181375%3B48.84915325462162&datetime=20230517T140000&max_duration=600
+GET https://api.navitia.io/v1/journeys?from=2.37825371181375%3B48.84915325462162&datetime=20230517T140000&max_duration=1200
 Authorization: a3719a36-24fa-4219-be58-381c5a869b5f
 
-### Journey détaillé choisi dans la liste de suggestions
-GET https://api.navitia.io/v1/journeys?from=2.37825371181375%3B48.84915325462162&datetime=20230517T180000&max_duration=1200&to=stop_point%3AIDFM%3A463172
+### Journey détaillé choisi dans la liste des suggestions
+GET https://api.navitia.io/v1/journeys?from=2.37825371181375%3B48.84915325462162&datetime=20230517T140000&max_duration=1200&to=stop_point%3AIDFM%3A24976
 Authorization: a3719a36-24fa-4219-be58-381c5a869b5f
