@@ -9,22 +9,27 @@ export interface Query {
 
 interface SearchState {
   query: Query[];
+  error: string | null;
 }
 
 const initialState: SearchState = {
   query: [],
+  error: null,
 };
 
-export const fetchResult = createAppAsyncThunk('search/fetchResult', async () => {
+// eslint-disable-next-line consistent-return
+export const fetchResult = createAppAsyncThunk('search/fetchResult', async (input: string) => {
   const tokenWithQuotes = localStorage.getItem('token');
-  if (tokenWithQuotes) {
+  if (!input) {
+    console.log('PAS DE REQUETE YA TCHI');
+  } else if (tokenWithQuotes) {
     try {
       const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
 
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      const response = await axios.get('https://bikeend-api.up.railway.app/search/Nantes', { headers });
+      const response = await axios.get(`https://bikeend-api.up.railway.app/search/${input}`, { headers });
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -39,6 +44,12 @@ const searchReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchResult.fulfilled, (state, action) => {
       state.query = action.payload;
+    })
+    // .addCase(fetchResult.pending, (state, action) => {
+    //   state = initialState;
+    // })
+    .addCase(fetchResult.rejected, (state, action) => {
+      state.error = action.error.message || 'NUL';
     });
 });
 
