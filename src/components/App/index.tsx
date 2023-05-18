@@ -8,8 +8,10 @@ import SignupPage from '../SignupPage';
 import LoginPage from '../loginPage';
 import ErrorPage from '../Error';
 import SearchPage from '../searchPage';
+import MyAccount from '../MyAccount';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { updateLoginStatus } from '../../store/reducers/login';
+
 
 function App() {
   const location = useLocation();
@@ -39,6 +41,10 @@ function App() {
         <Route
           path="/login"
           element={<LoginPage />}
+        />
+        <Route
+          path="/account"
+          element={<MyAccount />}
         />
         <Route
           path="*"

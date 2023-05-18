@@ -11,6 +11,7 @@ axiosInstance.interceptors.request.use((config) => {
   const userData = getUserDataFromLocalStorage();
 
   // eslint-disable-next-line no-param-reassign
-  config.headers.Authorization = userData ? `Bearer ${userData.token}` : null;
+  console.log(userData);
+  config.headers.Authorization = userData ? `Bearer ${userData}` : null;
   return config;
 });
