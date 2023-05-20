@@ -5,12 +5,12 @@ import {
 import { useEffect } from 'react';
 import Header from '../Header';
 import Footer from '../Footer';
-import Home from '../Home';
-import SignupPage from '../SignupPage';
-import LoginPage from '../loginPage';
+import Home from '../pages/HomePage';
+import SignupPage from '../pages/SignupPage';
+import LoginPage from '../pages/LoginPage';
 import ErrorPage from '../Error';
-import SearchPage from '../searchPage';
-import MyAccount from '../MyAccount';
+import SearchPage from '../pages/SearchPage';
+import MyAccount from '../pages/MyAccountPage';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { updateLoginStatus } from '../../store/reducers/login';
 

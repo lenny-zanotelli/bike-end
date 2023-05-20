@@ -6,18 +6,17 @@ import {
 } from '@mui/material';
 import { Image } from 'mui-image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
-import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded';
-import { ChangeEvent, useState } from 'react';
-import testImg from '../../../assets/images/test-searchPage-desktop.jpg';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { fetchResult } from '../../../store/reducers/search';
+// import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
+// import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded';
+import { ChangeEvent } from 'react';
+import testImg from '../../../../assets/images/test-searchPage-desktop.jpg';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
+import { fetchResult } from '../../../../store/reducers/search';
 
 const styles = {
   container: {
     '@media only screen and (min-device-width : 768px)': {
       maxWidth: '50%',
-      // marginLeft: '25%',
     },
   },
   containerTitle: {
@@ -113,7 +112,7 @@ function SearchBody() {
     dispatch(fetchResult(newValue));
   };
 
-  const uniqueOptions = Array.from(new Set(query?.map((item) => item.name)));
+  const uniqueOptions = Array.from(new Set(query?.map((item: { name: string }) => item.name)));
 
   return (
     <Container

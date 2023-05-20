@@ -3,10 +3,10 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, FormEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   KeysOfCredentials, changeCredentialsField, register, toggleAcceptedConditions,
-} from '../../store/reducers/login';
+} from '../../../store/reducers/login';
 
 const buttonStyle = {
   mt: '1rem',

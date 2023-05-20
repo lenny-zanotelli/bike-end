@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import banner from '../../../assets/images/hero-banner.jpg';
+import banner from '../../../../assets/bike-logo.svg';
 
 const styles = {
   headerContainer: {

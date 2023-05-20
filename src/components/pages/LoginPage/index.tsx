@@ -3,10 +3,10 @@ import {
   Button, Container, Box, TextField, Typography,
 } from '@mui/material';
 import { ChangeEvent, FormEvent, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   login, KeysOfCredentials, changeCredentialsField, updateLoginStatus,
-} from '../../store/reducers/login';
+} from '../../../store/reducers/login';
 
 const styles = {
   containerConnect: {

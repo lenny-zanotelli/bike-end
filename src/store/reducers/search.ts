@@ -29,7 +29,7 @@ export const fetchResult = createAppAsyncThunk('search/fetchResult', async (inpu
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      const response = await axios.get(`https://bikeend-api.up.railway.app/search/${input}`, { headers });
+      const response = await axios.get(`https://bikeend-api.up.railway.app/autocomplete/${input}`, { headers });
       console.log(response.data);
       return response.data;
     } catch (error) {

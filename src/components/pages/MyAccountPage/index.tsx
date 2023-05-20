@@ -8,11 +8,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchUser } from '../../store/reducers/user';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { fetchUser } from '../../../store/reducers/user';
 import {
   KeysOfCredentials, changeCredentialsField, deleteUser, logout,
-} from '../../store/reducers/login';
+} from '../../../store/reducers/login';
 
 const styles = {
   containerAccount: {
