@@ -1,6 +1,7 @@
 import { createAction, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { createAppAsyncThunk } from '../../utils/redux';
+import { axiosInstance } from '../../utils/axios';
 
 interface UserState {
   firstname: string;
@@ -55,7 +56,7 @@ export const modifyUser = createAppAsyncThunk('login/modifyUser', async (_, thun
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      const response = await axios.patch('https://bikeend-api.up.railway.app/user', {
+      const response = await axiosInstance.patch('/user', {
         firstname,
         lastname,
         email,
@@ -97,10 +98,21 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload as string;
     })
+  // MODIFY USER
+    .addCase(modifyUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
     .addCase(modifyUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
       state.firstname = action.payload.firstname;
       state.lastname = action.payload.lastname;
       state.email = action.payload.email;
+    })
+    .addCase(modifyUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
     });
 });
 

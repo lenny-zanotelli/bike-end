@@ -96,6 +96,33 @@ export const deleteUser = createAppAsyncThunk('login/deleteUser', async () => {
   }
 });
 
+// eslint-disable-next-line consistent-return
+export const modifyUser = createAppAsyncThunk('login/modifyUser', async (_, thunkAPI) => {
+  const tokenWithQuotes = localStorage.getItem('token');
+  const state = thunkAPI.getState();
+  const {
+    firstname, lastname, email,
+  } = state.login.credentials;
+  if (tokenWithQuotes) {
+    try {
+      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axiosInstance.patch('/user', {
+        firstname,
+        lastname,
+        email,
+      }, {
+        headers,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
+
 export const logout = createAction('login/LOGOUT');
 
 export const changeCredentialsField = createAction<{
@@ -170,6 +197,22 @@ const loginReducer = createReducer(initialState, (builder) => {
     .addCase(deleteUser.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message || 'Une erreur est survenue';
+    })
+  // MODIFY USER
+    .addCase(modifyUser.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(modifyUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.credentials.firstname = action.payload.firstname;
+      state.credentials.lastname = action.payload.lastname;
+      state.credentials.email = action.payload.email;
+    })
+    .addCase(modifyUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload as string;
     });
 });
 

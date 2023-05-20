@@ -6,12 +6,14 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
-import { ChangeEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent, FormEvent, useEffect, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { fetchUser } from '../../../store/reducers/user';
 import {
-  KeysOfCredentials, changeCredentialsField, deleteUser, logout,
+  KeysOfCredentials, changeCredentialsField, deleteUser, logout, modifyUser,
 } from '../../../store/reducers/login';
 
 const styles = {
@@ -96,6 +98,12 @@ function MyAccount() {
   const handleLoggout = () => {
     dispatch(logout());
     navigate('/');
+  };
+
+  const handleUpdateUser = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(modifyUser());
+    setOpen(false);
   };
 
   const handleDeleteUser = () => {
@@ -183,57 +191,64 @@ function MyAccount() {
             >
               <CloseIcon />
             </Button>
-            <Typography
-              variant="h2"
-              className="container__createAccount__title"
-              sx={{
-                fontSize: '1.3em',
-                mb: '1rem',
-                py: '1rem',
-                px: '2rem',
-              }}
+            <form
+              onSubmit={handleUpdateUser}
             >
-              Modifier vos informations
-            </Typography>
-            <TextField
-              sx={styles.inputStyle}
-              color="success"
-              fullWidth
-              required
-              name="firstname"
-              label="Prenom"
-              size="small"
-            />
+              <Typography
+                variant="h2"
+                className="container__createAccount__title"
+                sx={{
+                  fontSize: '1.3em',
+                  mb: '1rem',
+                  py: '1rem',
+                  px: '2rem',
+                }}
+              >
+                Modifier vos informations
+              </Typography>
+              <TextField
+                sx={styles.inputStyle}
+                color="success"
+                fullWidth
+                required
+                name="firstname"
+                label="Prenom"
+                size="small"
+                onChange={handleChangeField}
+              />
 
-            <TextField
-              required
-              sx={styles.inputStyle}
-              color="success"
-              name="Nom"
-              label="Nom"
-              size="small"
-            />
+              <TextField
+                required
+                sx={styles.inputStyle}
+                color="success"
+                name="Nom"
+                label="Nom"
+                size="small"
+                onChange={handleChangeField}
+              />
 
-            <TextField
-              required
-              sx={styles.inputStyle}
-              color="success"
-              type="email"
-              name="email"
-              label="Email"
-              size="small"
-            />
-            <Button
-              sx={{
-                mt: '2rem',
-                mb: '2rem',
-              }}
-              variant="contained"
-              color="primary"
-              onClick={handleAddItem}
-            >
-              Mettre à jour
-            </Button>
+              <TextField
+                required
+                sx={styles.inputStyle}
+                color="success"
+                type="email"
+                name="email"
+                label="Email"
+                size="small"
+                onChange={handleChangeField}
+              />
+              <Button
+                type="submit"
+                sx={{
+                  mt: '2rem',
+                  mb: '2rem',
+                }}
+                variant="contained"
+                color="primary"
+              >
+                Mettre à jour
+              </Button>
+            </form>
           </Container>
         </Modal>
         <List>
