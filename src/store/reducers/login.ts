@@ -109,7 +109,7 @@ export const modifyUser = createAppAsyncThunk('login/modifyUser', async (_, thun
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      const response = await axiosInstance.patch('/user', {
+      const response = await axios.patch('https://bikeend-api.up.railway.app/user', {
         firstname,
         lastname,
         email,
@@ -120,6 +120,28 @@ export const modifyUser = createAppAsyncThunk('login/modifyUser', async (_, thun
     } catch (error) {
       console.log(error);
     }
+  }
+});
+
+// eslint-disable-next-line consistent-return
+export const fetchUser = createAppAsyncThunk('user/fetchUser', async () => {
+  const tokenWithQuotes = localStorage.getItem('token');
+  if (tokenWithQuotes) {
+    try {
+      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get('https://bikeend-api.up.railway.app/user', { headers });
+      const res = response.data;
+      console.log(response);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    console.log('Pas de TOKEN');
   }
 });
 
@@ -142,6 +164,21 @@ const loginReducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeCredentialsField, (state, action) => {
       state.credentials[action.payload.propertyKey] = action.payload.value;
+    })
+    .addCase(fetchUser.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(fetchUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.credentials.firstname = action.payload.firstname;
+      state.credentials.lastname = action.payload.lastname;
+      state.credentials.email = action.payload.email;
+    })
+    .addCase(fetchUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload as string;
     })
     .addCase(login.rejected, (state) => {
       state.error = 'Mauvais Identifiants';

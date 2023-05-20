@@ -11,9 +11,8 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { fetchUser } from '../../../store/reducers/user';
 import {
-  KeysOfCredentials, changeCredentialsField, deleteUser, logout, modifyUser,
+  KeysOfCredentials, changeCredentialsField, deleteUser, logout, modifyUser, fetchUser,
 } from '../../../store/reducers/login';
 
 const styles = {
@@ -68,10 +67,10 @@ const styles = {
 function MyAccount() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { firstname, lastname, email } = useAppSelector((state) => state.user);
+  const { firstname, lastname, email } = useAppSelector((state) => state.login.credentials);
   // MODAL
   const [open, setOpen] = useState(false);
-  const [text, setText] = useState('');
+  // const [text, setText] = useState('');
 
   const handleChangeField = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -90,10 +89,10 @@ function MyAccount() {
     setOpen(false);
   };
 
-  const handleAddItem = () => {
-    setText('');
-    handleClose();
-  };
+  // const handleAddItem = () => {
+  //   setText('');
+  //   handleClose();
+  // };
 
   const handleLoggout = () => {
     dispatch(logout());
@@ -221,7 +220,7 @@ function MyAccount() {
                 required
                 sx={styles.inputStyle}
                 color="success"
-                name="Nom"
+                name="lastname"
                 label="Nom"
                 size="small"
                 onChange={handleChangeField}
@@ -258,7 +257,7 @@ function MyAccount() {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton>
               <ListItemText primary={firstname} />
             </ListItemButton>
           </ListItem>
