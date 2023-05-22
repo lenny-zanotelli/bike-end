@@ -8,10 +8,11 @@ import { Image } from 'mui-image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 // import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
 // import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
+import { v4 as uuid } from 'uuid';
 import testImg from '../../../../assets/images/test-searchPage-desktop.jpg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { fetchAutoComplete } from '../../../../store/reducers/search';
+import { fetchAutoComplete, searchJourneys } from '../../../../store/reducers/search';
 
 const styles = {
   container: {
@@ -105,11 +106,27 @@ const styles = {
 function SearchBody() {
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.search.query);
+  const searchParams = useAppSelector((state) => state.search.params);
+  const maxDuration = useAppSelector((state) => state.search.params.max_duration);
 
   const handleAutoCompleteChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     console.log(newValue);
     dispatch(fetchAutoComplete(newValue));
+  };
+
+  const handleMaxDurationChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const updatedParams = {
+      ...searchParams,
+      max_duration: parseInt(event.target.value, 10),
+    };
+    dispatch(searchJourneys(updatedParams));
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const queryId = uuid();
+    dispatch(searchJourneys(searchParams));
   };
 
   const uniqueOptions = Array.from(new Set(query?.map((item: { name: string }) => item.name)));
@@ -124,60 +141,61 @@ function SearchBody() {
         className="container"
         sx={styles.container}
       >
-        <Typography
-          component="h1"
-          className="container__title"
-          sx={styles.containerTitle}
-        >
-          De nouveaux horizons à découvrir. En selle !
-        </Typography>
-        <Typography
-          component="h2"
-          className="container__subtitle hidden"
-          sx={styles.containerSubtitle}
-        >
-          Saisissez votre voyage
-        </Typography>
-        <Divider
-          className="underline"
-          sx={styles.underline}
-        />
-        <Container
-          component="section"
-          className="container__search-form"
-          sx={styles.containerSearchForm}
-        >
-          <Autocomplete
-            freeSolo
-            disableClearable
-            clearOnEscape
-            noOptionsText="No Destination"
-            options={uniqueOptions}
-            renderInput={(params) => (
-              <TextField
-                variant="outlined"
-                label="Lieu de départ"
-                margin="dense"
-                {...params}
-                className="search-form__input-city"
-                fullWidth
-                onChange={handleAutoCompleteChange}
-                name="city-start"
-                aria-placeholder="Lieu de départ"
-                color="success"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <LocationOnIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
+        <form onSubmit={handleSubmit}>
+          <Typography
+            component="h1"
+            className="container__title"
+            sx={styles.containerTitle}
+          >
+            De nouveaux horizons à découvrir. En selle !
+          </Typography>
+          <Typography
+            component="h2"
+            className="container__subtitle hidden"
+            sx={styles.containerSubtitle}
+          >
+            Saisissez votre voyage
+          </Typography>
+          <Divider
+            className="underline"
+            sx={styles.underline}
           />
-          {/*
+          <Container
+            component="section"
+            className="container__search-form"
+            sx={styles.containerSearchForm}
+          >
+            <Autocomplete
+              freeSolo
+              disableClearable
+              clearOnEscape
+              noOptionsText="No Destination"
+              options={uniqueOptions}
+              renderInput={(params) => (
+                <TextField
+                  variant="outlined"
+                  label="Lieu de départ"
+                  margin="dense"
+                  {...params}
+                  className="search-form__input-city"
+                  fullWidth
+                  onChange={handleAutoCompleteChange}
+                  name="city-start"
+                  aria-placeholder="Lieu de départ"
+                  color="success"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: 'search',
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <LocationOnIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
+            {/*
           <TextField
             className="search-form__input-city"
             fullWidth
@@ -193,30 +211,32 @@ function SearchBody() {
               ),
             }}
           /> */}
+            <Container
+              component="article"
+              className="search-form__filter-section"
+              disableGutters
+              sx={styles.searchFormFilterSection}
+            >
+              <TextField
+                fullWidth
+                className="search-form__input-filter"
+                sx={{ marginRight: '0.6rem' }}
+                type="date"
+                name="date"
+                color="success"
+              />
+              <TextField
+                fullWidth
+                className="search-form__input-filter"
+                value={maxDuration}
+                onChange={handleMaxDurationChange}
+                type="number"
+                name="time"
+                color="success"
+              />
+            </Container>
+          </Container>
           {/* <Container
-            component="article"
-            className="search-form__filter-section"
-            disableGutters
-            sx={styles.searchFormFilterSection}
-          >
-            <TextField
-              fullWidth
-              className="search-form__input-filter"
-              sx={{ marginRight: '0.6rem' }}
-              type="date"
-              name="date"
-              color="success"
-            />
-            <TextField
-              fullWidth
-              className="search-form__input-filter"
-              type="time"
-              name="time"
-              color="success"
-            />
-          </Container> */}
-        </Container>
-        {/* <Container
           component="section"
           className="container__filter-form"
         />
@@ -261,21 +281,22 @@ function SearchBody() {
             }}
           />
         </Container> */}
-        <Container
-          component="article"
-          className="filter-form__btn"
-          sx={styles.filterFormBtn}
-        >
-          <Button
-            className="filter-form__btn-search"
-            type="button"
-            size="large"
-            variant="contained"
-            color="success"
+          <Container
+            component="article"
+            className="filter-form__btn"
+            sx={styles.filterFormBtn}
           >
-            Recherche
-          </Button>
-          {/* <Button
+            <Button
+              className="filter-form__btn-search"
+              type="submit"
+              size="large"
+              variant="contained"
+              color="success"
+            >
+              Recherche
+            </Button>
+
+            {/* <Button
             className="filter-form__btn-reset"
             type="button"
             size="large"
@@ -284,7 +305,8 @@ function SearchBody() {
           >
             Réinitialiser
           </Button> */}
-        </Container>
+          </Container>
+        </form>
       </Container>
       <Container
         className="desktop-container__img"
@@ -312,3 +334,6 @@ function SearchBody() {
 }
 
 export default SearchBody;
+function uuid() {
+  throw new Error('Function not implemented.');
+}
