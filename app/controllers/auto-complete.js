@@ -1,5 +1,11 @@
 const autoCompleteDataMapper = require('../services/getAutoComplete');
 
+/**
+ * @typedef {object} Place
+ * @property {string} id - Identifiant unique, Pk de la table
+ * @property {string} name
+ */
+
 // Fonction qui récupère le premier "zip_code" valide (non null) pour une "place"
 const getZipCode = function (adminRegArray) {
     adminRegWhereZipCodeExist = adminRegArray.filter(adminReg => adminReg.zip_code);

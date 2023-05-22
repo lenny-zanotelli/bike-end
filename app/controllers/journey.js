@@ -1,5 +1,19 @@
 const journeyDataMapper = require('../services/getJourneys');
 
+/**
+ * @typedef {object} Journey
+ * @property {number} id - Identifiant unique, Pk de la table
+ * @property {string} departure_date_time
+ * @property {integer} duration
+ * @property {integer} nb_transfers
+ * @property {string} from.name
+ * @property {string} from.id
+ * @property {string} to.name
+ * @property {string} to.id
+ * @property {string} queryUrl
+ * @property {string} comment
+ */
+
 module.exports = {
     async getJourneysByFilters(req, res) {
         try {

@@ -2,11 +2,12 @@ const { userDataMapper } = require('../models');
 
 /**
  * @typedef {object} User
- * @property {number} id - Indentifiant unique, Pk de la table
+ * @property {number} id - Identifiant unique, Pk de la table
  * @property {string} email
  * @property {string} password
  * @property {string} firstname
  * @property {string} lastname
+ * @property {boolean} accepted_conditions
  */
 
 module.exports = {
