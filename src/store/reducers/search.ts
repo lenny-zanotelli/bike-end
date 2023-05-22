@@ -18,7 +18,7 @@ const initialState: SearchState = {
 };
 
 // eslint-disable-next-line consistent-return
-export const fetchResult = createAppAsyncThunk('search/fetchResult', async (input: string) => {
+export const fetchAutoComplete = createAppAsyncThunk('search/fetchAutoComplete', async (input: string) => {
   const tokenWithQuotes = localStorage.getItem('token');
   if (!input) {
     console.log('PAS DE REQUETE YA TCHI');
@@ -42,13 +42,13 @@ export const fetchResult = createAppAsyncThunk('search/fetchResult', async (inpu
 
 const searchReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchResult.fulfilled, (state, action) => {
+    .addCase(fetchAutoComplete.fulfilled, (state, action) => {
       state.query = action.payload;
     })
-    .addCase(fetchResult.pending, (state, action) => {
+    .addCase(fetchAutoComplete.pending, (state) => {
       state.query = initialState.query;
     })
-    .addCase(fetchResult.rejected, (state, action) => {
+    .addCase(fetchAutoComplete.rejected, (state, action) => {
       state.error = action.error.message || 'NUL';
     });
 });

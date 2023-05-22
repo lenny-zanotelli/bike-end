@@ -11,7 +11,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { ChangeEvent } from 'react';
 import testImg from '../../../../assets/images/test-searchPage-desktop.jpg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { fetchResult } from '../../../../store/reducers/search';
+import { fetchAutoComplete } from '../../../../store/reducers/search';
 
 const styles = {
   container: {
@@ -109,7 +109,7 @@ function SearchBody() {
   const handleAutoCompleteChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     console.log(newValue);
-    dispatch(fetchResult(newValue));
+    dispatch(fetchAutoComplete(newValue));
   };
 
   const uniqueOptions = Array.from(new Set(query?.map((item: { name: string }) => item.name)));
