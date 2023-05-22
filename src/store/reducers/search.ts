@@ -46,7 +46,6 @@ const initialState: SearchState = {
   error: null,
 };
 
-// eslint-disable-next-line consistent-return
 export const fetchAutoComplete = createAppAsyncThunk('search/fetchAutoComplete', async (input: string) => {
   const tokenWithQuotes = localStorage.getItem('token');
   if (!input) {
@@ -67,6 +66,7 @@ export const fetchAutoComplete = createAppAsyncThunk('search/fetchAutoComplete',
   } else {
     console.log('Pas de TOKEN');
   }
+  return [];
 });
 
 export const searchJourneys = createAppAsyncThunk<

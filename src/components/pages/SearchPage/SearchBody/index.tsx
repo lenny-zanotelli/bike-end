@@ -123,6 +123,13 @@ function SearchBody() {
     dispatch(searchJourneys(updatedParams));
   };
 
+  const handleSelectedCityIdChange = (_event: unknown, value: string) => {
+    const selectedCity = query.find((item: { name: string }) => item.name === value);
+    if (selectedCity) {
+      setSelectedCityId(selectedCity.id);
+    }
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const updatedParams = {
@@ -197,12 +204,7 @@ function SearchBody() {
                   }}
                 />
               )}
-              onChange={(_, value) => {
-                const selectedCity = query.find((item: { name: string }) => item.name === value);
-                if (selectedCity) {
-                  setSelectedCityId(selectedCity.id);
-                }
-              }}
+              onChange={handleSelectedCityIdChange}
             />
             {/*
           <TextField
