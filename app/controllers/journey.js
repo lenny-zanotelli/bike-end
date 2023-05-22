@@ -48,7 +48,7 @@ module.exports = {
                 `/journeys${req._parsedUrl.search}&first_section_mode[]=bike`
             );
             // const journey = await journeyDataMapper.findByLink(req.body.link);
-            if (!journey) {
+            if (!journey[0]) {
                 return res
                     .status(400)
                     .json('No details availables for your journey');
