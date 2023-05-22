@@ -2,13 +2,23 @@
 import {
   Autocomplete,
   Button,
-  Container, Divider, InputAdornment, TextField, Typography,
+  Container,
+  Divider,
+  InputAdornment,
+  TextField,
+  Typography,
 } from '@mui/material';
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useState,
+} from 'react';
 import { Image } from 'mui-image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 // import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
 // import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import testImg from '../../../../assets/images/test-searchPage-desktop.jpg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { fetchAutoComplete, searchJourneys } from '../../../../store/reducers/search';
@@ -103,11 +113,17 @@ const styles = {
 } as const;
 
 function SearchBody() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.search.query);
   const searchParams = useAppSelector((state) => state.search.params);
   const maxDuration = useAppSelector((state) => state.search.params.max_duration);
+  const journeys = useAppSelector((state) => state.search.journeys);
   const [selectedCityId, setSelectedCityId] = useState<string>('');
+
+  useEffect(() => {
+    localStorage.setItem('fetchresults', JSON.stringify(journeys));
+  }, [journeys]);
 
   const handleAutoCompleteChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -137,6 +153,7 @@ function SearchBody() {
       from: selectedCityId,
     };
     dispatch(searchJourneys(updatedParams));
+    navigate('/result');
   };
 
   const uniqueOptions = Array.from(new Set(query?.map((item: { name: string }) => item.name)));

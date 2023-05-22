@@ -1,11 +1,9 @@
 /* eslint-disable react/jsx-no-bind */
 import {
-  Box,
   Card, CardContent, CardMedia, Container, Grid, IconButton, Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import destinationImage from '../../../assets/images/result-card_background.png';
-import './styles.scss';
 
 const styles = {
 
@@ -45,42 +43,10 @@ const styles = {
 };
 
 function ResultsPage() {
-  const results = [
-    {
-      destination: 'Destination 1',
-      travelTime: '30 minutes',
+  const storedJourneys = localStorage.getItem('fetchresults');
+  const storedJourneysArray = JSON.parse(storedJourneys ?? '[]');
 
-    },
-    {
-      destination: 'Destination 2',
-      travelTime: '1 heures',
-    },
-    {
-      destination: 'Destination 3',
-      travelTime: '2 heures',
-    },
-    {
-      destination: 'Destination 4',
-      travelTime: '35 minutes',
-    },
-    {
-      destination: 'Destination 5',
-      travelTime: '25 minutes',
-    },
-    {
-      destination: 'Destination 6',
-      travelTime: '1 heures 30',
-    },
-    {
-      destination: 'Destination 7',
-      travelTime: '55 minutes',
-    },
-    {
-      destination: 'Destination 8',
-      travelTime: '1 heures',
-    },
-  ];
-
+  console.log('RESULT PAGE', storedJourneysArray);
   return (
 
     <Container maxWidth={false}>
@@ -92,11 +58,11 @@ function ResultsPage() {
           fontWeight: 'bold',
         }}
       >
-        De nouveaux horizons à découvrir depuis POINT DE DEPART($). En selle !`
+        `De nouveaux horizons à découvrir depuis POINT DE DEPART En selle !`
       </Typography>
       <Grid container spacing={2} justifyContent="center">
-        {results.map((result, index) => (
-          <Grid item key={index} xs={6} sm={8} md={3}>
+        {storedJourneysArray.map((result) => (
+          <Grid item key={result.from.id} xs={6} sm={8} md={3}>
             <Card sx={styles.card}>
               <IconButton sx={styles.favoriteIcon}>
                 <FavoriteIcon />
@@ -105,7 +71,7 @@ function ResultsPage() {
                 sx={styles.image}
                 component="img"
                 image={destinationImage}
-                alt={result.destination}
+                alt={result.to.name}
               />
               <CardContent sx={styles.content}>
                 <Typography
@@ -116,14 +82,14 @@ function ResultsPage() {
                     fontSize: '1.2em',
                   }}
                 >
-                  {result.destination}
+                  {result.to.name}
                 </Typography>
                 <Typography
                   color="black"
                   align="center"
                   sx={{ fontSize: '1em' }}
                 >
-                  {result.travelTime}
+                  {result.duration}
                 </Typography>
               </CardContent>
             </Card>

@@ -1,26 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { createAppAsyncThunk } from '../../utils/redux';
+import { Journey } from '../../@types/journey';
 
 interface JourneySearchParams {
   from: string;
   datetime: string;
   max_duration: number;
-}
-
-interface Journey {
-  departure_date_time: string;
-  duration: number;
-  from: {
-    id: string;
-    name: string;
-  };
-  to: {
-    id: string;
-    name: string;
-  };
-  nb_transfers: number;
-  queryUrl: string;
 }
 
 export interface Query {
@@ -33,6 +19,7 @@ interface SearchState {
   params: JourneySearchParams;
   journeys: Journey[];
   error: string | null;
+  loading: boolean;
 }
 
 const initialState: SearchState = {
@@ -44,6 +31,7 @@ const initialState: SearchState = {
   },
   journeys: [],
   error: null,
+  loading: false,
 };
 
 export const fetchAutoComplete = createAppAsyncThunk('search/fetchAutoComplete', async (input: string) => {
@@ -85,12 +73,12 @@ JourneySearchParams>(
           Authorization: `Bearer ${token}`,
         };
         const response = await axios.get(`https://bikeend-api.up.railway.app/${url}`, { headers });
-        // Filtrer les trajets avec une durée minimale de 2000 secondes
+        // Filtrer les trajets avec une durée minimale de 3000 secondes
         const filteredJourneys = response.data.filter(
           (journey: { duration: number; }) => journey.duration >= 2000,
         );
         console.log('DESTINATION: ', filteredJourneys);
-        return filteredJourneys;
+        return filteredJourneys as Journey[];
       } catch (error) {
         console.log(error);
       }
@@ -107,12 +95,15 @@ const searchReducer = createReducer(initialState, (builder) => {
       state.query = action.payload;
     })
     .addCase(fetchAutoComplete.pending, (state) => {
+      state.loading = true;
       state.query = initialState.query;
     })
     .addCase(fetchAutoComplete.rejected, (state, action) => {
       state.error = action.error.message || 'NUL';
     })
     .addCase(searchJourneys.pending, (state) => {
+      state.loading = true;
+
       state.error = null;
     })
     .addCase(searchJourneys.fulfilled, (state, action) => {

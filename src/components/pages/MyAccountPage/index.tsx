@@ -209,7 +209,6 @@ function MyAccount() {
                 sx={styles.inputStyle}
                 color="success"
                 fullWidth
-                required
                 name="firstname"
                 label="Prenom"
                 size="small"
@@ -217,7 +216,6 @@ function MyAccount() {
               />
 
               <TextField
-                required
                 sx={styles.inputStyle}
                 color="success"
                 name="lastname"
@@ -227,7 +225,6 @@ function MyAccount() {
               />
 
               <TextField
-                required
                 sx={styles.inputStyle}
                 color="success"
                 type="email"
