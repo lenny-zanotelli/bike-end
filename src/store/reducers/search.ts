@@ -78,14 +78,19 @@ JourneySearchParams>(
     if (tokenWithQuotesTest) {
       try {
         const token = tokenWithQuotesTest.replace(/^"(.*)"$/, '$1');
+
         const queryParams = new URLSearchParams(`from=${params.from}&max_duration=${params.max_duration}`);
         const url = `journey/search?${queryParams.toString()}`;
         const headers = {
           Authorization: `Bearer ${token}`,
         };
         const response = await axios.get(`https://bikeend-api.up.railway.app/${url}`, { headers });
-        console.log('DESTINATION: ', response.data);
-        return response.data;
+        // Filtrer les trajets avec une durée minimale de 2000 secondes
+        const filteredJourneys = response.data.filter(
+          (journey: { duration: number; }) => journey.duration >= 2000,
+        );
+        console.log('DESTINATION: ', filteredJourneys);
+        return filteredJourneys;
       } catch (error) {
         console.log(error);
       }

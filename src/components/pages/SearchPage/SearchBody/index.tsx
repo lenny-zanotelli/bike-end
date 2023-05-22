@@ -234,14 +234,15 @@ function SearchBody() {
                 sx={{ marginRight: '0.6rem' }}
                 type="date"
                 name="date"
+                value={new Date().toISOString().split('T')[0]}
                 color="success"
               />
               <TextField
                 fullWidth
                 className="search-form__input-filter"
-                value={maxDuration}
+                value={new Date(maxDuration * 1000).toISOString().slice(11, 19)}
                 onChange={handleMaxDurationChange}
-                type="number"
+                type="time"
                 name="time"
                 color="success"
               />
