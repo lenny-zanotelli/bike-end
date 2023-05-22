@@ -11,8 +11,10 @@ import LoginPage from '../pages/LoginPage';
 import ErrorPage from '../Error';
 import SearchPage from '../pages/SearchPage';
 import MyAccount from '../pages/MyAccountPage';
+import ResultsPage from '../pages/ResultsPage';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { updateLoginStatus } from '../../store/reducers/login';
+
 
 function App() {
   const navigate = useNavigate();
@@ -47,6 +49,10 @@ function App() {
         <Route
           path="/login"
           element={<LoginPage />}
+        />
+        <Route
+          path="/result"
+          element={<ResultsPage />}
         />
         <Route
           path="/myaccount"
