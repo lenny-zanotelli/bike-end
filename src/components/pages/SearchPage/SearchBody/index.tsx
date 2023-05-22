@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import testImg from '../../../../assets/images/test-searchPage-desktop.jpg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { fetchAutoComplete, searchJourneys } from '../../../../store/reducers/search';
+import { Journey } from '../../../../@types/journey';
 
 const styles = {
   container: {
@@ -121,10 +122,6 @@ function SearchBody() {
   const journeys = useAppSelector((state) => state.search.journeys);
   const [selectedCityId, setSelectedCityId] = useState<string>('');
 
-  useEffect(() => {
-    localStorage.setItem('fetchresults', JSON.stringify(journeys));
-  }, [journeys]);
-
   const handleAutoCompleteChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     console.log(newValue);
@@ -146,15 +143,20 @@ function SearchBody() {
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const updatedParams = {
       ...searchParams,
       from: selectedCityId,
     };
-    dispatch(searchJourneys(updatedParams));
+    await dispatch(searchJourneys(updatedParams));
     navigate('/result');
   };
+
+  useEffect(() => {
+    // Enregistrer les résultats de recherche dans le localStorage
+    localStorage.setItem('results', JSON.stringify(journeys));
+  }, [journeys]);
 
   const uniqueOptions = Array.from(new Set(query?.map((item: { name: string }) => item.name)));
 

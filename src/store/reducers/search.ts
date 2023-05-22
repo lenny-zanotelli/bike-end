@@ -66,7 +66,7 @@ JourneySearchParams>(
     if (tokenWithQuotesTest) {
       try {
         const token = tokenWithQuotesTest.replace(/^"(.*)"$/, '$1');
-
+        const limit = 5;
         const queryParams = new URLSearchParams(`from=${params.from}&max_duration=${params.max_duration}`);
         const url = `journey/search?${queryParams.toString()}`;
         const headers = {
@@ -77,8 +77,9 @@ JourneySearchParams>(
         const filteredJourneys = response.data.filter(
           (journey: { duration: number; }) => journey.duration >= 2000,
         );
-        console.log('DESTINATION: ', filteredJourneys);
-        return filteredJourneys as Journey[];
+        const limitedJourneys = filteredJourneys.slice(0, limit);
+        console.log('DESTINATION: ', limitedJourneys);
+        return limitedJourneys as Journey[];
       } catch (error) {
         console.log(error);
       }

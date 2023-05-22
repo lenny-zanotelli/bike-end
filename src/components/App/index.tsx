@@ -15,7 +15,6 @@ import ResultsPage from '../pages/ResultsPage';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { updateLoginStatus } from '../../store/reducers/login';
 
-
 function App() {
   const navigate = useNavigate();
   const location = useLocation();

@@ -3,7 +3,9 @@ import {
   Card, CardContent, CardMedia, Container, Grid, IconButton, Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useEffect, useState } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
+import { Journey } from '../../../@types/journey';
 
 const styles = {
 
@@ -43,10 +45,20 @@ const styles = {
 };
 
 function ResultsPage() {
-  const storedJourneys = localStorage.getItem('fetchresults');
-  const storedJourneysArray = JSON.parse(storedJourneys ?? '[]');
+  const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
 
-  console.log('RESULT PAGE', storedJourneysArray);
+  useEffect(() => {
+    // Récupération des résultats depuis le localStorage
+    const results = localStorage.getItem('results');
+    if (results) {
+      const storedJourneysArray = JSON.parse(results);
+      console.log('RESULT PAGE', storedJourneysArray);
+
+      setStoredJourneysArray(storedJourneysArray);
+      // Faites ce que vous voulez avec les résultats récupérés...
+    }
+  }, []);
+
   return (
 
     <Container maxWidth={false}>
@@ -61,7 +73,7 @@ function ResultsPage() {
         `De nouveaux horizons à découvrir depuis POINT DE DEPART En selle !`
       </Typography>
       <Grid container spacing={2} justifyContent="center">
-        {storedJourneysArray.map((result) => (
+        {storedJourneysArray.map((result: Journey) => (
           <Grid item key={result.from.id} xs={6} sm={8} md={3}>
             <Card sx={styles.card}>
               <IconButton sx={styles.favoriteIcon}>
@@ -79,7 +91,7 @@ function ResultsPage() {
                   align="center"
                   sx={{
                     fontWeight: 'bold',
-                    fontSize: '1.2em',
+                    fontSize: '0.8em',
                   }}
                 >
                   {result.to.name}
@@ -87,9 +99,9 @@ function ResultsPage() {
                 <Typography
                   color="black"
                   align="center"
-                  sx={{ fontSize: '1em' }}
+                  sx={{ fontSize: '0.8em' }}
                 >
-                  {result.duration}
+                  {new Date(result.duration * 1000).toISOString().slice(11, 19)}
                 </Typography>
               </CardContent>
             </Card>
