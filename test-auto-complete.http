@@ -4,8 +4,8 @@
 @endpoint = http://localhost:{{$dotenv PORT}}
 
 # Token du user connecté
-@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDE2MTI2MywiZXhwIjoxNjg0NzY2MDYzfQ.0DGt8YAZLq_L5JjuSPHHZ3xS56rfJ0sfhlcsDS2ouDc
-q
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDc0Mzk0MCwiZXhwIjoxNjg1MzQ4NzQwfQ.NGFUkwgq2OTIyvGdQOvHN4tq5U9JTAUdBqPZAL94n4Y
+
 ### 404
 GET {{ endpoint }}/search
 Authorization: {{ authorization }}
@@ -15,13 +15,13 @@ Authorization: {{ authorization }}
 #########################
 
 ### Obtenir des places existantes en auto-complete
-GET {{ endpoint }}/autocomplete/pornic
+GET {{ endpoint }}/autocomplete/aligre
 Authorization: {{ authorization }}
 # ATTENDU : url = /autocomplete/<les caracteres recherchés>
 # RENVOI : results = {id: string, name: string}[]
 
 ### Obtenir des itineraires par filtre
-GET {{ endpoint }}/journey/search?from=-2.1048366;47.115432899999995&datetime=20230603T120000&max_duration=3600
+GET {{ endpoint }}/journey/search?from=2.3786875;48.8486506&datetime=20230603T120000&max_duration=3600
 Authorization: {{ authorization }}
 # ATTENDU : url = /journey/search 
 #           & req.query = {from: string, datetime: string(YYYYMMDDThhmmss), max_duration: integer(seconds)}

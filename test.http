@@ -6,11 +6,12 @@
 
 # Base URL
 @endpoint = http://localhost:{{$dotenv PORT}}
-@tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDE2MTI2MywiZXhwIjoxNjg0NzY2MDYzfQ.0DGt8YAZLq_L5JjuSPHHZ3xS56rfJ0sfhlcsDS2ouDc
+@tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDc0Mzk0MCwiZXhwIjoxNjg1MzQ4NzQwfQ.NGFUkwgq2OTIyvGdQOvHN4tq5U9JTAUdBqPZAL94n4Y
+
 @tokenDeJean = 
 
 # Token du user connecté
-@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY4NDIyNjE2MCwiZXhwIjoxNjg0ODMwOTYwfQ.g64TjLgTkIpyQjJflUD6Frnt-wzqTYKOc2PRTJVMOB4
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDc0Mzk0MCwiZXhwIjoxNjg1MzQ4NzQwfQ.NGFUkwgq2OTIyvGdQOvHN4tq5U9JTAUdBqPZAL94n4Y
 
 ### 404
 GET {{ endpoint }}/usersss
@@ -137,14 +138,22 @@ content-type: application/json
 Authorization: Bearer {{tokenDePierre}}
 
 {
-    "origin": "TestUserOneIsLoggedIn",
-    "destination": "EssaiUserOneIsLoggedIn",
-    "comment": "NoCommentUserOneIsLoggedIn",
-    "journey_time": 56789
+  "departure_date_time": "20230604T150000",
+  "duration": 650,
+  "from": {
+    "id": "1.23;45.6",
+    "name": "Chez moi"
+  },
+  "to": {
+    "id": "9.87;65.4",
+    "name": "Chez elle"
+  },
+  "nb_transfers":1,
+  "queryUrl":"?from=1.23;45.6&datetime=20230604T150000&max_duration=700&to=9.87;65.4"
 }
 
 ### Récupérér un favori par son id
-GET {{ endpoint }}/favorite/5
+GET {{ endpoint }}/favorite/4
 Authorization: Bearer {{tokenDePierre}}
 
 ### Modifier un favori
@@ -153,11 +162,9 @@ content-type: application/json
 Authorization: Bearer {{tokenDePierre}}
 
 {
-    "comment": "Commentaire du user_id 1 Ok ça marche"
+    "comment": "Sympa la balade !"
 }
 
 ### Supprimer un favori par son id
 DELETE {{ endpoint }}/favorite/4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
-
-

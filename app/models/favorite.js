@@ -55,19 +55,27 @@ module.exports = {
     async insert(userId, newFavorite) {
         const result = await client.query(`INSERT INTO "favorite"
             (
-                "origin",
-                "destination",
-                "comment",
-                "journey_time",
+                "departure_date_time",
+                "duration",
+                "from_name",
+                "from_id",
+                "to_name",
+                "to_id",
+                "nb_transfers",
+                "queryUrl",
                 "user_id"
             ) 
-            VALUES ($1, $2, $3, $4, $5)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *;`,
             [
-                newFavorite.origin,
-                newFavorite.destination,
-                newFavorite.comment,
-                newFavorite.journey_time,
+                newFavorite.departure_date_time,
+                newFavorite.duration,
+                newFavorite.from.name,
+                newFavorite.from.id,
+                newFavorite.to.name,
+                newFavorite.to.id,
+                newFavorite.nb_transfers,
+                newFavorite.queryUrl,
                 userId
             ]
         );
