@@ -73,7 +73,6 @@ export const searchJourneys = createAppAsyncThunk<
 Journey[],
 JourneySearchParams>(
   'search/SEARCH_JOURNEYS',
-  // eslint-disable-next-line consistent-return
   async (params) => {
     const tokenWithQuotesTest = localStorage.getItem('token');
     if (tokenWithQuotesTest) {
@@ -85,7 +84,7 @@ JourneySearchParams>(
           Authorization: `Bearer ${token}`,
         };
         const response = await axios.get(`https://bikeend-api.up.railway.app/${url}`, { headers });
-        console.log(response.data);
+        console.log('DESTINATION: ', response.data);
         return response.data;
       } catch (error) {
         console.log(error);
@@ -93,6 +92,7 @@ JourneySearchParams>(
     } else {
       console.log('Pas de TOKEN');
     }
+    return [];
   },
 );
 

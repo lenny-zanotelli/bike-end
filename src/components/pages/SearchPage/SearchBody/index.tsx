@@ -8,8 +8,7 @@ import { Image } from 'mui-image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 // import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
 // import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded';
-import { ChangeEvent, FormEvent } from 'react';
-import { v4 as uuid } from 'uuid';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import testImg from '../../../../assets/images/test-searchPage-desktop.jpg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { fetchAutoComplete, searchJourneys } from '../../../../store/reducers/search';
@@ -108,6 +107,7 @@ function SearchBody() {
   const query = useAppSelector((state) => state.search.query);
   const searchParams = useAppSelector((state) => state.search.params);
   const maxDuration = useAppSelector((state) => state.search.params.max_duration);
+  const [selectedCityId, setSelectedCityId] = useState<string>('');
 
   const handleAutoCompleteChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -125,8 +125,11 @@ function SearchBody() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const queryId = uuid();
-    dispatch(searchJourneys(searchParams));
+    const updatedParams = {
+      ...searchParams,
+      from: selectedCityId,
+    };
+    dispatch(searchJourneys(updatedParams));
   };
 
   const uniqueOptions = Array.from(new Set(query?.map((item: { name: string }) => item.name)));
@@ -194,6 +197,12 @@ function SearchBody() {
                   }}
                 />
               )}
+              onChange={(_, value) => {
+                const selectedCity = query.find((item: { name: string }) => item.name === value);
+                if (selectedCity) {
+                  setSelectedCityId(selectedCity.id);
+                }
+              }}
             />
             {/*
           <TextField
@@ -334,6 +343,3 @@ function SearchBody() {
 }
 
 export default SearchBody;
-function uuid() {
-  throw new Error('Function not implemented.');
-}
