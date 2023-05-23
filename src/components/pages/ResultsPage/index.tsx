@@ -1,9 +1,8 @@
-/* eslint-disable react/jsx-no-bind */
 import {
   Card, CardContent, CardMedia, Container, Grid, IconButton, Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
 
@@ -38,9 +37,9 @@ const styles = {
     width: '100%',
   },
   favoriteIcon: {
-    position: 'absolute',
+    // position: 'absolute',
     top: '8px',
-    right: '8px',
+    LEFT: '8px',
   },
 
 } as const;
@@ -53,9 +52,20 @@ function ResultsPage() {
     const results = localStorage.getItem('results');
     if (results) {
       const localStorageResults = JSON.parse(results);
-      console.log('RESULT PAGE', localStorageResults);
-      setStoredJourneysArray(localStorageResults);
+      const updatedResults = localStorageResults.map((result: Journey) => ({
+        ...result,
+        isFavorite: false,
+      }));
+      setStoredJourneysArray(updatedResults);
     }
+  }, []);
+
+  const handleFavoriteClick = useCallback((index: number) => {
+    setStoredJourneysArray((prevResults) => {
+      const updatedResults = [...prevResults];
+      updatedResults[index].isFavorite = !updatedResults[index].isFavorite;
+      return updatedResults;
+    });
   }, []);
 
   return (
@@ -81,7 +91,7 @@ function ResultsPage() {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         justifyContent="center"
       >
-        {storedJourneysArray.map((result: Journey) => (
+        {storedJourneysArray.map((result: Journey, index: number) => (
           <Grid
             component="article"
             item
@@ -91,8 +101,11 @@ function ResultsPage() {
             md={3}
           >
             <Card sx={styles.card}>
-              <IconButton sx={styles.favoriteIcon}>
-                <FavoriteIcon />
+              <IconButton
+                sx={styles.favoriteIcon}
+                onClick={() => handleFavoriteClick(index)}
+              >
+                <FavoriteIcon sx={{ color: result.isFavorite ? 'red' : 'inherit' }} />
               </IconButton>
               <CardMedia
                 sx={styles.image}

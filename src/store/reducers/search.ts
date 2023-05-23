@@ -46,7 +46,6 @@ export const fetchAutoComplete = createAppAsyncThunk('search/fetchAutoComplete',
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(`https://bikeend-api.up.railway.app/autocomplete/${input}`, { headers });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -78,7 +77,6 @@ JourneySearchParams>(
           (journey: { duration: number; }) => journey.duration > 3000,
         );
         const limitedJourneys = filteredJourneys.slice(0, limit);
-        console.log('DESTINATION: ', limitedJourneys);
         return limitedJourneys as Journey[];
       } catch (error) {
         console.log(error);
