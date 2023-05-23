@@ -3,6 +3,7 @@ import {
   Button, Container, Box, TextField, Typography,
 } from '@mui/material';
 import { ChangeEvent, FormEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   login, KeysOfCredentials, changeCredentialsField, updateLoginStatus,
@@ -58,10 +59,12 @@ function LoginPage() {
       value: newValue,
     }));
   }
+  const navigate = useNavigate();
 
   function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     dispatch(login());
+    navigate('/');
   }
 
   useEffect(() => {
