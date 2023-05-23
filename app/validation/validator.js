@@ -1,4 +1,9 @@
 /**
+ * @typedef {object} ValidationError
+ * @property {string} error Error message
+ */
+
+/**
  * Générateur de middleware pour la validation
  * d'un objet d'une des propriété de la requête
  * @param {string} prop - Nom de la propriété de l'objet request à valider

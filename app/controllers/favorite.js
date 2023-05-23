@@ -1,5 +1,23 @@
 const { favoriteDataMapper } = require('../models');
 
+/**
+ * @typedef {object} Place
+ * @property {number} id
+ * @property {string} name
+ */
+
+/**
+ * @typedef {object} Journey
+ * @property {number} id - Identifiant unique, Pk de la table
+ * @property {string} departure_date_time
+ * @property {integer} duration
+ * @property {Place} from
+ * @property {Place} to
+ * @property {integer} nb_transfers
+ * @property {string} queryUrl
+ * @property {string} comment
+ */
+
 module.exports = {
     /**
      * Favorite controller to get a record

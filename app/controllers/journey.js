@@ -1,19 +1,68 @@
 const journeyDataMapper = require('../services/getJourneys');
 
+/**
+ * @typedef {object} Place
+ * @property {string} id
+ * @property {string} name
+ */
+
+/**
+ * @typedef {object} Journey
+ * @property {number} id - Identifiant unique, Pk de la table
+ * @property {string} departure_date_time
+ * @property {integer} duration
+ * @property {Place} from
+ * @property {Place} to
+ * @property {integer} nb_transfers
+ * @property {string} queryUrl
+ * @property {string} comment
+ */
+
+/**
+ * @typedef {object} Comment
+ * @property {string} comment
+ */
+
+/**
+ * @typedef {object} SectionItem
+ * @property {number} id - Identifiant unique, Pk de la table
+ * @property {string} departure_date_time
+ * @property {string} arrival_date_time
+ * @property {integer} duration
+ * @property {Place} from
+ * @property {Place} to
+ * @property {string} transportMode
+ */
+
+/**
+ * @typedef {object} JourneyDetail
+ * @property {number} id - Identifiant unique, Pk de la table
+ * @property {string} departure_date_time
+ * @property {string} arrival_date_time
+ * @property {integer} duration
+ * @property {integer} nb_transfers
+ * @property {Place} from
+ * @property {Place} to
+ * @property {array<SectionItem>} sections
+ */
+
 module.exports = {
-    async getJourneysByFilters(req, res) {
+    async getJourneysByFilters(req, res, next) {
         try {
             // On récupère tous les "journeys" en fonction du choix de l'utilisateur
             const journeys = await journeyDataMapper.findByQueryUrl(
-                `/journeys${req._parsedUrl.search}`
+                // `/journeys${req._parsedUrl.search}`
+                `/journeys${req.search}`
             );
             if (!journeys) {
                 return res.status(400).json('No journey for your search');
             }
+            const minJourneyDuration = process.env.MIN_DURATION
             // On reconstruit la réponse JSON avec les données nécessaires
-            let journeyResults = [];
+            const journeyResults = []
 
             journeys.forEach((journey) => {
+                if(journey.duration > minJourneyDuration)
                 // On remplit notre tableau avec des objets simplifiés pour le front
                 journeyResults.push({
                     departure_date_time: journey.departure_date_time,
@@ -34,13 +83,14 @@ module.exports = {
                 });
             });
             // On renvoie le tableau des objets "journeys" en version simplifié et lisible
-            return res.status(200).json(journeyResults);
+            return journeyResults;
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'fetching journeys'
+            next(error)
         }
     },
-    async getJourneyDetails(req, res) {
+    async getJourneyDetails(req, res, next) {
         try {
             // On récupère tous les détails du journey choisi par l'utilisateur
             // On spécifie que l'on veut le début du trajet en vélo
@@ -53,7 +103,7 @@ module.exports = {
                     .status(400)
                     .json('No details availables for your journey');
             }
-        
+
             // on récupert uniquement le premier trajet proposé (celui classé "best" par Navitia)
             const bestJourney = journey[0];
 
@@ -91,7 +141,7 @@ module.exports = {
                         id: section.to.id,
                         name: section.to.name,
                     },
-                    transportMode
+                    transportMode,
                 };
             });
 
@@ -118,8 +168,9 @@ module.exports = {
             return res.status(200).json(journeyResult);
             // return res.status(200).json(journey);
         } catch (error) {
-            console.error(error);
-            res.status(500).send(error);
+            error.status=500
+            error.type = 'fetching journey details'
+            next(error)
         }
     },
 };

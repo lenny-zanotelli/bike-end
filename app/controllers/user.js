@@ -2,11 +2,12 @@ const { userDataMapper } = require('../models');
 
 /**
  * @typedef {object} User
- * @property {number} id - Indentifiant unique, Pk de la table
+ * @property {number} id - Identifiant unique, Pk de la table
  * @property {string} email
  * @property {string} password
  * @property {string} firstname
  * @property {string} lastname
+ * @property {boolean} accepted_conditions
  */
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async getInfo(req, res) {
+    async getInfo(req, res, next) {
         try {
             const user = await userDataMapper.findByPk(req.userId);
             if (!user) {
@@ -28,8 +29,9 @@ module.exports = {
             // on renvoie un code 200 = success
             return res.status(200).json(user);
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type ='fetching user info'
+            next(error)
         }
     },
     /**
@@ -39,7 +41,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async modify(req, res) {
+    async modify(req, res, next) {
         try {
             const userInDB = await userDataMapper.findByPk(req.userId);
             if (!userInDB) {
@@ -57,8 +59,9 @@ module.exports = {
             // on renvoie un code 200 = success
             return res.status(200).json(savedUser);
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type ='modifying user'
+            next(error)
         }
     },
 
@@ -69,7 +72,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
             // deleted sera un booléen TRUE si deletion success
             const deleted = await userDataMapper.delete(req.userId);
@@ -79,8 +82,9 @@ module.exports = {
             // on renvoie un code 204 = no content
             return res.status(204).json('User deleted');
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'deleting user'
+            next(error)
         }
     },
 };

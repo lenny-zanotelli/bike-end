@@ -9,8 +9,9 @@ const jwtAuth = (req, res, next) => {
         req.userId = data.userId;
         next();
     } catch (error) {
-        console.log(error);
-        return res.status(401).json('Invalid token');
+        error.status=401
+        error.type = 'validating token'
+        next(error)
     }
 };
 
