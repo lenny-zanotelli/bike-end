@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS "favorite" (
     "from_id" TEXT NOT NULL,
     "to_name" TEXT NOT NULL,
     "to_id" TEXT NOT NULL,
+    "nb_transfers" INTEGER NOT NULL,
+    "queryUrl" TEXT NOT NULL,
     "comment" TEXT,
     "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP
