@@ -1,4 +1,3 @@
-import './styles.scss';
 import { Container, Typography } from '@mui/material';
 import PedalBikeIcon from '@mui/icons-material/PedalBike';
 
@@ -9,7 +8,6 @@ const styles = {
     alignItems: 'center',
     textAlign: 'center',
     gap: '1rem',
-    mb: '2rem',
     width: '100vw',
     p: '0.5rem',
     '@media screen and (min-width : 768px)': {

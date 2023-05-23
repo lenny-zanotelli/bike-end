@@ -8,7 +8,6 @@ import destinationImage from '../../../assets/images/result-card_background.png'
 import { Journey } from '../../../@types/journey';
 
 const styles = {
-
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -59,7 +58,6 @@ function ResultsPage() {
   }, []);
 
   return (
-
     <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
       <Typography
         component="h2"

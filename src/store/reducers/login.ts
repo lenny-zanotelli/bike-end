@@ -181,7 +181,7 @@ const loginReducer = createReducer(initialState, (builder) => {
       state.error = action.payload as string;
     })
     .addCase(login.rejected, (state) => {
-      state.error = 'Mauvais Identifiants';
+      state.error = 'Mauvais Identifiants - ';
       state.isLoading = false;
     })
     .addCase(login.pending, (state) => {

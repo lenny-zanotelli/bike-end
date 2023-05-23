@@ -74,7 +74,6 @@ function LoginPage() {
   });
 
   return (
-
     <Container
       className="container"
       component="main"
