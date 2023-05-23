@@ -24,7 +24,7 @@ const { createTokenForUserId } = require('../services/jwt');
  */
 
 module.exports = {
-    login: async (req, res) => {
+    login: async (req, res, next) => {
         try {
             // TODO mettre vérif password et email en middleware validation
             const user = await userDataMapper.findByEmail(req.body.email);
@@ -47,8 +47,9 @@ module.exports = {
             // on renvoie un code 200 = success
             return res.status(200).json(token);
         } catch (error) {
-            console.error(error);
-            return res.status(401).json('Access denied');;
+            error.status=500
+            error.type = 'logging in'
+            next(error)
         }
     },
     /**
@@ -58,7 +59,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    signup: async (req, res) => {
+    signup: async (req, res, next) => {
         try {
             const newUser = {
                 ...req.body,
@@ -71,8 +72,9 @@ module.exports = {
             // On renvoie un code 201 = Created
             return res.status(201).json(token);
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'signing up'
+            next(error)
         }
     },
 };

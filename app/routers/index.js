@@ -18,9 +18,14 @@ const loginSchema = require('../validation/schemas/userLoginSchema');
 const updateSchema = require('../validation/schemas/userUpdateSchema');
 
 // Importation des middlewares
-// TODO replace passwordCheck by JOI
-const { encryptPwd, jwtAuth, isUserUnique } = require('../middlewares');
-const { maxTime, maxDuration } = require('../middlewares/maxTime');
+const {
+    encryptPwd,
+    jwtAuth,
+    isUserUnique,
+    maxDuration,
+    errorHandler,
+    paginateAndCacheJourneys
+} = require('../middlewares');
 
 // post /login pour se connecter
 /**
@@ -117,7 +122,7 @@ router
      * @return {Journey} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
-    .post(favoriteController.addToFavorites); // ---->     (body {link/from/to/autres})
+    .post(favoriteController.addToFavorites);
 // {
 //     "departure_date_time": "20230517T180000",
 //     "duration": "480",
@@ -184,7 +189,7 @@ router
 
 // V.PP On récupère les suggestions d'itinéraires après choix du lieu de départ
 router
-    .route('/journey/search*') // ---- > get search/journeys .... searchParams
+    .route('/journey/search*')
     /**
      * GET /journey/search*
      * @tags 2.Search - everything about search
@@ -197,11 +202,15 @@ router
      * @return {Journey} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
-    .get(maxDuration, journeyController.getJourneysByFilters);
+    .get(
+        maxDuration,
+        paginateAndCacheJourneys,
+        journeyController.getJourneysByFilters
+    );
 
 // V.PP On récupère un itinéraire détaillé après choix dans la liste des suggestions
 router
-    .route('/journey/detail*') //  ---->  search/details  (body {link})
+    .route('/journey/detail*')
     /**
      * GET /journey/detail*
      * @tags 2.Search - everything about search
@@ -212,4 +221,5 @@ router
      */
     .get(journeyController.getJourneyDetails);
 
+router.use(errorHandler);
 module.exports = router;

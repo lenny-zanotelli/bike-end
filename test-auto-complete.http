@@ -4,7 +4,7 @@
 @endpoint = http://localhost:{{$dotenv PORT}}
 
 # Token du user connecté
-@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDc0Mzk0MCwiZXhwIjoxNjg1MzQ4NzQwfQ.NGFUkwgq2OTIyvGdQOvHN4tq5U9JTAUdBqPZAL94n4Y
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY4NDc2NzUwNCwiZXhwIjoxNjg1MzcyMzA0fQ.Uw8_DSE5C_V6anBM46JmZi69tv6hce7oCj2w-k3fL0s
 
 ### 404
 GET {{ endpoint }}/search
@@ -21,7 +21,7 @@ Authorization: {{ authorization }}
 # RENVOI : results = {id: string, name: string}[]
 
 ### Obtenir des itineraires par filtre
-GET {{ endpoint }}/journey/search?from=2.3786875;48.8486506&datetime=20230603T120000&max_duration=3600
+GET {{ endpoint }}/journey/search?from=2.3793433;48.8504715&datetime=20230603T120000&max_duration=7200&per_page=10&current_page=20
 Authorization: {{ authorization }}
 # ATTENDU : url = /journey/search 
 #           & req.query = {from: string, datetime: string(YYYYMMDDThhmmss), max_duration: integer(seconds)}

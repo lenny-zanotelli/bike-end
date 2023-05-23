@@ -1,4 +1,5 @@
 const autoCompleteDataMapper = require('../services/getAutoComplete');
+const { logAndResponseError } = require('../utils/error');
 
 /**
  * @typedef {object} Place
@@ -56,8 +57,9 @@ module.exports = {
             // On renvoie le tableau des objets "places" en version simplifié et lisible
             return res.status(200).json(placeResults);
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'autocompleting'
+            next(error)
         }
     }
 };
