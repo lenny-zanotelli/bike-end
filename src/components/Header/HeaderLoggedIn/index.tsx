@@ -54,7 +54,7 @@ const styles = {
   },
 } as const;
 
-function SearchHeader() {
+function HeaderLoggedIn() {
   return (
     <Container
       component="header"
@@ -116,9 +116,8 @@ function SearchHeader() {
           />
         </Link>
       </Container>
-
     </Container>
   );
 }
 
-export default SearchHeader;
+export default HeaderLoggedIn;

@@ -9,7 +9,7 @@ import Home from '../pages/HomePage';
 import SignupPage from '../pages/SignupPage';
 import LoginPage from '../pages/LoginPage';
 import ErrorPage from '../Error';
-import SearchPage from '../pages/SearchPage';
+import SearchPage from '../pages/SearchPage/index';
 import MyAccount from '../pages/MyAccountPage';
 import ResultsPage from '../pages/ResultsPage';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
