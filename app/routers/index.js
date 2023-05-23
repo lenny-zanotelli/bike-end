@@ -109,7 +109,7 @@ router
      * GET /favorite
      * @tags 3.Favorite - everything about favorite
      * @summary to get all the favorites
-     * @return {Journey} 200 - success response
+     * @return {Favorite} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .get(favoriteController.getAllFavorites)
@@ -119,19 +119,10 @@ router
      * @tags 3.Favorite - everything about favorite
      * @summary to add a journey as favorite
      * @param {Journey} request.body.required
-     * @return {Journey} 200 - success response
+     * @return {Favorite} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .post(favoriteController.addToFavorites);
-// {
-//     "departure_date_time": "20230517T180000",
-//     "duration": "480",
-//     "from_name": "9 Place d'Aligre (Paris)",
-//     "from_id": "2.378441;48.84916",
-//     "to_name": "Faidherbe - Chaligny (Paris)",
-//     "to_id": "stop_point:IDFM:463172",
-//     "link": "https://api.navitia.io/v1/journeys?from=2.37825371181375%3B48.84915325462162&datetime=20230517T180000&max_duration=1200&to=stop_point%3AIDFM%3A463172"
-//   }
 
 // GET/PATCH/DELETE - /favorite/:id
 router
@@ -142,7 +133,7 @@ router
      * @tags 3.Favorite - everything about favorite
      * @summary to get one favorite by its id
      * @param {string} id.path
-     * @return {Journey} 200 - success response
+     * @return {Favorite} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .get(favoriteController.getOneFavorite)
@@ -153,7 +144,7 @@ router
      * @summary to modify the comment field of a favorite
      * @param {id} id.path
      * @param {Comment} request.body.required
-     * @return {Journey} 200 - success response
+     * @return {Favorite} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .patch(favoriteController.modifyComment)
@@ -163,7 +154,7 @@ router
      * @tags 3.Favorite - everything about favorite
      * @summary to delete a favorite by its id
      * @param {id} id.path
-     * @return {Journey} 200 - success response
+     * @return {Favorite} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .delete(favoriteController.deleteOneFavorite);
@@ -171,8 +162,6 @@ router
 /**
  * SEARCH
  */
-
-// router.get('/search/*', searchController)
 
 // On récupère les suggestions de lieux en auto-complete
 router

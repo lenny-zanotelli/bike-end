@@ -15,12 +15,6 @@ const journeyDataMapper = require('../services/getJourneys');
  * @property {Place} to
  * @property {integer} nb_transfers
  * @property {string} queryUrl
- * @property {string} comment
- */
-
-/**
- * @typedef {object} Comment
- * @property {string} comment
  */
 
 /**
@@ -62,30 +56,30 @@ module.exports = {
             const journeyResults = []
 
             journeys.forEach((journey) => {
-                if(journey.duration > minJourneyDuration)
-                // On remplit notre tableau avec des objets simplifiés pour le front
-                journeyResults.push({
-                    departure_date_time: journey.departure_date_time,
-                    duration: journey.duration,
-                    from: {
-                        id: journey.from.id,
-                        name: journey.from.name,
-                    },
-                    to: {
-                        id: journey.to.id,
-                        name: journey.to.name,
-                    },
-                    nb_transfers: journey.nb_transfers,
-                    queryUrl: journey.links[0].href.replace(
-                        'https://api.navitia.io/v1/journeys',
-                        ''
-                    ),
-                });
+                if (journey.duration > minJourneyDuration)
+                    // On remplit notre tableau avec des objets simplifiés pour le front
+                    journeyResults.push({
+                        departure_date_time: journey.departure_date_time,
+                        duration: journey.duration,
+                        from: {
+                            id: journey.from.id,
+                            name: journey.from.name,
+                        },
+                        to: {
+                            id: journey.to.id,
+                            name: journey.to.name,
+                        },
+                        nb_transfers: journey.nb_transfers,
+                        queryUrl: journey.links[0].href.replace(
+                            'https://api.navitia.io/v1/journeys',
+                            ''
+                        ),
+                    });
             });
             // On renvoie le tableau des objets "journeys" en version simplifié et lisible
             return journeyResults;
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'fetching journeys'
             next(error)
         }
@@ -168,7 +162,7 @@ module.exports = {
             return res.status(200).json(journeyResult);
             // return res.status(200).json(journey);
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'fetching journey details'
             next(error)
         }
