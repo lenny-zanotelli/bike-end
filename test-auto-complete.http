@@ -2,6 +2,7 @@
 
 # Base URL
 @endpoint = http://localhost:{{$dotenv PORT}}
+@endpointProd = https://bikeend-api.up.railway.app
 
 # Token du user connecté
 @authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY4NDc2NzUwNCwiZXhwIjoxNjg1MzcyMzA0fQ.Uw8_DSE5C_V6anBM46JmZi69tv6hce7oCj2w-k3fL0s
@@ -15,13 +16,13 @@ Authorization: {{ authorization }}
 #########################
 
 ### Obtenir des places existantes en auto-complete
-GET {{ endpoint }}/autocomplete/aligre
-Authorization: {{ authorization }}
+GET {{ endpointProd }}/autocomplete/aligre
+Authorization: {{ endpointProd }}
 # ATTENDU : url = /autocomplete/<les caracteres recherchés>
 # RENVOI : results = {id: string, name: string}[]
 
 ### Obtenir des itineraires par filtre
-GET {{ endpoint }}/journey/search?from=2.3793433;48.8504715&datetime=20230603T120000&max_duration=7200&per_page=10&current_page=20
+GET {{ endpointProd }}/journey/search?from=2.3793433;48.8504715&datetime=20230603T120000&max_duration=3600&per_page=10&current_page=20
 Authorization: {{ authorization }}
 # ATTENDU : url = /journey/search 
 #           & req.query = {from: string, datetime: string(YYYYMMDDThhmmss), max_duration: integer(seconds)}

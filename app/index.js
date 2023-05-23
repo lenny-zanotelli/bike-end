@@ -1,13 +1,23 @@
 // Importation des dépendances
 const path = require('path');
 const express = require('express');
-const expressJSDocSwagger = require('express-jsdoc-swagger');
 const cors = require('cors');
+const expressJSDocSwagger = require('express-jsdoc-swagger');
 
 // Appel de routeurs/index.js
 const router = require('./routers');
 
 const app = express();
+
+
+// Middleware pour parser le payload JSON
+app.use(express.json());
+
+// Middleware pour parser le payload urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+// Levée de la restriction CORS si non défini dans .env
+app.use(cors(process.env.CORS_DOMAINS ?? '*'));
 
 // API documentation : Swagger options
 const options = {
@@ -27,7 +37,7 @@ const options = {
     // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
     filesPattern: './**/*.js',
     // URL where SwaggerUI will be rendered
-    swaggerUIPath: '/', // '/api-docs',
+    swaggerUIPath: '/api-docs',
     // Expose OpenAPI UI
     exposeSwaggerUI: true,
     // Expose Open API JSON Docs documentation in `apiDocsPath` path.
@@ -38,15 +48,6 @@ const options = {
 
 // API documentation : Swagger options
 expressJSDocSwagger(app)(options);
-
-// Middleware pour parser le payload JSON
-app.use(express.json());
-
-// Middleware pour parser le payload urlencoded
-app.use(express.urlencoded({ extended: true }));
-
-// Levée de la restriction CORS si non défini dans .env
-app.use(cors(process.env.CORS_DOMAINS ?? '*'));
 
 app.use(router);
 

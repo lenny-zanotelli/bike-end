@@ -6,6 +6,7 @@
 
 # Base URL
 @endpoint = http://localhost:{{$dotenv PORT}}
+@endpointProd = https://bikeend-api.up.railway.app
 @tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDc0Mzk0MCwiZXhwIjoxNjg1MzQ4NzQwfQ.NGFUkwgq2OTIyvGdQOvHN4tq5U9JTAUdBqPZAL94n4Y
 
 @tokenDeJean = 
@@ -22,7 +23,7 @@ Authorization: {{ tokenDePierre }}
 #########################
 
 ### Créer un user avec email déja existant
-POST {{ endpoint }}/signup
+POST {{ endpointProd }}/signup
 content-type: application/json
 
 {
