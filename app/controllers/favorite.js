@@ -1,14 +1,18 @@
 const { favoriteDataMapper } = require('../models');
 
 /**
+ * @typedef {object} Place
+ * @property {number} id
+ * @property {string} name
+ */
+
+/**
  * @typedef {object} Journey
  * @property {number} id - Identifiant unique, Pk de la table
  * @property {string} departure_date_time
  * @property {integer} duration
- * @property {string} from_name
- * @property {string} from_id
- * @property {string} to_name
- * @property {string} to_id
+ * @property {Place} from
+ * @property {Place} to
  * @property {integer} nb_transfers
  * @property {string} queryUrl
  * @property {string} comment

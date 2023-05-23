@@ -1,17 +1,49 @@
 const journeyDataMapper = require('../services/getJourneys');
 
 /**
+ * @typedef {object} Place
+ * @property {string} id
+ * @property {string} name
+ */
+
+/**
  * @typedef {object} Journey
  * @property {number} id - Identifiant unique, Pk de la table
  * @property {string} departure_date_time
  * @property {integer} duration
+ * @property {Place} from
+ * @property {Place} to
  * @property {integer} nb_transfers
- * @property {string} from.name
- * @property {string} from.id
- * @property {string} to.name
- * @property {string} to.id
  * @property {string} queryUrl
  * @property {string} comment
+ */
+
+/**
+ * @typedef {object} Comment
+ * @property {string} comment
+ */
+
+/**
+ * @typedef {object} SectionItem
+ * @property {number} id - Identifiant unique, Pk de la table
+ * @property {string} departure_date_time
+ * @property {string} arrival_date_time
+ * @property {integer} duration
+ * @property {Place} from
+ * @property {Place} to
+ * @property {string} transportMode
+ */
+
+/**
+ * @typedef {object} JourneyDetail
+ * @property {number} id - Identifiant unique, Pk de la table
+ * @property {string} departure_date_time
+ * @property {string} arrival_date_time
+ * @property {integer} duration
+ * @property {integer} nb_transfers
+ * @property {Place} from
+ * @property {Place} to
+ * @property {array<SectionItem>} sections
  */
 
 module.exports = {

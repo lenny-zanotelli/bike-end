@@ -16,12 +16,18 @@ const options = {
         title: 'Bike-end',
         description: 'Bike-end app to travel by train and bike',
     },
+    // security: {
+    //     BasicAuth: {
+    //         type: 'http',
+    //         scheme: 'basic',
+    //     },
+    // },
     // Base directory which we use to locate your JSDOC files
     baseDir: __dirname,
     // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
     filesPattern: './**/*.js',
     // URL where SwaggerUI will be rendered
-    swaggerUIPath: '/api-docs',
+    swaggerUIPath: '/', // '/api-docs',
     // Expose OpenAPI UI
     exposeSwaggerUI: true,
     // Expose Open API JSON Docs documentation in `apiDocsPath` path.

@@ -25,6 +25,7 @@ const { maxTime, maxDuration } = require('../middlewares/maxTime');
 // post /login pour se connecter
 /**
  * POST /login
+ * @tags 1.User - everything about user
  * @summary to get connected with email and password
  * @param {User} request.body.required
  * @return {User} 200 - success response
@@ -39,6 +40,7 @@ router.post(
 // post /signup pour créer un compte
 /**
  * POST /signup
+ * @tags 1.User - everything about user
  * @summary to create an account with email, password, firstname and lastname
  * @param {User} request.body.required
  * @return {User} 200 - success response
@@ -62,14 +64,16 @@ router
     .route('/user')
     /**
      * GET /user
+     * @tags 1.User - everything about user
      * @summary to get user informations
-     * @param {User} 
+     * @security bearerAuth
      * @return {User} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .get(userController.getInfo)
     /**
      * PATCH /user
+     * @tags 1.User - everything about user
      * @summary to modify user informations
      * @param {User} request.body.required
      * @return {User} 200 - success response
@@ -81,8 +85,8 @@ router
     )
     /**
      * DELETE /user
+     * @tags 1.User - everything about user
      * @summary to delete user account
-     * @param {User} 
      * @return {User} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
@@ -98,18 +102,19 @@ router
     // On récupère tous les favoris
     /**
      * GET /favorite
+     * @tags 3.Favorite - everything about favorite
      * @summary to get all the favorites
-     * @param {} 
-     * @return {Favorite} 200 - success response
+     * @return {Journey} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .get(favoriteController.getAllFavorites)
     // On ajoute un favori
     /**
      * POST /favorite
+     * @tags 3.Favorite - everything about favorite
      * @summary to add a journey as favorite
      * @param {Journey} request.body.required
-     * @return {Favorite} 200 - success response
+     * @return {Journey} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .post(favoriteController.addToFavorites); // ---->     (body {link/from/to/autres})
@@ -129,27 +134,31 @@ router
     // On récupère un favori
     /**
      * GET /favorite/:id
+     * @tags 3.Favorite - everything about favorite
      * @summary to get one favorite by its id
-     * @param {id} 
-     * @return {Favorite} 200 - success response
+     * @param {string} id.path
+     * @return {Journey} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .get(favoriteController.getOneFavorite)
     // On modifie un favori
     /**
      * PATCH /favorite/:id
+     * @tags 3.Favorite - everything about favorite
      * @summary to modify the comment field of a favorite
-     * @param {id, Favorite} request.body.required
-     * @return {Favorite} 200 - success response
+     * @param {id} id.path
+     * @param {Comment} request.body.required
+     * @return {Journey} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .patch(favoriteController.modifyComment)
     // On supprime un favori
     /**
      * DELETE /favorite/:id
+     * @tags 3.Favorite - everything about favorite
      * @summary to delete a favorite by its id
-     * @param {id} 
-     * @return {} 200 - success response
+     * @param {id} id.path
+     * @return {Journey} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .delete(favoriteController.deleteOneFavorite);
@@ -165,8 +174,9 @@ router
     .route('/autocomplete/:place')
     /**
      * GET /autocomplete/:place
+     * @tags 2.Search - everything about search
      * @summary to get a list of places with auto-completion
-     * @param {place} 
+     * @param {string} place.path personalized place
      * @return {Place} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
@@ -177,8 +187,13 @@ router
     .route('/journey/search*') // ---- > get search/journeys .... searchParams
     /**
      * GET /journey/search*
+     * @tags 2.Search - everything about search
      * @summary to get a list of journeys by a selected place
-     * @param {searchParams} 
+     * @param {string} from.query is equal to the Place.id
+     * @param {string} datetime.query "YYYYMMDDThhmmss" format
+     * @param {integer} max_duration.query limited to 3600 secondes for the moment
+     * @param {integer} per_page.query
+     * @param {string} current_page.query
      * @return {Journey} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
@@ -189,9 +204,10 @@ router
     .route('/journey/detail*') //  ---->  search/details  (body {link})
     /**
      * GET /journey/detail*
+     * @tags 2.Search - everything about search
      * @summary to get a detailled journey by a selected journey
-     * @param {searchParams} 
-     * @return {Journey} 200 - success response
+     * @param {string} queryUrl.query is equal to the Journey.queryUrl
+     * @return {JourneyDetail} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .get(journeyController.getJourneyDetails);

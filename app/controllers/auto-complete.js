@@ -2,7 +2,7 @@ const autoCompleteDataMapper = require('../services/getAutoComplete');
 
 /**
  * @typedef {object} Place
- * @property {string} id - Identifiant unique, Pk de la table
+ * @property {string} id
  * @property {string} name
  */
 
