@@ -89,11 +89,6 @@ function MyAccount() {
     setOpen(false);
   };
 
-  // const handleAddItem = () => {
-  //   setText('');
-  //   handleClose();
-  // };
-
   const handleLoggout = () => {
     dispatch(logout());
     navigate('/');
@@ -208,9 +203,8 @@ function MyAccount() {
               <TextField
                 sx={styles.inputStyle}
                 color="success"
-                fullWidth
-                name="firstname"
-                label="Prenom"
+                name="lastname"
+                label="Nom"
                 size="small"
                 onChange={handleChangeField}
               />
@@ -218,8 +212,9 @@ function MyAccount() {
               <TextField
                 sx={styles.inputStyle}
                 color="success"
-                name="lastname"
-                label="Nom"
+                fullWidth
+                name="firstname"
+                label="Prenom"
                 size="small"
                 onChange={handleChangeField}
               />

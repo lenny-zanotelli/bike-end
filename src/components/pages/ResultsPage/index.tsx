@@ -15,7 +15,8 @@ const styles = {
     justifyContent: 'center',
     gap: '30px',
     width: '80%',
-
+    heigh: '100vh',
+    overflow: 'auto',
   },
   card: {
     margin: 'auto',
@@ -42,7 +43,7 @@ const styles = {
     right: '8px',
   },
 
-};
+} as const;
 
 function ResultsPage() {
   const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
@@ -53,16 +54,15 @@ function ResultsPage() {
     if (results) {
       const localStorageResults = JSON.parse(results);
       console.log('RESULT PAGE', localStorageResults);
-
       setStoredJourneysArray(localStorageResults);
-      // Faites ce que vous voulez avec les résultats récupérés...
     }
   }, []);
 
   return (
 
-    <Container maxWidth={false}>
+    <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
       <Typography
+        component="h2"
         color="black"
         align="center"
         sx={{
@@ -74,9 +74,22 @@ function ResultsPage() {
         ${storedJourneysArray.length > 0 ? storedJourneysArray[0].from.name : ''}. 
         En selle !`}
       </Typography>
-      <Grid container spacing={2} justifyContent="center">
+      <Grid
+        component="section"
+        container
+        rowSpacing={2}
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        justifyContent="center"
+      >
         {storedJourneysArray.map((result: Journey) => (
-          <Grid item key={result.from.id} xs={6} sm={8} md={3}>
+          <Grid
+            component="article"
+            item
+            key={result.from.id}
+            xs={7}
+            sm={8}
+            md={3}
+          >
             <Card sx={styles.card}>
               <IconButton sx={styles.favoriteIcon}>
                 <FavoriteIcon />

@@ -1,7 +1,7 @@
 @use './../../styles/vars';
 
 html, body {
-	height: 100%; 
-	overflow: auto;
+	height: 100vh; 
+	overflow: hidden;
 	font-family: sans-serif;
 }

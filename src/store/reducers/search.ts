@@ -66,7 +66,7 @@ JourneySearchParams>(
     if (tokenWithQuotesTest) {
       try {
         const token = tokenWithQuotesTest.replace(/^"(.*)"$/, '$1');
-        const limit = 5;
+        const limit = 10;
         const queryParams = new URLSearchParams(`from=${params.from}&max_duration=${params.max_duration}`);
         const url = `journey/search?${queryParams.toString()}`;
         const headers = {
