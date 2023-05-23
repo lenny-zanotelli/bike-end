@@ -1,5 +1,6 @@
 import TravelExploreRoundedIcon from '@mui/icons-material/TravelExploreRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
   Container, Link, Typography,
 } from '@mui/material';
@@ -7,8 +8,7 @@ import {
 const styles = {
   header: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'center',
     my: '0.5rem',
     '@media screen and (min-width : 768px)': {
       display: 'flex',
@@ -42,7 +42,6 @@ const styles = {
     fontStyle: 'italic',
     fontWeight: 'bold',
     ml: '2%',
-
   },
 } as const;
 
@@ -83,15 +82,30 @@ function SearchHeader() {
           Le planificateur des week-ends qui font du bien à la tête et à la planète !
         </Typography>
       </Container>
-      <Link
-        className="header__link"
-        href="/myaccount"
+      <Container
+        disableGutters
+        className="header__container-right-icons"
+        sx={{ display: 'flex', gap: '0.5rem', width: 'auto' }}
       >
-        <AccountCircleRoundedIcon
-          fontSize="large"
-          color="action"
-        />
-      </Link>
+        <Link
+          className="header__link"
+          href="/favorite"
+        >
+          <FavoriteIcon
+            fontSize="large"
+            color="action"
+          />
+        </Link>
+        <Link
+          className="header__link"
+          href="/myaccount"
+        >
+          <AccountCircleRoundedIcon
+            fontSize="large"
+            color="action"
+          />
+        </Link>
+      </Container>
 
     </Container>
   );
