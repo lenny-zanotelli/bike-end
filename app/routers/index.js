@@ -18,8 +18,14 @@ const loginSchema = require('../validation/schemas/userLoginSchema');
 const updateSchema = require('../validation/schemas/userUpdateSchema');
 
 // Importation des middlewares
-const { encryptPwd, jwtAuth, isUserUnique, maxDuration } = require('../middlewares');
-const { paginate } = require('../middlewares/paginate');
+const {
+    encryptPwd,
+    jwtAuth,
+    isUserUnique,
+    maxDuration,
+    errorHandler,
+    paginateAndCacheJourneys
+} = require('../middlewares');
 
 // post /login pour se connecter
 router.post(
@@ -62,7 +68,7 @@ router
     // On récupère tous les favoris
     .get(favoriteController.getAllFavorites)
     // On ajoute un favori
-    .post(favoriteController.addToFavorites); 
+    .post(favoriteController.addToFavorites);
 // {
 //     "departure_date_time": "20230517T180000",
 //     "duration": "480",
@@ -97,11 +103,14 @@ router
 // V.PP On récupère les suggestions d'itinéraires après choix du lieu de départ
 router
     .route('/journey/search*')
-    .get(maxDuration, paginate, journeyController.getJourneysByFilters);
+    .get(
+        maxDuration,
+        paginateAndCacheJourneys,
+        journeyController.getJourneysByFilters
+    );
 
 // V.PP On récupère un itinéraire détaillé après choix dans la liste des suggestions
-router
-    .route('/journey/detail*')
-    .get(journeyController.getJourneyDetails);
+router.route('/journey/detail*').get(journeyController.getJourneyDetails);
 
+router.use(errorHandler);
 module.exports = router;

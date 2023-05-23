@@ -6,7 +6,9 @@ const { isEmailUsedByOthers, findByEmail } = require('../models/user');
 
 // import modules
 const { jwtAuth } = require('./jwtAuth');
-const { maxDuration } = require('./maxDuration')
+const { maxDuration } = require('./maxDuration');
+const { paginateAndCacheJourneys } = require('./cache');
+const { errorHandler } = require('./errorHandler');
 const encryptPwd = async (req, res, next) => {
     if (req.body.password) {
         req.body.password = await bcrypt.hash(req.body.password, 10);
@@ -36,4 +38,4 @@ const isUserUnique = async (req, res, next) => {
     }
 };
 
-module.exports = { jwtAuth, isUserUnique, encryptPwd, maxDuration };
+module.exports = { jwtAuth, isUserUnique, encryptPwd, maxDuration, paginateAndCacheJourneys ,errorHandler};
