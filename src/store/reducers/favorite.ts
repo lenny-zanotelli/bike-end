@@ -4,12 +4,6 @@ import { createAppAsyncThunk } from '../../utils/redux';
 import { axiosInstance } from '../../utils/axios';
 import { Journey } from '../../@types/journey';
 
-interface FavoriteState {
-  favorite: Journey | null;
-  sendingFavorite: boolean;
-  sendFavoriteError: string | null;
-}
-
 const initialState = {
   favorite: null,
   sendingFavorite: false,
@@ -18,14 +12,14 @@ const initialState = {
 
 export const SET_FAVORITE_CARD = 'SET_FAVORITE_CARD';
 
-export const setFavoriteCard = (card: any) => ({
+export const setFavoriteCard = (card: Journey) => ({
   type: SET_FAVORITE_CARD,
   payload: card,
 });
 
 export const sendFavoriteCard = createAppAsyncThunk(
   'cards/sendFavoriteCard',
-  async (card, thunkAPI) => {
+  async (card: Journey, thunkAPI) => {
     const tokenWithQuotes = localStorage.getItem('token');
     if (tokenWithQuotes) {
       try {
