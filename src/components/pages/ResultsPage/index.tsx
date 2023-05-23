@@ -5,6 +5,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useCallback, useEffect, useState } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
+import { setFavoriteCard, sendFavoriteCard } from '../../../store/reducers/favorite';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 const styles = {
 
@@ -39,13 +41,18 @@ const styles = {
   favoriteIcon: {
     // position: 'absolute',
     top: '8px',
-    LEFT: '8px',
+    left: '8px',
   },
 
 } as const;
 
 function ResultsPage() {
   const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
+
+  const dispatch = useAppDispatch();
+  const favoriteCard = useAppSelector((state) => state.favorite.favorite);
+  const sendingFavoriteCard = useAppSelector((state) => state.favorite.sendingFavorite);
+  const sendFavoriteCardError = useAppSelector((state) => state.favorite.sendFavoriteError);
 
   useEffect(() => {
     // Récupération des résultats depuis le localStorage
@@ -54,7 +61,7 @@ function ResultsPage() {
       const localStorageResults = JSON.parse(results);
       const updatedResults = localStorageResults.map((result: Journey) => ({
         ...result,
-        isFavorite: false,
+        isFavorite: false, // Modification de l'etat de l'icone favoris
       }));
       setStoredJourneysArray(updatedResults);
     }
@@ -66,7 +73,13 @@ function ResultsPage() {
       updatedResults[index].isFavorite = !updatedResults[index].isFavorite;
       return updatedResults;
     });
-  }, []);
+
+    const card = storedJourneysArray[index];
+
+    console.log(card)
+    dispatch(setFavoriteCard(card));
+    dispatch(sendFavoriteCard(card));
+  }, [dispatch, storedJourneysArray]);
 
   return (
 
