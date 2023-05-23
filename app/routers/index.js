@@ -19,6 +19,7 @@ const updateSchema = require('../validation/schemas/userUpdateSchema');
 
 // Importation des middlewares
 const { encryptPwd, jwtAuth, isUserUnique, maxDuration } = require('../middlewares');
+const { paginate } = require('../middlewares/paginate');
 
 // post /login pour se connecter
 router.post(
@@ -96,7 +97,7 @@ router
 // V.PP On récupère les suggestions d'itinéraires après choix du lieu de départ
 router
     .route('/journey/search*')
-    .get(maxDuration, journeyController.getJourneysByFilters);
+    .get(maxDuration, paginate, journeyController.getJourneysByFilters);
 
 // V.PP On récupère un itinéraire détaillé après choix dans la liste des suggestions
 router
