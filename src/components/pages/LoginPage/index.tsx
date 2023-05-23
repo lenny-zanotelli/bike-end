@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import {
-  Button, Container, Box, TextField, Typography,
+  Button, Container, Box, TextField, Typography, Alert,
 } from '@mui/material';
 import { ChangeEvent, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +49,7 @@ function LoginPage() {
   const email = useAppSelector((state) => state.login.credentials.email);
   const password = useAppSelector((state) => state.login.credentials.password);
   const isLogged = useAppSelector((state) => state.login.logged);
-  // const isLoading = useAppSelector((state) => state.login.error);
+  const error = useAppSelector((state) => state.login.error);
 
   function handleChangeField(event: ChangeEvent<HTMLInputElement>): void {
     const newValue = event.target.value;
@@ -107,6 +107,7 @@ function LoginPage() {
             onSubmit={handleSubmitLogin}
           >
             <TextField
+              error={Boolean(error)}
               sx={styles.input}
               color="success"
               variant="outlined"
@@ -119,6 +120,7 @@ function LoginPage() {
               onChange={handleChangeField}
             />
             <TextField
+              error={Boolean(error)}
               sx={styles.input}
               color="success"
               variant="outlined"
@@ -148,8 +150,16 @@ function LoginPage() {
           >
             Mot de passe oublié ?
           </Button>
+          {error && (
+          <Alert
+            severity="error"
+            variant="filled"
+            sx={{ width: '100%' }}
+          >
+            {error}
+          </Alert>
+          )}
         </Box>
-
       )}
 
     </Container>
