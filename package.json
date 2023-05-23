@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "railway connect Redis && node index.js",
     "dev": "nodemon index.js",
     "builddev": "npm i && sqitch deploy",
     "buildprod": "sqitch --target production deploy",
