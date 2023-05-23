@@ -12,7 +12,7 @@ const styles = {
     my: '0.5rem',
     '@media screen and (min-width : 768px)': {
       display: 'flex',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
       gap: '15rem',
       alignItems: 'center',
       textAlign: 'center',
@@ -25,6 +25,7 @@ const styles = {
     },
   },
   headerTitleTagline: {
+    display: 'none',
     '@media screen and (min-width : 768px)': {
       display: 'flex',
       width: '60rem',
@@ -42,6 +43,14 @@ const styles = {
     fontStyle: 'italic',
     fontWeight: 'bold',
     ml: '2%',
+  },
+  headerContainerRightIcons: {
+    display: 'flex',
+    gap: '0.5rem',
+    justifyContent: 'flex-end',
+    '@media screen and (min-width: 768px)': {
+      width: 'auto',
+    },
   },
 } as const;
 
@@ -83,9 +92,10 @@ function SearchHeader() {
         </Typography>
       </Container>
       <Container
+        component="section"
         disableGutters
         className="header__container-right-icons"
-        sx={{ display: 'flex', gap: '0.5rem', width: 'auto' }}
+        sx={styles.headerContainerRightIcons}
       >
         <Link
           className="header__link"

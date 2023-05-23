@@ -22,7 +22,6 @@ import { useNavigate } from 'react-router-dom';
 import testImg from '../../../../assets/images/test-searchPage-desktop.jpg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { fetchAutoComplete, searchJourneys } from '../../../../store/reducers/search';
-import { Journey } from '../../../../@types/journey';
 
 const styles = {
   container: {
@@ -89,6 +88,7 @@ const styles = {
     },
   },
   desktopContainerImg: {
+    display: 'none',
     '@media only screen and (min-device-width : 768px)': {
       display: 'flex',
       justifyContent: 'center',
@@ -96,6 +96,7 @@ const styles = {
     },
   },
   containerSubtitle: {
+    display: 'none',
     '@media only screen and (min-device-width : 768px)': {
       fontStyle: 'italic',
       fontWeight: 'bold',
