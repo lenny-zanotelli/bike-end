@@ -86,7 +86,7 @@ function ResultsPage() {
             component="article"
             item
             key={result.from.id}
-            xs={7}
+            xs={5}
             sm={8}
             md={3}
           >
