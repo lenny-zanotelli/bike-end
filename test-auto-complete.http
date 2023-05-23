@@ -16,7 +16,7 @@ Authorization: {{ authorization }}
 #########################
 
 ### Obtenir des places existantes en auto-complete
-GET {{ endpoint }}/autocomplete/aligre
+GET {{ endpointProd }}/autocomplete/aligre
 Authorization: {{ endpointProd }}
 # ATTENDU : url = /autocomplete/<les caracteres recherchés>
 # RENVOI : results = {id: string, name: string}[]
