@@ -53,6 +53,18 @@ const styles = {
     my: '0.5rem',
     backgroundColor: 'white',
   },
+  containerModal: {
+    width: '70vw',
+    mt: '2rem',
+    borderRadius: '5px',
+    p: '1rem',
+    textAlign: 'center',
+    backgroundColor: 'rgb(154, 183, 192, 1)',
+    '@media only screen and (min-device-width : 768px)': {
+      maxWidth: '35%',
+    },
+
+  },
   closeButton: {
     position: 'absolute',
     top: '8px',
@@ -85,8 +97,10 @@ function MyAccount() {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = (event: React.SyntheticEvent, reason: string) => {
+    if (reason !== 'backdropClick') {
+      setOpen(false);
+    }
   };
 
   const handleLoggout = () => {
@@ -163,26 +177,8 @@ function MyAccount() {
             mt: '6.5rem',
           }}
         >
-
-          <Container
-            className="container__connect__modal"
-            component="section"
-            sx={{
-              width: '70vw',
-              mt: '2rem',
-              borderRadius: '5px',
-              p: '1rem',
-              textAlign: 'center',
-              backgroundColor: 'lightgrey',
-              '@media only screen and (min-device-width : 768px)': {
-                maxWidth: '35%',
-              },
-
-            }}
-          >
-            <Button
-              onClick={handleClose}
-            >
+          <Container sx={styles.containerModal}>
+            <Button onClick={handleClose} sx={styles.closeButton}>
               <CloseIcon />
             </Button>
             <form
