@@ -51,10 +51,10 @@ function ResultsPage() {
     // Récupération des résultats depuis le localStorage
     const results = localStorage.getItem('results');
     if (results) {
-      const storedJourneysArray = JSON.parse(results);
-      console.log('RESULT PAGE', storedJourneysArray);
+      const localStorageResults = JSON.parse(results);
+      console.log('RESULT PAGE', localStorageResults);
 
-      setStoredJourneysArray(storedJourneysArray);
+      setStoredJourneysArray(localStorageResults);
       // Faites ce que vous voulez avec les résultats récupérés...
     }
   }, []);
@@ -70,7 +70,9 @@ function ResultsPage() {
           fontWeight: 'bold',
         }}
       >
-        `De nouveaux horizons à découvrir depuis POINT DE DEPART En selle !`
+        {`De nouveaux horizons à découvrir depuis 
+        ${storedJourneysArray.length > 0 ? storedJourneysArray[0].from.name : ''}. 
+        En selle !`}
       </Typography>
       <Grid container spacing={2} justifyContent="center">
         {storedJourneysArray.map((result: Journey) => (

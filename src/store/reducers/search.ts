@@ -75,7 +75,7 @@ JourneySearchParams>(
         const response = await axios.get(`https://bikeend-api.up.railway.app/${url}`, { headers });
         // Filtrer les trajets avec une durée minimale de 3000 secondes
         const filteredJourneys = response.data.filter(
-          (journey: { duration: number; }) => journey.duration >= 2000,
+          (journey: { duration: number; }) => journey.duration > 3000,
         );
         const limitedJourneys = filteredJourneys.slice(0, limit);
         console.log('DESTINATION: ', limitedJourneys);
