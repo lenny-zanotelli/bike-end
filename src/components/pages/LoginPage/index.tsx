@@ -70,10 +70,7 @@ function LoginPage() {
 
   function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    dispatch(login())
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(login());
   }
 
   useEffect(() => {
