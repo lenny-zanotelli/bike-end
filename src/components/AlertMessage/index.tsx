@@ -14,7 +14,6 @@ function AlertMessage() {
       <Alert
         severity={severity as AlertColor}
         variant="filled"
-        sx={{ width: '100%' }}
       >
         {message}
       </Alert>

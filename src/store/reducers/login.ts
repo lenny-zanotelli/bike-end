@@ -164,15 +164,12 @@ export const changeCredentialsField = createAction<{
 
 export const updateLoginStatus = createAction<boolean>('login/UPDATE_LOGIN_STATUS');
 
-export const setDisplaySnackbar = createAction<{ severity: string; message: string }>('login/SET_DISPLAY_SNACKBAR');
+export const setDisplaySnackbar = createAction<{
+  severity: string; message: string
+}>('login/SET_DISPLAY_SNACKBAR');
 
 const loginReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(setDisplaySnackbar, (state, action) => {
-      state.alert.severity = action.payload ? action.payload.severity : state.alert.severity;
-      state.alert.message = action.payload ? action.payload.message : '';
-      state.alert.open = !state.alert.open;
-    })
     .addCase(updateLoginStatus, (state, action) => {
       state.logged = action.payload;
     })
@@ -220,6 +217,7 @@ const loginReducer = createReducer(initialState, (builder) => {
       state.isLoading = false;
     })
     .addCase(register.pending, (state) => {
+      state.error = null;
       state.isLoading = true;
     })
     .addCase(register.fulfilled, (state, action) => {
@@ -232,7 +230,7 @@ const loginReducer = createReducer(initialState, (builder) => {
       state.credentials.password = '';
       state.credentials.passwordCheck = '';
     })
-    // LOGGOUT
+    // LOGOUT
     .addCase(logout, (state) => {
       state.logged = false;
       removeUserDataFromLocalStorage();
@@ -267,6 +265,11 @@ const loginReducer = createReducer(initialState, (builder) => {
     .addCase(modifyUser.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload as string;
+    })
+    .addCase(setDisplaySnackbar, (state, action) => {
+      state.alert.severity = action.payload ? action.payload.severity : state.alert.severity;
+      state.alert.message = action.payload ? action.payload.message : '';
+      state.alert.open = !state.alert.open;
     });
 });
 

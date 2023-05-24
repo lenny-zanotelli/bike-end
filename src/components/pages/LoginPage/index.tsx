@@ -1,15 +1,30 @@
 /* eslint-disable react/jsx-no-bind */
 import {
-  Button, Container, Box, TextField, Typography, Alert, Link, InputAdornment, IconButton, Snackbar,
+  Button,
+  Container,
+  Box,
+  TextField,
+  Typography,
+  Link,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import {
-  ChangeEvent, FormEvent, MouseEvent, useEffect, useState,
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useEffect,
+  useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
-  login, KeysOfCredentials, changeCredentialsField, updateLoginStatus, setDisplaySnackbar,
+  login,
+  KeysOfCredentials,
+  changeCredentialsField,
+  updateLoginStatus,
+  setDisplaySnackbar,
 } from '../../../store/reducers/login';
 import AlertMessage from '../../AlertMessage';
 

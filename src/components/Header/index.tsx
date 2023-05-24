@@ -8,7 +8,7 @@ function Header() {
   return (
     <Container
       component="header"
-      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
       {isLogged ? (
         <HeaderLoggedIn />
