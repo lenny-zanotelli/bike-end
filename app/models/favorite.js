@@ -48,6 +48,27 @@ module.exports = {
     },
 
     /**
+     * Récupère un favori par son queryUrl
+     * @param {string} favoriteQueryUrl Le queryUrl du favori souhaité
+     * @returns {Favorite|null} Le favori souhaité ou null si aucun favori ne correspond à ce queryUrl
+     */
+    async findByQueryUrl(userId, favoriteQueryUrl) {
+        const result = await client.query(`SELECT * FROM "favorite"
+            WHERE "queryUrl" = $2 AND "user_id" = $1;`,
+            [
+                userId,
+                favoriteQueryUrl
+            ]
+        );
+
+        if (result.rowCount === 0) {
+            return null;
+        }
+
+        return result.rows[0];
+    },
+
+    /**
      * Ajoute dans la base de données
      * @param {json} newFavorite - Les données à insérer
      * @returns {Favorite} Le Favori inséré
@@ -88,15 +109,15 @@ module.exports = {
      * @param {json} comment - Les données à modifier
      * @returns {Favorite} Le Favori modifié
      */
-    async update(userId, favoriteId, comment) {
+    async update(userId, favoriteQueryUrl, comment) {
 
         const result = await client.query(`UPDATE "favorite"
             SET "comment" = $3, "updated_at" = now()
-            WHERE "id" = $2 AND "user_id" = $1
+            WHERE "queryUrl" = $2 AND "user_id" = $1
             RETURNING *;`,
             [
                 userId,
-                favoriteId,
+                favoriteQueryUrl,
                 comment
             ]
         );
@@ -106,16 +127,18 @@ module.exports = {
 
     /**
      * Supprime de la base de données
-     * @param {number} id - L'id à supprimer
+     * @param {number} id - L'id du user qui supprime
+     * @param {number} queryUrl - Le queryUrl du favorite à supprimer
      * @returns {boolean} Le résultat de la suppression
      */
-    async delete(userId, favoriteId) {
+    async delete(userId, favoriteQueryUrl) {
+        // Ici on utilise la valeur to_id pour pointer le favori à supprimer
         const result = await client.query(`DELETE FROM "favorite"
-            WHERE "id" = $2 AND "user_id" = $1
+            WHERE "queryUrl" = $2 AND "user_id" = $1
             RETURNING *;`,
             [
                 userId,
-                favoriteId
+                favoriteQueryUrl
             ]
         );
 
