@@ -63,9 +63,17 @@ function LoginPage() {
 
   function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    dispatch(login());
-    navigate('/');
+    dispatch(login())
+      .catch((err) => {
+        console.log(err);
+      });
   }
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/');
+    }
+  }, [isLogged, navigate]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
