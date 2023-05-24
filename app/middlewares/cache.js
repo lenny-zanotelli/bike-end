@@ -1,7 +1,6 @@
-const { getAllFavorites } = require('../controllers/favorite');
 const { getJourneysByFilters } = require('../controllers/journey');
 const { favoriteDataMapper } = require('../models');
-const { isInCache, getCache, addToCache } = require('../services/cache');
+const cache = require('../services/cache');
 
 const paginateAndCacheJourneys = async (req, res, next) => {
     // on recupere de l'url les searchParams de pagination (per_page et current_page)
@@ -25,8 +24,8 @@ const paginateAndCacheJourneys = async (req, res, next) => {
     // on constitue allJourneys a à partir du cache ou de l'API
     let allJourneys = [];
     // si dans le cache on prend dans le cache,
-    if (await isInCache(key)) {
-        allJourneys = await getCache(key);
+    if (await cache.isInCache(key)) {
+        allJourneys = await cache.getCache(key);
         // sinon on fetch à l'API ext et on sauve dans le cache
     } else {
         const results = await getJourneysByFilters(req, res, next);
@@ -34,7 +33,7 @@ const paginateAndCacheJourneys = async (req, res, next) => {
         allJourneys = results.filter((result) =>
             results.findIndex((each) => each.to.id === result.to.id)
         );
-        addToCache(key, allJourneys);
+        cache.addToCache(key, allJourneys);
     }
 
     const startElm = (currentPage - 1) * perPage;
