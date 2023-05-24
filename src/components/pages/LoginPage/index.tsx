@@ -9,8 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
-  login, KeysOfCredentials, changeCredentialsField, updateLoginStatus,
+  login, KeysOfCredentials, changeCredentialsField, updateLoginStatus, setDisplaySnackbar,
 } from '../../../store/reducers/login';
+import AlertMessage from '../../AlertMessage';
 
 const styles = {
   containerConnect: {
@@ -62,14 +63,6 @@ function LoginPage() {
   const isLogged = useAppSelector((state) => state.login.logged);
   const error = useAppSelector((state) => state.login.error);
   const [showPassword, setShowPassword] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
 
   const handleClickPassword = () => setShowPassword((show) => !show);
 
@@ -88,7 +81,7 @@ function LoginPage() {
 
   function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    setOpen(true);
+    dispatch(setDisplaySnackbar({ severity: 'error', message: 'Email ou mot de passe incorrect' }));
     dispatch(login());
   }
 
@@ -115,118 +108,99 @@ function LoginPage() {
         flexDirection: 'column',
       }}
     >
-      {isLogged ? (
-        <h2>Tu es connecté</h2>
-
-      ) : (
-        <Box
-          className="container__connect"
-          component="section"
-          sx={styles.containerConnect}
+      <Box
+        className="container__connect"
+        component="section"
+        sx={styles.containerConnect}
+      >
+        <Typography
+          className="container__connect__title"
+          component="h2"
+          sx={styles.containerConnectTitle}
         >
-          <Typography
-            className="container__connect__title"
-            component="h2"
-            sx={styles.containerConnectTitle}
-          >
-            Connexion
-          </Typography>
+          Connexion
+        </Typography>
 
-          <form
-            className="container__connect__form"
-            onSubmit={handleSubmitLogin}
-          >
-            <TextField
-              error={Boolean(error)}
-              sx={styles.input}
-              color="success"
-              variant="outlined"
-              margin="normal"
-              required
-              id="email"
-              label="Adresse email"
-              name="email"
-              value={email}
-              onChange={handleChangeField}
-            />
-            <TextField
-              error={Boolean(error)}
-              sx={styles.input}
-              color="success"
-              variant="outlined"
-              margin="normal"
-              required
-              name="password"
-              label="Mot de passe"
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              value={password}
-              onChange={handleChangeField}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Button
-              className="container__connect__form-btn"
-              sx={styles.containerConnectFormBtn}
-              type="submit"
-              size="large"
-              variant="contained"
-            >
-              Valider
-            </Button>
-          </form>
-          <Link
-            href="/signup"
-            sx={styles.containerConnectForgotPassword}
-            underline="none"
-            variant="button"
-          >
-            Pas de compte ?
-            <Typography
-              component="span"
-              sx={styles.createAccountSpan}
-            >
-              Créez un compte !
-            </Typography>
-          </Link>
+        <form
+          className="container__connect__form"
+          onSubmit={handleSubmitLogin}
+        >
+          <TextField
+            error={Boolean(error)}
+            sx={styles.input}
+            color="success"
+            variant="outlined"
+            margin="normal"
+            required
+            id="email"
+            label="Adresse email"
+            name="email"
+            value={email}
+            onChange={handleChangeField}
+          />
+          <TextField
+            error={Boolean(error)}
+            sx={styles.input}
+            color="success"
+            variant="outlined"
+            margin="normal"
+            required
+            name="password"
+            label="Mot de passe"
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            value={password}
+            onChange={handleChangeField}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
           <Button
-            className="container__connect__forgotPassword"
-            size="small"
-            sx={styles.containerConnectForgotPassword}
+            className="container__connect__form-btn"
+            sx={styles.containerConnectFormBtn}
+            type="submit"
+            size="large"
+            variant="contained"
           >
-            Mot de passe oublié ?
+            Valider
           </Button>
-          {error && (
-            <Snackbar
-              autoHideDuration={6000}
-              open={open}
-              onClose={handleCloseAlert}
-            >
-              <Alert
-                onClose={handleCloseAlert}
-                severity="error"
-                variant="filled"
-                sx={{ width: '100%' }}
-              >
-                {error}
-              </Alert>
-            </Snackbar>
-
-          )}
-        </Box>
-      )}
+        </form>
+        <Link
+          href="/signup"
+          sx={styles.containerConnectForgotPassword}
+          underline="none"
+          variant="button"
+        >
+          Pas de compte ?
+          <Typography
+            component="span"
+            sx={styles.createAccountSpan}
+          >
+            Créez un compte !
+          </Typography>
+        </Link>
+        <Button
+          className="container__connect__forgotPassword"
+          size="small"
+          sx={styles.containerConnectForgotPassword}
+        >
+          Mot de passe oublié ?
+        </Button>
+        {error && (
+          <AlertMessage />
+        )}
+      </Box>
 
     </Container>
   );
