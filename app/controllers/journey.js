@@ -8,7 +8,6 @@ const journeyDataMapper = require('../services/getJourneys');
 
 /**
  * @typedef {object} Journey
- * @property {number} id - Identifiant unique, Pk de la table
  * @property {string} departure_date_time
  * @property {integer} duration
  * @property {Place} from
@@ -19,7 +18,6 @@ const journeyDataMapper = require('../services/getJourneys');
 
 /**
  * @typedef {object} SectionItem
- * @property {number} id - Identifiant unique, Pk de la table
  * @property {string} departure_date_time
  * @property {string} arrival_date_time
  * @property {integer} duration
@@ -30,7 +28,6 @@ const journeyDataMapper = require('../services/getJourneys');
 
 /**
  * @typedef {object} JourneyDetail
- * @property {number} id - Identifiant unique, Pk de la table
  * @property {string} departure_date_time
  * @property {string} arrival_date_time
  * @property {integer} duration

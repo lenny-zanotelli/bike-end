@@ -8,7 +8,6 @@ const { favoriteDataMapper } = require('../models');
 
 /**
  * @typedef {object} Favorite
- * @property {number} id - Identifiant unique, Pk de la table
  * @property {string} departure_date_time
  * @property {integer} duration
  * @property {Place} from
@@ -16,6 +15,7 @@ const { favoriteDataMapper } = require('../models');
  * @property {integer} nb_transfers
  * @property {string} queryUrl
  * @property {string} comment
+ * @property {boolean} isFavorite
  */
 
 /**
@@ -57,7 +57,8 @@ module.exports = {
                     },
                     nb_transfers: favorite.nb_transfers,
                     queryUrl: favorite.queryUrl,
-                    comment: favorite.comment
+                    comment: favorite.comment,
+                    isFavorite: true
                 });
             });
 
@@ -99,7 +100,8 @@ module.exports = {
                 },
                 nb_transfers: favorite.nb_transfers,
                 queryUrl: favorite.queryUrl,
-                comment: favorite.comment
+                comment: favorite.comment,
+                isFavorite: true
             };
 
             // On renvoie l'objet "favorite" en version simplifié et lisible
@@ -120,9 +122,32 @@ module.exports = {
      */
     async addToFavorites(req, res, next) {
         try {
-            const newFavorite = await favoriteDataMapper.insert(req.userId, req.body);
+            const favorite = await favoriteDataMapper.insert(req.userId, req.body);
 
-            return res.status(200).json(newFavorite);
+            if (!favorite) {
+                return res.status(400).json('Favorite not found');
+            }
+
+            // On reconstruit la réponse JSON avec les données nécessaires
+            const favoriteResult = {
+                departure_date_time: favorite.departure_date_time,
+                duration: favorite.duration,
+                from: {
+                    id: favorite.from_id,
+                    name: favorite.from_name,
+                },
+                to: {
+                    id: favorite.to_id,
+                    name: favorite.to_name,
+                },
+                nb_transfers: favorite.nb_transfers,
+                queryUrl: favorite.queryUrl,
+                comment: favorite.comment,
+                isFavorite: true
+            };
+
+            // On renvoie l'objet "favorite" en version simplifié et lisible
+            return res.status(200).json(favoriteResult);
         } catch (error) {
             error.status = 500
             error.type = 'adding a favorite'
@@ -139,15 +164,34 @@ module.exports = {
      */
     async modifyComment(req, res, next) {
         try {
-            const favoriteToSet = await favoriteDataMapper.findByPk(req.userId, req.params.id);
+            const favoriteToSet = await favoriteDataMapper.findByQueryUrl(req.userId, req._parsedUrl.search);
 
             if (!favoriteToSet) {
                 return res.status(400).json('This favorite does not exist');
             }
 
-            const favoriteToSetOK = await favoriteDataMapper.update(req.userId, req.params.id, req.body.comment);
+            const favoriteToSetOK = await favoriteDataMapper.update(req.userId, req._parsedUrl.search, req.body.comment);
 
-            return res.status(200).json(favoriteToSetOK);
+            // On reconstruit la réponse JSON avec les données nécessaires
+            const favoriteToSetOKResult = {
+                departure_date_time: favoriteToSetOK.departure_date_time,
+                duration: favoriteToSetOK.duration,
+                from: {
+                    id: favoriteToSetOK.from_id,
+                    name: favoriteToSetOK.from_name,
+                },
+                to: {
+                    id: favoriteToSetOK.to_id,
+                    name: favoriteToSetOK.to_name,
+                },
+                nb_transfers: favoriteToSetOK.nb_transfers,
+                queryUrl: favoriteToSetOK.queryUrl,
+                comment: favoriteToSetOK.comment,
+                isFavorite: true
+            };
+
+            // On renvoie l'objet "favorite" en version simplifié et lisible
+            return res.status(200).json(favoriteToSetOKResult);
         } catch (error) {
             error.status = 500
             error.type = 'commenting a favorite'
@@ -164,7 +208,7 @@ module.exports = {
      */
     async deleteOneFavorite(req, res, next) {
         try {
-            const deletedFavorite = await favoriteDataMapper.delete(req.userId, req.params.id);
+            const deletedFavorite = await favoriteDataMapper.delete(req.userId, req._parsedUrl.search);
 
             if (!deletedFavorite) {
                 return res.status(400).json('This favorite does not exist');
