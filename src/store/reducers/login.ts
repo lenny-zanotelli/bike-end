@@ -17,6 +17,11 @@ interface LoginStates {
   isLoading: boolean;
   error: string | null;
   token: string;
+  alert: {
+    open: boolean;
+    severity: string;
+    message: string;
+  }
 }
 
 // Récupération de données dans le localStorage
@@ -36,6 +41,11 @@ const initialState: LoginStates = {
   isLoading: false,
   error: null,
   token: savedToken || '',
+  alert: {
+    open: false,
+    severity: 'success',
+    message: '',
+  },
   ...userData,
 };
 
@@ -154,8 +164,15 @@ export const changeCredentialsField = createAction<{
 
 export const updateLoginStatus = createAction<boolean>('login/UPDATE_LOGIN_STATUS');
 
+export const setDisplaySnackbar = createAction<{ severity: string; message: string }>('login/SET_DISPLAY_SNACKBAR');
+
 const loginReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(setDisplaySnackbar, (state, action) => {
+      state.alert.severity = action.payload ? action.payload.severity : state.alert.severity;
+      state.alert.message = action.payload ? action.payload.message : '';
+      state.alert.open = !state.alert.open;
+    })
     .addCase(updateLoginStatus, (state, action) => {
       state.logged = action.payload;
     })
@@ -181,7 +198,7 @@ const loginReducer = createReducer(initialState, (builder) => {
       state.error = action.payload as string;
     })
     .addCase(login.rejected, (state) => {
-      state.error = 'Mauvais Identifiants - ';
+      state.error = 'Email ou mot de passe incorrect';
       state.isLoading = false;
     })
     .addCase(login.pending, (state) => {
@@ -198,7 +215,7 @@ const loginReducer = createReducer(initialState, (builder) => {
     })
     // SIGNUP
     .addCase(register.rejected, (state) => {
-      state.error = 'Il manque des trucs';
+      state.error = 'Il semble que le formulaire contient des erreurs';
       state.logged = false;
       state.isLoading = false;
     })
