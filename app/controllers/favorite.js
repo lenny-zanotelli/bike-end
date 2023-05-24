@@ -39,9 +39,32 @@ module.exports = {
                 return res.status(400).json('No favorite in Database');
             }
 
-            return res.status(200).json(favorites);
+            // On reconstruit la réponse JSON avec les données nécessaires
+            const favoriteResults = [];
+
+            favorites.forEach((favorite) => {
+                // On remplit notre tableau avec des objets simplifiés pour le front
+                favoriteResults.push({
+                    departure_date_time: favorite.departure_date_time,
+                    duration: favorite.duration,
+                    from: {
+                        id: favorite.from_id,
+                        name: favorite.from_name,
+                    },
+                    to: {
+                        id: favorite.to_id,
+                        name: favorite.to_name,
+                    },
+                    nb_transfers: favorite.nb_transfers,
+                    queryUrl: favorite.queryUrl,
+                    comment: favorite.comment
+                });
+            });
+
+            // On renvoie le tableau des objets "favorites" en version simplifié et lisible
+            return res.status(200).json(favoriteResults);
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'fetching favorites'
             next(error)
         }
@@ -62,9 +85,27 @@ module.exports = {
                 return res.status(400).json('Favorite not found');
             }
 
-            return res.status(200).json(favorite);
+            // On reconstruit la réponse JSON avec les données nécessaires
+            const favoriteResult = {
+                departure_date_time: favorite.departure_date_time,
+                duration: favorite.duration,
+                from: {
+                    id: favorite.from_id,
+                    name: favorite.from_name,
+                },
+                to: {
+                    id: favorite.to_id,
+                    name: favorite.to_name,
+                },
+                nb_transfers: favorite.nb_transfers,
+                queryUrl: favorite.queryUrl,
+                comment: favorite.comment
+            };
+
+            // On renvoie l'objet "favorite" en version simplifié et lisible
+            return res.status(200).json(favoriteResult);
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'fetching a favorite'
             next(error)
         }
@@ -83,7 +124,7 @@ module.exports = {
 
             return res.status(200).json(newFavorite);
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'adding a favorite'
             next(error)
         }
@@ -108,7 +149,7 @@ module.exports = {
 
             return res.status(200).json(favoriteToSetOK);
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'commenting a favorite'
             next(error)
         }
@@ -131,7 +172,7 @@ module.exports = {
 
             return res.status(204).json('Favorite deleted !');
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'deleting a favorite'
             next(error)
         }
