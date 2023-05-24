@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import {
-  Button, Container, Box, TextField, Typography, Alert,
+  Button, Container, Box, TextField, Typography, Alert, Link,
 } from '@mui/material';
 import { ChangeEvent, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -40,7 +40,14 @@ const styles = {
   },
   containerConnectForgotPassword: {
     my: '1rem',
-    fontSize: '0.7rem',
+    fontSize: '0.6rem',
+    color: 'black',
+  },
+  createAccountSpan: {
+    my: '1rem',
+    fontSize: '0.6rem',
+    color: 'blue',
+    pl: '0.3rem',
   },
 };
 
@@ -150,6 +157,20 @@ function LoginPage() {
               Valider
             </Button>
           </form>
+          <Link
+            href="/signup"
+            sx={styles.containerConnectForgotPassword}
+            underline="none"
+            variant="button"
+          >
+            Pas de compte ?
+            <Typography
+              component="span"
+              sx={styles.createAccountSpan}
+            >
+              Créez un compte !
+            </Typography>
+          </Link>
           <Button
             className="container__connect__forgotPassword"
             size="small"
