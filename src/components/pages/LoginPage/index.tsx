@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import {
-  Button, Container, Box, TextField, Typography, Alert, Link, InputAdornment, IconButton,
+  Button, Container, Box, TextField, Typography, Alert, Link, InputAdornment, IconButton, Snackbar,
 } from '@mui/material';
 import {
   ChangeEvent, FormEvent, MouseEvent, useEffect, useState,
@@ -56,15 +56,27 @@ const styles = {
 
 function LoginPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const email = useAppSelector((state) => state.login.credentials.email);
   const password = useAppSelector((state) => state.login.credentials.password);
   const isLogged = useAppSelector((state) => state.login.logged);
   const error = useAppSelector((state) => state.login.error);
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   const handleClickPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
+
   function handleChangeField(event: ChangeEvent<HTMLInputElement>): void {
     const newValue = event.target.value;
     const fieldName = event.target.name as KeysOfCredentials;
@@ -73,10 +85,10 @@ function LoginPage() {
       value: newValue,
     }));
   }
-  const navigate = useNavigate();
 
   function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
+    setOpen(true);
     dispatch(login());
   }
 
@@ -197,13 +209,21 @@ function LoginPage() {
             Mot de passe oublié ?
           </Button>
           {error && (
-          <Alert
-            severity="error"
-            variant="filled"
-            sx={{ width: '100%' }}
-          >
-            {error}
-          </Alert>
+            <Snackbar
+              autoHideDuration={6000}
+              open={open}
+              onClose={handleCloseAlert}
+            >
+              <Alert
+                onClose={handleCloseAlert}
+                severity="error"
+                variant="filled"
+                sx={{ width: '100%' }}
+              >
+                {error}
+              </Alert>
+            </Snackbar>
+
           )}
         </Box>
       )}
