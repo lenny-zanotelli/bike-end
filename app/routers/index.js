@@ -24,7 +24,7 @@ const {
     isUserUnique,
     maxDuration,
     errorHandler,
-    paginateAndCacheJourneys
+    paginateAndCacheJourneys,
 } = require('../middlewares');
 
 // post /login pour se connecter
@@ -101,9 +101,23 @@ router
  * FAVORITE
  */
 
-// GET/POST - /favorite
+// ? to delete, unused
+// // GET - /favorite/:id
+// router
+//     .route('/favorite/:id')
+//     // On récupère un favori
+//     /**
+//      * GET /favorite/:id
+//      * @tags 3.Favorite - everything about favorite
+//      * @summary to get one favorite by its id
+//      * @param {string} id.path
+//      * @return {Favorite} 200 - success response
+//      * @return {ValidationError} 400 - bad input data
+//      */
+//     .get(favoriteController.getOneFavorite);
+
 router
-    .route('/favorite')
+    .route('/favorite*')
     // On récupère tous les favoris
     /**
      * GET /favorite
@@ -122,25 +136,7 @@ router
      * @return {Favorite} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
-    .post(favoriteController.addToFavorites);
-
-// GET - /favorite/:id
-router
-    .route('/favorite/:id')
-    // On récupère un favori
-    /**
-     * GET /favorite/:id
-     * @tags 3.Favorite - everything about favorite
-     * @summary to get one favorite by its id
-     * @param {string} id.path
-     * @return {Favorite} 200 - success response
-     * @return {ValidationError} 400 - bad input data
-     */
-    .get(favoriteController.getOneFavorite);
-
-// PATCH/DELETE - /favorite*
-router
-    .route('/favorite*')
+    .post(favoriteController.addToFavorites)
     // On modifie un favori
     /**
      * PATCH /favorite*

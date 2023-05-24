@@ -153,20 +153,15 @@ Authorization: Bearer {{tokenDePierre}}
     "queryUrl": "?from=stop_area%3ASTE%3AOCE87481283&datetime=20230603T120008&to=stop_point%3AP44%3A44PORNgillR"
   }
 
-
-### Récupérér un favori par son id
-GET {{ endpoint }}/favorite/4
-Authorization: Bearer {{tokenDePierre}}
-
-### Modifier un favori
-PATCH {{ endpoint }}/favorite/3
+### Modifier un favori par son queryUrl
+PATCH {{ endpoint }}/favorite?from=stop_area%3ASTE%3AOCE87481283&datetime=20230603T120008&to=stop_point%3AP44%3A44PORNgillR
 content-type: application/json
 Authorization: Bearer {{tokenDePierre}}
 
 {
-    "comment": "Sympa la balade !"
+    "comment": "Sympa la balade man !"
 }
 
-### Supprimer un favori par son id
-DELETE {{ endpoint }}/favorite/4
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
+### Supprimer un favori par son queryUrl
+DELETE {{ endpoint }}/favorite/favorite?from=stop_area%3ASTE%3AOCE87481283&datetime=20230603T120008&to=stop_point%3AP44%3A44PORNgillR
+Authorization: Bearer {{tokenDePierre}}

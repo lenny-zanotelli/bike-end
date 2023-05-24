@@ -60,7 +60,7 @@ module.exports = {
                     nb_transfers: favorite.nb_transfers,
                     queryUrl: favorite.queryUrl,
                     comment: favorite.comment,
-                    isFavorite: true
+                    isFavorite: true,
                 });
             });
 
@@ -73,50 +73,51 @@ module.exports = {
         }
     },
 
-    /**
-     * Favorite controller to get a record
-     * ExpressMiddleware signature
-     * @param {object} req Express request object
-     * @param {object} res Express response object
-     * @returns Route API JSON response
-     */
-    async getOneFavorite(req, res, next) {
-        try {
-            const favorite = await favoriteDataMapper.findByPk(
-                req.userId,
-                req.params.id
-            );
+    // ? to delete, unused
+    // /**
+    //  * Favorite controller to get a record
+    //  * ExpressMiddleware signature
+    //  * @param {object} req Express request object
+    //  * @param {object} res Express response object
+    //  * @returns Route API JSON response
+    //  */
+    // async getOneFavorite(req, res, next) {
+    //     try {
+    //         const favorite = await favoriteDataMapper.findByPk(
+    //             req.userId,
+    //             req.params.id
+    //         );
 
-            if (!favorite) {
-                return res.status(400).json('Favorite not found');
-            }
+    //         if (!favorite) {
+    //             return res.status(400).json('Favorite not found');
+    //         }
 
-            // On reconstruit la réponse JSON avec les données nécessaires
-            const favoriteResult = {
-                departure_date_time: favorite.departure_date_time,
-                duration: favorite.duration,
-                from: {
-                    id: favorite.from_id,
-                    name: favorite.from_name,
-                },
-                to: {
-                    id: favorite.to_id,
-                    name: favorite.to_name,
-                },
-                nb_transfers: favorite.nb_transfers,
-                queryUrl: favorite.queryUrl,
-                comment: favorite.comment,
-                isFavorite: true
-            };
+    //         // On reconstruit la réponse JSON avec les données nécessaires
+    //         const favoriteResult = {
+    //             departure_date_time: favorite.departure_date_time,
+    //             duration: favorite.duration,
+    //             from: {
+    //                 id: favorite.from_id,
+    //                 name: favorite.from_name,
+    //             },
+    //             to: {
+    //                 id: favorite.to_id,
+    //                 name: favorite.to_name,
+    //             },
+    //             nb_transfers: favorite.nb_transfers,
+    //             queryUrl: favorite.queryUrl,
+    //             comment: favorite.comment,
+    //             isFavorite: true
+    //         };
 
-            // On renvoie l'objet "favorite" en version simplifié et lisible
-            return res.status(200).json(favoriteResult);
-        } catch (error) {
-            error.status = 500
-            error.type = 'fetching a favorite'
-            next(error)
-        }
-    },
+    //         // On renvoie l'objet "favorite" en version simplifié et lisible
+    //         return res.status(200).json(favoriteResult);
+    //     } catch (error) {
+    //         error.status = 500
+    //         error.type = 'fetching a favorite'
+    //         next(error)
+    //     }
+    // },
 
     /**
      * Favorite controller to create a record
@@ -156,7 +157,7 @@ module.exports = {
                 nb_transfers: favorite.nb_transfers,
                 queryUrl: favorite.queryUrl,
                 comment: favorite.comment,
-                isFavorite: true
+                isFavorite: true,
             };
 
             // On renvoie l'objet "favorite" en version simplifié et lisible
@@ -177,13 +178,20 @@ module.exports = {
      */
     async modifyComment(req, res, next) {
         try {
-            const favoriteToSet = await favoriteDataMapper.findByQueryUrl(req.userId, req._parsedUrl.search);
+            const favoriteToSet = await favoriteDataMapper.findByQueryUrl(
+                req.userId,
+                req._parsedUrl.search
+            );
 
             if (!favoriteToSet) {
                 return res.status(400).json('This favorite does not exist');
             }
 
-            const favoriteToSetOK = await favoriteDataMapper.update(req.userId, req._parsedUrl.search, req.body.comment);
+            const favoriteToSetOK = await favoriteDataMapper.update(
+                req.userId,
+                req._parsedUrl.search,
+                req.body.comment
+            );
 
             // On reconstruit la réponse JSON avec les données nécessaires
             const favoriteToSetOKResult = {
@@ -200,15 +208,15 @@ module.exports = {
                 nb_transfers: favoriteToSetOK.nb_transfers,
                 queryUrl: favoriteToSetOK.queryUrl,
                 comment: favoriteToSetOK.comment,
-                isFavorite: true
+                isFavorite: true,
             };
 
             // On renvoie l'objet "favorite" en version simplifié et lisible
             return res.status(200).json(favoriteToSetOKResult);
         } catch (error) {
-            error.status = 500
-            error.type = 'commenting a favorite'
-            next(error)
+            error.status = 500;
+            error.type = 'commenting a favorite';
+            next(error);
         }
     },
 
@@ -221,7 +229,10 @@ module.exports = {
      */
     async deleteOneFavorite(req, res, next) {
         try {
-            const deletedFavorite = await favoriteDataMapper.delete(req.userId, req._parsedUrl.search);
+            const deletedFavorite = await favoriteDataMapper.delete(
+                req.userId,
+                req._parsedUrl.search
+            );
 
             if (!deletedFavorite) {
                 return res.status(400).json('This favorite does not exist');
@@ -229,9 +240,9 @@ module.exports = {
 
             return res.status(204).json('Favorite deleted !');
         } catch (error) {
-            error.status = 500
-            error.type = 'deleting a favorite'
-            next(error)
+            error.status = 500;
+            error.type = 'deleting a favorite';
+            next(error);
         }
     },
 };
