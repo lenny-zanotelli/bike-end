@@ -33,7 +33,9 @@ module.exports = {
      */
     async getAllFavorites(req, res, next) {
         try {
-            const favorites = await favoriteDataMapper.findAllByUser(req.userId);
+            const favorites = await favoriteDataMapper.findAllByUser(
+                req.userId
+            );
 
             if (!favorites) {
                 return res.status(400).json('No favorite in Database');
@@ -41,9 +43,9 @@ module.exports = {
 
             return res.status(200).json(favorites);
         } catch (error) {
-            error.status=500
-            error.type = 'fetching favorites'
-            next(error)
+            error.status = 500;
+            error.type = 'fetching favorites';
+            next(error);
         }
     },
 
@@ -56,7 +58,10 @@ module.exports = {
      */
     async getOneFavorite(req, res, next) {
         try {
-            const favorite = await favoriteDataMapper.findByPk(req.userId, req.params.id);
+            const favorite = await favoriteDataMapper.findByPk(
+                req.userId,
+                req.params.id
+            );
 
             if (!favorite) {
                 return res.status(400).json('Favorite not found');
@@ -64,9 +69,9 @@ module.exports = {
 
             return res.status(200).json(favorite);
         } catch (error) {
-            error.status=500
-            error.type = 'fetching a favorite'
-            next(error)
+            error.status = 500;
+            error.type = 'fetching a favorite';
+            next(error);
         }
     },
 
@@ -79,13 +84,25 @@ module.exports = {
      */
     async addToFavorites(req, res, next) {
         try {
-            const newFavorite = await favoriteDataMapper.insert(req.userId, req.body);
-
-            return res.status(200).json(newFavorite);
+            const favorites = await favoriteDataMapper.findAllByUser(
+                req.userId
+            );
+            // on verifie si le favoris à ajouter existe deja en bdd
+            let favorite = favorites.find(
+                (favorite) => favorite.queryUrl === req.body.queryUrl
+            );
+            // si il n'existe pas, on l'y rajoute
+            if (!favorite) {
+                favorite = await favoriteDataMapper.insert(
+                    req.userId,
+                    req.body
+                );
+            }
+            return res.status(200).json(favorite);
         } catch (error) {
-            error.status=500
-            error.type = 'adding a favorite'
-            next(error)
+            error.status = 500;
+            error.type = 'adding a favorite';
+            next(error);
         }
     },
 
@@ -98,19 +115,26 @@ module.exports = {
      */
     async modifyComment(req, res, next) {
         try {
-            const favoriteToSet = await favoriteDataMapper.findByPk(req.userId, req.params.id);
+            const favoriteToSet = await favoriteDataMapper.findByPk(
+                req.userId,
+                req.params.id
+            );
 
             if (!favoriteToSet) {
                 return res.status(400).json('This favorite does not exist');
             }
 
-            const favoriteToSetOK = await favoriteDataMapper.update(req.userId, req.params.id, req.body.comment);
+            const favoriteToSetOK = await favoriteDataMapper.update(
+                req.userId,
+                req.params.id,
+                req.body.comment
+            );
 
             return res.status(200).json(favoriteToSetOK);
         } catch (error) {
-            error.status=500
-            error.type = 'commenting a favorite'
-            next(error)
+            error.status = 500;
+            error.type = 'commenting a favorite';
+            next(error);
         }
     },
 
@@ -123,7 +147,10 @@ module.exports = {
      */
     async deleteOneFavorite(req, res, next) {
         try {
-            const deletedFavorite = await favoriteDataMapper.delete(req.userId, req.params.id);
+            const deletedFavorite = await favoriteDataMapper.delete(
+                req.userId,
+                req.params.id
+            );
 
             if (!deletedFavorite) {
                 return res.status(400).json('This favorite does not exist');
@@ -131,9 +158,9 @@ module.exports = {
 
             return res.status(204).json('Favorite deleted !');
         } catch (error) {
-            error.status=500
-            error.type = 'deleting a favorite'
-            next(error)
+            error.status = 500;
+            error.type = 'deleting a favorite';
+            next(error);
         }
-    }
+    },
 };

@@ -1,4 +1,6 @@
+const { getAllFavorites } = require('../controllers/favorite');
 const { getJourneysByFilters } = require('../controllers/journey');
+const { favoriteDataMapper } = require('../models');
 const { isInCache, getCache, addToCache } = require('../services/cache');
 
 const paginateAndCacheJourneys = async (req, res, next) => {
@@ -25,9 +27,9 @@ const paginateAndCacheJourneys = async (req, res, next) => {
     if (await isInCache(key)) {
         allJourneys = await getCache(key);
     } else {
-        allJourneys = await getJourneysByFilters(req, res, next);
-        allJourneys.filter((journey, index) =>
-            allJourneys.findIndex((journey) => journey.to.id === index)
+        const results = await getJourneysByFilters(req, res, next);
+        allJourneys = results.filter((journey, index) =>
+            results.findIndex((journey) => journey.to.id === index)
         );
         addToCache(key, allJourneys);
     }
@@ -35,8 +37,21 @@ const paginateAndCacheJourneys = async (req, res, next) => {
     const startElm = (currentPage - 1) * perPage;
     // last element is not included in slice
     const endElm = currentPage * perPage;
-
+// on pagine les resultats
     const paginatedJourneys = allJourneys.slice(startElm, endElm);
+
+const favorites = await favoriteDataMapper.findAllByUser(req.userId)
+
+await paginatedJourneys.map(journey => {
+    // par defaut on met isFavorite a false
+    journey.isFavorite =false
+
+    // si journey existe en BDD des favoris via le queryUrl
+    if(favorites.find(favorite => favorite.queryUrl === journey.queryUrl)){
+        journey.isFavorite = true
+    }
+})
+
     return res.status(200).json(paginatedJourneys);
 };
 
