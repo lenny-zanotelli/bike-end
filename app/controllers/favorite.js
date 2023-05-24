@@ -33,7 +33,9 @@ module.exports = {
      */
     async getAllFavorites(req, res, next) {
         try {
-            const favorites = await favoriteDataMapper.findAllByUser(req.userId);
+            const favorites = await favoriteDataMapper.findAllByUser(
+                req.userId
+            );
 
             if (!favorites) {
                 return res.status(400).json('No favorite in Database');
@@ -65,9 +67,9 @@ module.exports = {
             // On renvoie le tableau des objets "favorites" en version simplifié et lisible
             return res.status(200).json(favoriteResults);
         } catch (error) {
-            error.status = 500
-            error.type = 'fetching favorites'
-            next(error)
+            error.status = 500;
+            error.type = 'fetching favorites';
+            next(error);
         }
     },
 
@@ -80,7 +82,10 @@ module.exports = {
      */
     async getOneFavorite(req, res, next) {
         try {
-            const favorite = await favoriteDataMapper.findByPk(req.userId, req.params.id);
+            const favorite = await favoriteDataMapper.findByPk(
+                req.userId,
+                req.params.id
+            );
 
             if (!favorite) {
                 return res.status(400).json('Favorite not found');
@@ -122,12 +127,20 @@ module.exports = {
      */
     async addToFavorites(req, res, next) {
         try {
-            const favorite = await favoriteDataMapper.insert(req.userId, req.body);
-
+            const favorites = await favoriteDataMapper.findAllByUser(
+                req.userId
+            );
+            // on verifie si le favoris à ajouter existe deja en bdd
+            let favorite = favorites.find(
+                (favorite) => favorite.queryUrl === req.body.queryUrl
+            );
+            // si il n'existe pas, on l'y rajoute
             if (!favorite) {
-                return res.status(400).json('Favorite not found');
+                favorite = await favoriteDataMapper.insert(
+                    req.userId,
+                    req.body
+                );
             }
-
             // On reconstruit la réponse JSON avec les données nécessaires
             const favoriteResult = {
                 departure_date_time: favorite.departure_date_time,
@@ -149,9 +162,9 @@ module.exports = {
             // On renvoie l'objet "favorite" en version simplifié et lisible
             return res.status(200).json(favoriteResult);
         } catch (error) {
-            error.status = 500
-            error.type = 'adding a favorite'
-            next(error)
+            error.status = 500;
+            error.type = 'adding a favorite';
+            next(error);
         }
     },
 
@@ -220,5 +233,5 @@ module.exports = {
             error.type = 'deleting a favorite'
             next(error)
         }
-    }
+    },
 };

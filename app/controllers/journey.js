@@ -48,13 +48,18 @@ module.exports = {
             if (!journeys) {
                 return res.status(400).json('No journey for your search');
             }
-            const minJourneyDuration = process.env.MIN_DURATION
+            const minJourneyDuration = process.env.MIN_DURATION;
             // On reconstruit la réponse JSON avec les données nécessaires
-            const journeyResults = []
+            const journeyResults = [];
 
             journeys.forEach((journey) => {
-                if (journey.duration > minJourneyDuration)
-                    // On remplit notre tableau avec des objets simplifiés pour le front
+                // on limite les resultats aux trajets qui ont une durée minimum 
+                if (journey.duration > minJourneyDuration) {
+                    // On remplit notre tableau avec des objets simplifiés pour le front,
+                    // par ailleurs on enleve le searchParams max_duration
+                    simplifiedUrl = new URL(journey.links[0].href);
+                    simplifiedUrl.searchParams.delete('max_duration');
+
                     journeyResults.push({
                         departure_date_time: journey.departure_date_time,
                         duration: journey.duration,
@@ -67,18 +72,16 @@ module.exports = {
                             name: journey.to.name,
                         },
                         nb_transfers: journey.nb_transfers,
-                        queryUrl: journey.links[0].href.replace(
-                            'https://api.navitia.io/v1/journeys',
-                            ''
-                        ),
+                        queryUrl: simplifiedUrl.search,
                     });
+                }
             });
             // On renvoie le tableau des objets "journeys" en version simplifié et lisible
             return journeyResults;
         } catch (error) {
-            error.status = 500
-            error.type = 'fetching journeys'
-            next(error)
+            error.status = 500;
+            error.type = 'fetching journeys';
+            next(error);
         }
     },
     async getJourneyDetails(req, res, next) {
@@ -95,7 +98,7 @@ module.exports = {
                     .json('No details availables for your journey');
             }
 
-            // on récupert uniquement le premier trajet proposé (celui classé "best" par Navitia)
+            // on récupère uniquement le premier trajet proposé (celui classé "best" par Navitia)
             const bestJourney = journey[0];
 
             // On reconstruit la réponse JSON avec les données nécessaires
@@ -159,9 +162,9 @@ module.exports = {
             return res.status(200).json(journeyResult);
             // return res.status(200).json(journey);
         } catch (error) {
-            error.status = 500
-            error.type = 'fetching journey details'
-            next(error)
+            error.status = 500;
+            error.type = 'fetching journey details';
+            next(error);
         }
     },
 };

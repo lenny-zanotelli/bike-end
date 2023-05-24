@@ -1,6 +1,7 @@
 const Joi = require('joi');
+const regex = require('../../config/regex');
 
-const pattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+const pattern = regex.password
 
 module.exports = Joi.object({
     email: Joi.string()

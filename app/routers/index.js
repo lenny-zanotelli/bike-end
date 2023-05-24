@@ -113,7 +113,7 @@ router
      * @return {ValidationError} 400 - bad input data
      */
     .get(favoriteController.getAllFavorites)
-    // On ajoute un favori
+    // On ajoute un favoris
     /**
      * POST /favorite
      * @tags 3.Favorite - everything about favorite
