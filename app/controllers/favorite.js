@@ -31,7 +31,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async getAllFavorites(req, res) {
+    async getAllFavorites(req, res, next) {
         try {
             const favorites = await favoriteDataMapper.findAllByUser(req.userId);
 
@@ -54,7 +54,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async getOneFavorite(req, res) {
+    async getOneFavorite(req, res, next) {
         try {
             const favorite = await favoriteDataMapper.findByPk(req.userId, req.params.id);
 
@@ -77,7 +77,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async addToFavorites(req, res) {
+    async addToFavorites(req, res, next) {
         try {
             const newFavorite = await favoriteDataMapper.insert(req.userId, req.body);
 
@@ -96,7 +96,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async modifyComment(req, res) {
+    async modifyComment(req, res, next) {
         try {
             const favoriteToSet = await favoriteDataMapper.findByPk(req.userId, req.params.id);
 
@@ -121,7 +121,7 @@ module.exports = {
      * @param {object} res Express response object
      * @returns Route API JSON response
      */
-    async deleteOneFavorite(req, res) {
+    async deleteOneFavorite(req, res, next) {
         try {
             const deletedFavorite = await favoriteDataMapper.delete(req.userId, req.params.id);
 
