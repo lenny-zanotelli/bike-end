@@ -5,8 +5,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useCallback, useEffect, useState } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
-import { setFavoriteCard, sendFavoriteCard } from '../../../store/reducers/favorite';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../store/reducers/favorite';
+import { useAppDispatch } from '../../../hooks/redux';
 
 const styles = {
 
@@ -39,7 +39,6 @@ const styles = {
     width: '100%',
   },
   favoriteIcon: {
-    // position: 'absolute',
     top: '8px',
     left: '8px',
   },
@@ -50,18 +49,14 @@ function ResultsPage() {
   const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
 
   const dispatch = useAppDispatch();
-  const favoriteCard = useAppSelector((state) => state.favorite.favorite);
-  const sendingFavoriteCard = useAppSelector((state) => state.favorite.sendingFavorite);
-  const sendFavoriteCardError = useAppSelector((state) => state.favorite.sendFavoriteError);
 
   useEffect(() => {
-    // Récupération des résultats depuis le localStorage
     const results = localStorage.getItem('results');
     if (results) {
       const localStorageResults = JSON.parse(results);
       const updatedResults = localStorageResults.map((result: Journey) => ({
         ...result,
-        isFavorite: false, // Modification de l'etat de l'icone favoris
+        isFavorite: false,
       }));
       setStoredJourneysArray(updatedResults);
     }
@@ -73,12 +68,18 @@ function ResultsPage() {
       updatedResults[index].isFavorite = !updatedResults[index].isFavorite;
       return updatedResults;
     });
-
     const card = storedJourneysArray[index];
+    const cardId = card.queryUrl;
 
-    console.log(card)
-    dispatch(setFavoriteCard(card));
-    dispatch(sendFavoriteCard(card));
+    // dispatch(setFavoriteCard(card));
+    // dispatch(sendFavoriteCard(card));
+
+    if (card.isFavorite) {
+      dispatch(removeFavoriteCard(cardId));
+    } else {
+      dispatch(setFavoriteCard(card));
+      dispatch(sendFavoriteCard(card));
+    }
   }, [dispatch, storedJourneysArray]);
 
   return (

@@ -66,7 +66,7 @@ JourneySearchParams>(
       try {
         const token = tokenWithQuotesTest.replace(/^"(.*)"$/, '$1');
         const limit = 10;
-        const queryParams = new URLSearchParams(`from=${params.from}&max_duration=${params.max_duration}`);
+        const queryParams = new URLSearchParams(`from=${params.from}&max_duration=${params.max_duration}&per_page=10&current_page=1`);
         const url = `journey/search?${queryParams.toString()}`;
         const headers = {
           Authorization: `Bearer ${token}`,
@@ -74,7 +74,7 @@ JourneySearchParams>(
         const response = await axios.get(`https://bikeend-api.up.railway.app/${url}`, { headers });
         // Filtrer les trajets avec une durée minimale de 3000 secondes
         const filteredJourneys = response.data.filter(
-          (journey: { duration: number; }) => journey.duration > 3000,
+          (journey: { duration: number; }) => journey.duration > 900,
         );
         const limitedJourneys = filteredJourneys.slice(0, limit);
         return limitedJourneys as Journey[];
