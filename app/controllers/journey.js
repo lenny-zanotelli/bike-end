@@ -56,7 +56,7 @@ module.exports = {
             const journeyResults = [];
 
             journeys.forEach((journey) => {
-                // on limite les resultats aux trajets qui sont minimum 
+                // on limite les resultats aux trajets qui ont une durée minimum 
                 if (journey.duration > minJourneyDuration) {
                     // On remplit notre tableau avec des objets simplifiés pour le front,
                     // par ailleurs on enleve le searchParams max_duration
@@ -101,7 +101,7 @@ module.exports = {
                     .json('No details availables for your journey');
             }
 
-            // on récupert uniquement le premier trajet proposé (celui classé "best" par Navitia)
+            // on récupère uniquement le premier trajet proposé (celui classé "best" par Navitia)
             const bestJourney = journey[0];
 
             // On reconstruit la réponse JSON avec les données nécessaires

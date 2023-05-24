@@ -3,9 +3,9 @@ const client = createClient(
     {url : process.env.REDIS_URL}
 );
 // mise en place d'une erreur interne redis
-client.on('error', (err) => {
-    console.log(err);
-});
+// client.on('error', (err) => {
+//     console.log(err);
+// });
 client
     .connect()
     .then(() => console.log('Redis : client.isReady : ', client.isReady));
@@ -17,7 +17,7 @@ module.exports = {
         try {
             return await client.exists(key);
         } catch (error) {
-            console.log(error);
+            throw error
         }
     },
 
@@ -28,8 +28,7 @@ module.exports = {
             console.log('Got key : ', key)
             return cachedValue;
         } catch (error) {
-            console.log(error);
-            throw error;
+            throw error
         }
     },
 
@@ -40,8 +39,7 @@ module.exports = {
             console.log('Cached key : ',key);
             return true
         } catch (error) {
-            console.log(error);
-            throw error;
+            throw error
         }
     },
 
@@ -51,8 +49,7 @@ module.exports = {
             console.log('Flushed key : ',key);
             return true
         } catch (error) {
-            console.log(error);
-            throw error;
+            throw error
         }
     },
 };
