@@ -7,7 +7,7 @@
 # Base URL
 @endpoint = http://localhost:{{$dotenv PORT}}
 @endpointProd = https://bikeend-api.up.railway.app
-@tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDc0Mzk0MCwiZXhwIjoxNjg1MzQ4NzQwfQ.NGFUkwgq2OTIyvGdQOvHN4tq5U9JTAUdBqPZAL94n4Y
+@tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDkzNzY5NCwiZXhwIjoxNjg1NTQyNDk0fQ.hFRHdrBAx01TlYFnIU0r9ktXd_W07xKrorrVbLBZWK8
 
 @tokenDeJean = 
 
@@ -40,7 +40,7 @@ content-type: application/json
 
 {
   "email": "jeanjacques@gmail.com",
-  "password": "Jjbesos-1234",
+  "password": "Torigon57290//",
   "firstname": "Jean",
   "lastname": "Jacques",
   "acceptedConditions": true
@@ -138,34 +138,30 @@ POST {{ endpoint }}/favorite
 content-type: application/json
 Authorization: Bearer {{tokenDePierre}}
 
-{
-  "departure_date_time": "20230604T150000",
-  "duration": 650,
-  "from": {
-    "id": "1.23;45.6",
-    "name": "Chez moi"
-  },
-  "to": {
-    "id": "9.87;65.4",
-    "name": "Chez elle"
-  },
-  "nb_transfers":1,
-  "queryUrl":"?from=1.23;45.6&datetime=20230604T150000&max_duration=700&to=9.87;65.4"
-}
+  {
+    "departure_date_time": "20230603T120007",
+    "duration": 2633,
+    "from": {
+      "id": "stop_area:STE:OCE87481283",
+      "name": "Pornic (Pornic)"
+    },
+    "to": {
+      "id": "stop_point:P44:44PORNgillR",
+      "name": "Théâtre Saint-Gilles (Pornic)"
+    },
+    "nb_transfers": 0,
+    "queryUrl": "?from=stop_area%3ASTE%3AOCE87481283&datetime=20230603T120008&to=stop_point%3AP44%3A44PORNgillR"
+  }
 
-### Récupérér un favori par son id
-GET {{ endpoint }}/favorite/4
-Authorization: Bearer {{tokenDePierre}}
-
-### Modifier un favori
-PATCH {{ endpoint }}/favorite/3
+### Modifier un favori par son queryUrl
+PATCH {{ endpoint }}/favorite?from=stop_area%3ASTE%3AOCE87481283&datetime=20230603T120008&to=stop_point%3AP44%3A44PORNgillR
 content-type: application/json
 Authorization: Bearer {{tokenDePierre}}
 
 {
-    "comment": "Sympa la balade !"
+    "comment": "Sympa la balade man !"
 }
 
-### Supprimer un favori par son id
-DELETE {{ endpoint }}/favorite/4
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4MzkxMjYwOCwiZXhwIjoxNjg0NTE3NDA4fQ.CMvDRLqy6KD4Dt29EHlLeymnlDnlahAe4GsqPOL3h-8
+### Supprimer un favori par son queryUrl
+DELETE {{ endpoint }}/favorite/favorite?from=stop_area%3ASTE%3AOCE87481283&datetime=20230603T120008&to=stop_point%3AP44%3A44PORNgillR
+Authorization: Bearer {{tokenDePierre}}

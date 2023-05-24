@@ -16,28 +16,47 @@ module.exports = {
      * @returns {Favorite[]} Tous les favoris d'un seul USER dans la base de données
      */
     async findAllByUser(userId) {
-        const result = await client.query(`SELECT * FROM "favorite"
+        const result = await client.query(
+            `SELECT * FROM "favorite"
             WHERE "user_id" = $1;`,
-            [
-                userId
-            ]
+            [userId]
         );
 
         return result.rows;
     },
 
+    // ? to delete, unused
+    // /**
+    //  * Récupère un favori par son id
+    //  * @param {number} favoriteId L'id du favori souhaité
+    //  * @returns {Favorite|null} Le favori souhaité ou null si aucun favori ne correspond à cet id
+    //  */
+    // async findByPk(userId, favoriteId) {
+    //     const result = await client.query(`SELECT * FROM "favorite"
+    //         WHERE "id" = $2 AND "user_id" = $1;`,
+    //         [
+    //             userId,
+    //             favoriteId
+    //         ]
+    //     );
+
+    //     if (result.rowCount === 0) {
+    //         return null;
+    //     }
+
+    //     return result.rows[0];
+    // },
+
     /**
-     * Récupère un favori par son id
-     * @param {number} favoriteId L'id du favori souhaité
-     * @returns {Favorite|null} Le favori souhaité ou null si aucun favori ne correspond à cet id
+     * Récupère un favori par son queryUrl
+     * @param {string} favoriteQueryUrl Le queryUrl du favori souhaité
+     * @returns {Favorite|null} Le favori souhaité ou null si aucun favori ne correspond à ce queryUrl
      */
-    async findByPk(userId, favoriteId) {
-        const result = await client.query(`SELECT * FROM "favorite"
-            WHERE "id" = $2 AND "user_id" = $1;`,
-            [
-                userId,
-                favoriteId
-            ]
+    async findByQueryUrl(userId, favoriteQueryUrl) {
+        const result = await client.query(
+            `SELECT * FROM "favorite"
+            WHERE "queryUrl" = $2 AND "user_id" = $1;`,
+            [userId, favoriteQueryUrl]
         );
 
         if (result.rowCount === 0) {
@@ -53,7 +72,8 @@ module.exports = {
      * @returns {Favorite} Le Favori inséré
      */
     async insert(userId, newFavorite) {
-        const result = await client.query(`INSERT INTO "favorite"
+        const result = await client.query(
+            `INSERT INTO "favorite"
             (
                 "departure_date_time",
                 "duration",
@@ -76,7 +96,7 @@ module.exports = {
                 newFavorite.to.id,
                 newFavorite.nb_transfers,
                 newFavorite.queryUrl,
-                userId
+                userId,
             ]
         );
 
@@ -88,17 +108,13 @@ module.exports = {
      * @param {json} comment - Les données à modifier
      * @returns {Favorite} Le Favori modifié
      */
-    async update(userId, favoriteId, comment) {
-
-        const result = await client.query(`UPDATE "favorite"
+    async update(userId, favoriteQueryUrl, comment) {
+        const result = await client.query(
+            `UPDATE "favorite"
             SET "comment" = $3, "updated_at" = now()
-            WHERE "id" = $2 AND "user_id" = $1
+            WHERE "queryUrl" = $2 AND "user_id" = $1
             RETURNING *;`,
-            [
-                userId,
-                favoriteId,
-                comment
-            ]
+            [userId, favoriteQueryUrl, comment]
         );
 
         return result.rows[0];
@@ -106,22 +122,22 @@ module.exports = {
 
     /**
      * Supprime de la base de données
-     * @param {number} id - L'id à supprimer
+     * @param {number} id - L'id du user qui supprime
+     * @param {number} queryUrl - Le queryUrl du favorite à supprimer
      * @returns {boolean} Le résultat de la suppression
      */
-    async delete(userId, favoriteId) {
-        const result = await client.query(`DELETE FROM "favorite"
-            WHERE "id" = $2 AND "user_id" = $1
+    async delete(userId, favoriteQueryUrl) {
+        // Ici on utilise la valeur to_id pour pointer le favori à supprimer
+        const result = await client.query(
+            `DELETE FROM "favorite"
+            WHERE "queryUrl" = $2 AND "user_id" = $1
             RETURNING *;`,
-            [
-                userId,
-                favoriteId
-            ]
+            [userId, favoriteQueryUrl]
         );
 
         // Soit il a supprimé un enregistrement et le rowcount est égal à 1 (truthy),
         // soit non et il est égal a 0 (falsy)
         // On cast le truthy/falsy en vrai booléen
         return !!result.rowCount;
-    }
+    },
 };

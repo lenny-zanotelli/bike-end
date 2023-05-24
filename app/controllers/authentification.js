@@ -29,22 +29,22 @@ module.exports = {
             // TODO mettre vérif password et email en middleware validation
             const user = await userDataMapper.findByEmail(req.body.email);
             if (!user) {
-                throw new Error("Email unknown");
+                res.status(401).json("Wrong email/password pairing");
             }
             const isPasswordValid = await bcrypt.compare(
                 req.body.password,
                 user.password
             );
             if (!isPasswordValid) {
-                throw new Error("Wrong email/password pairing")
+                res.status(401).json("Wrong email/password pairing")
             }
 
 
-            // On renvoi un token JWT contenant l'id du user
+            // On genère un token JWT contenant l'id du user
             const token = await createTokenForUserId(user.id);
             // res.setHeader('Authorization', token);
 
-            // on renvoie un code 200 = success
+            // on renvoie un code 200 = success avec le token en body
             return res.status(200).json(token);
         } catch (error) {
             error.status=500

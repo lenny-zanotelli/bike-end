@@ -24,7 +24,7 @@ const {
     isUserUnique,
     maxDuration,
     errorHandler,
-    paginateAndCacheJourneys
+    paginateAndCacheJourneys,
 } = require('../middlewares');
 
 // post /login pour se connecter
@@ -101,9 +101,23 @@ router
  * FAVORITE
  */
 
-// GET/POST - /favorite
+// ? to delete, unused
+// // GET - /favorite/:id
+// router
+//     .route('/favorite/:id')
+//     // On récupère un favori
+//     /**
+//      * GET /favorite/:id
+//      * @tags 3.Favorite - everything about favorite
+//      * @summary to get one favorite by its id
+//      * @param {string} id.path
+//      * @return {Favorite} 200 - success response
+//      * @return {ValidationError} 400 - bad input data
+//      */
+//     .get(favoriteController.getOneFavorite);
+
 router
-    .route('/favorite')
+    .route('/favorite*')
     // On récupère tous les favoris
     /**
      * GET /favorite
@@ -113,7 +127,7 @@ router
      * @return {ValidationError} 400 - bad input data
      */
     .get(favoriteController.getAllFavorites)
-    // On ajoute un favori
+    // On ajoute un favoris
     /**
      * POST /favorite
      * @tags 3.Favorite - everything about favorite
@@ -122,39 +136,24 @@ router
      * @return {Favorite} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
-    .post(favoriteController.addToFavorites);
-
-// GET/PATCH/DELETE - /favorite/:id
-router
-    .route('/favorite/:id(\\d+)')
-    // On récupère un favori
-    /**
-     * GET /favorite/:id
-     * @tags 3.Favorite - everything about favorite
-     * @summary to get one favorite by its id
-     * @param {string} id.path
-     * @return {Favorite} 200 - success response
-     * @return {ValidationError} 400 - bad input data
-     */
-    .get(favoriteController.getOneFavorite)
+    .post(favoriteController.addToFavorites)
     // On modifie un favori
     /**
-     * PATCH /favorite/:id
+     * PATCH /favorite*
      * @tags 3.Favorite - everything about favorite
      * @summary to modify the comment field of a favorite
-     * @param {id} id.path
+     * @param {string} queryUrl.query
      * @param {Comment} request.body.required
      * @return {Favorite} 200 - success response
      * @return {ValidationError} 400 - bad input data
      */
     .patch(favoriteController.modifyComment)
-    // On supprime un favori
+    // On supprime un favori par son queryUrl
     /**
-     * DELETE /favorite/:id
+     * DELETE /favorite*
      * @tags 3.Favorite - everything about favorite
-     * @summary to delete a favorite by its id
-     * @param {id} id.path
-     * @return {Favorite} 200 - success response
+     * @summary to delete a favorite by its queryUrl
+     * @param {string} queryUrl.query
      * @return {ValidationError} 400 - bad input data
      */
     .delete(favoriteController.deleteOneFavorite);

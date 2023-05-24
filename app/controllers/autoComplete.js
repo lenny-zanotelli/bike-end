@@ -1,19 +1,11 @@
 const autoCompleteDataMapper = require('../services/getAutoComplete');
-const { logAndResponseError } = require('../utils/error');
+const isolateZipCode = require('../utils/isolateZipCode');
 
 /**
  * @typedef {object} Place
  * @property {string} id
  * @property {string} name
  */
-
-// Fonction qui récupère le premier "zip_code" valide (non null) pour une "place"
-const getZipCode = function (adminRegArray) {
-    adminRegWhereZipCodeExist = adminRegArray.filter(adminReg => adminReg.zip_code);
-    if (adminRegWhereZipCodeExist.length > 0) {
-        return adminRegWhereZipCodeExist[0].zip_code;
-    }
-};
 
 module.exports = {
     async getPlacesByQuery(req, res) {
@@ -33,7 +25,7 @@ module.exports = {
                         if (!placeResults.find(({ id }) => id === place.stop_area.id)) {
                             if (place.stop_area.administrative_regions) {
                                 // On récupère le "zip_code" s'il existe et est non null
-                                zipCode = getZipCode(place.stop_area.administrative_regions);
+                                zipCode = isolateZipCode(place.stop_area.administrative_regions);
                             }
                             // On remplit notre tableau avec des objets simplifiés pour le front
                             placeResults.push({ 'id': `${place.id}`, 'name': `${place.name} [${zipCode}]` });
@@ -44,7 +36,7 @@ module.exports = {
                         if (!placeResults.find(({ id }) => id === place.address.id)) {
                             if (place.address.administrative_regions) {
                                 // On récupère le "zip_code" s'il existe et est non null
-                                zipCode = getZipCode(place.address.administrative_regions);
+                                zipCode = isolateZipCode(place.address.administrative_regions);
                             }
                             // On remplit notre tableau avec des objets simplifiés pour le front
                             placeResults.push({ 'id': `${place.id}`, 'name': `${place.name} [${zipCode}]` });
