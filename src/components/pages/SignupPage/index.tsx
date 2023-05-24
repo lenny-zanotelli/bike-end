@@ -1,8 +1,11 @@
 import {
-  Button, TextField, Checkbox, Container, Box, FormControlLabel, Typography,
+  Button, TextField, Checkbox, Container, FormControlLabel, Typography, InputAdornment, IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, FormEvent } from 'react';
+import {
+  ChangeEvent, FormEvent, MouseEvent, useState,
+} from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   KeysOfCredentials, changeCredentialsField, register, toggleAcceptedConditions,
@@ -39,7 +42,12 @@ function SignupPage() {
   const passwordCheck = useAppSelector((state) => state.login.credentials.passwordCheck);
   const acceptedConditions = useAppSelector((state) => state.login.acceptedConditions);
   const isError = useAppSelector((state) => state.login.error);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleClickPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
   const handleChangeField = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     const fieldName = event.target.name as KeysOfCredentials;
@@ -160,24 +168,52 @@ function SignupPage() {
             required
             sx={inputStyle}
             color="success"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
             label="Mot de passe"
             value={password}
             onChange={handleChangeField}
             size="small"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
 
           <TextField
             required
             sx={inputStyle}
             color="success"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="passwordCheck"
             label="Confirmer le mot de passe"
             value={passwordCheck}
             onChange={handleChangeField}
             size="small"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
 
           <div className="container__createAccount__form_cgu">

@@ -1,9 +1,12 @@
 /* eslint-disable react/jsx-no-bind */
 import {
-  Button, Container, Box, TextField, Typography, Alert, Link,
+  Button, Container, Box, TextField, Typography, Alert, Link, InputAdornment, IconButton,
 } from '@mui/material';
-import { ChangeEvent, FormEvent, useEffect } from 'react';
+import {
+  ChangeEvent, FormEvent, MouseEvent, useEffect, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   login, KeysOfCredentials, changeCredentialsField, updateLoginStatus,
@@ -57,7 +60,11 @@ function LoginPage() {
   const password = useAppSelector((state) => state.login.credentials.password);
   const isLogged = useAppSelector((state) => state.login.logged);
   const error = useAppSelector((state) => state.login.error);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
   function handleChangeField(event: ChangeEvent<HTMLInputElement>): void {
     const newValue = event.target.value;
     const fieldName = event.target.name as KeysOfCredentials;
@@ -139,10 +146,24 @@ function LoginPage() {
               required
               name="password"
               label="Mot de passe"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               value={password}
               onChange={handleChangeField}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <Button
               className="container__connect__form-btn"
