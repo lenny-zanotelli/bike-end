@@ -36,8 +36,9 @@ module.exports = {
 
             return res.status(200).json(favorites);
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'fetching favorites'
+            next(error)
         }
     },
 
@@ -58,8 +59,9 @@ module.exports = {
 
             return res.status(200).json(favorite);
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'fetching a favorite'
+            next(error)
         }
     },
 
@@ -76,8 +78,9 @@ module.exports = {
 
             return res.status(200).json(newFavorite);
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'adding a favorite'
+            next(error)
         }
     },
 
@@ -100,8 +103,9 @@ module.exports = {
 
             return res.status(200).json(favoriteToSetOK);
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'commenting a favorite'
+            next(error)
         }
     },
 
@@ -122,8 +126,9 @@ module.exports = {
 
             return res.status(204).json('Favorite deleted !');
         } catch (error) {
-            console.error(error);
-            res.status(500).send('An error occured');
+            error.status=500
+            error.type = 'deleting a favorite'
+            next(error)
         }
     }
 };

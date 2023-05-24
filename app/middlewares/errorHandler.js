@@ -1,7 +1,9 @@
 const errorHandler = (error, req, res, next)=> {
-    console.error(`Error while ${error.type} :`, error)
-    res.status(error.status).json(error)
+    const errorMessage = `-------- An error occured while ${error.type} : ------- \n${error.message}\n${error.stack}`
+    console.error(errorMessage)
+    res.status(error.status).json(`-------- An error occured while ${error.type} : ------- `)
 }
+
 
 module.exports = {
     errorHandler
