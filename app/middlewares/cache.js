@@ -24,12 +24,15 @@ const paginateAndCacheJourneys = async (req, res, next) => {
 
     // on constitue allJourneys a à partir du cache ou de l'API
     let allJourneys = [];
+    // si dans le cache on prend dans le cache,
     if (await isInCache(key)) {
         allJourneys = await getCache(key);
+        // sinon on fetch à l'API ext et on sauve dans le cache
     } else {
         const results = await getJourneysByFilters(req, res, next);
-        allJourneys = results.filter((journey, index) =>
-            results.findIndex((journey) => journey.to.id === index)
+        // on s'assure qu'il n'y a qu'une seule version de to.id par requete afin qu'il soit utilisé en front comme key
+        allJourneys = results.filter((result) =>
+            results.findIndex((each) => each.to.id === result.to.id)
         );
         addToCache(key, allJourneys);
     }
@@ -37,20 +40,22 @@ const paginateAndCacheJourneys = async (req, res, next) => {
     const startElm = (currentPage - 1) * perPage;
     // last element is not included in slice
     const endElm = currentPage * perPage;
-// on pagine les resultats
+    // on pagine les resultats
     const paginatedJourneys = allJourneys.slice(startElm, endElm);
 
-const favorites = await favoriteDataMapper.findAllByUser(req.userId)
+    const favorites = await favoriteDataMapper.findAllByUser(req.userId);
 
-await paginatedJourneys.map(journey => {
-    // par defaut on met isFavorite a false
-    journey.isFavorite =false
+    await paginatedJourneys.map((journey) => {
+        // par defaut on met isFavorite a false
+        journey.isFavorite = false;
 
-    // si journey existe en BDD des favoris via le queryUrl
-    if(favorites.find(favorite => favorite.queryUrl === journey.queryUrl)){
-        journey.isFavorite = true
-    }
-})
+        // si journey existe en BDD des favoris via le queryUrl
+        if (
+            favorites.find((favorite) => favorite.queryUrl === journey.queryUrl)
+        ) {
+            journey.isFavorite = true;
+        }
+    });
 
     return res.status(200).json(paginatedJourneys);
 };
