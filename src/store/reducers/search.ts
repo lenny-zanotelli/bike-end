@@ -9,13 +9,7 @@ interface JourneySearchParams {
   max_duration: number;
 }
 
-export interface Query {
-  id: string;
-  name: string;
-}
-
 interface SearchState {
-  query: Query[];
   params: JourneySearchParams;
   journeys: Journey[];
   error: string | null;
@@ -23,7 +17,6 @@ interface SearchState {
 }
 
 const initialState: SearchState = {
-  query: [],
   params: {
     from: '',
     datetime: '',
@@ -33,28 +26,6 @@ const initialState: SearchState = {
   error: null,
   loading: false,
 };
-
-export const fetchAutoComplete = createAppAsyncThunk('search/FETCH_AUTOCOMPLETE', async (input: string) => {
-  const tokenWithQuotes = localStorage.getItem('token');
-  if (!input) {
-    console.log('PAS DE REQUETE YA TCHI');
-  } else if (tokenWithQuotes) {
-    try {
-      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get(`https://bikeend-api.up.railway.app/autocomplete/${input}`, { headers });
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  } else {
-    console.log('Pas de TOKEN');
-  }
-  return [];
-});
 
 export const searchJourneys = createAppAsyncThunk<
 Journey[],
@@ -85,16 +56,6 @@ JourneySearchParams>(
 
 const searchReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchAutoComplete.fulfilled, (state, action) => {
-      state.query = action.payload;
-    })
-    .addCase(fetchAutoComplete.pending, (state) => {
-      state.loading = true;
-      state.query = initialState.query;
-    })
-    .addCase(fetchAutoComplete.rejected, (state, action) => {
-      state.error = action.error.message || 'NUL';
-    })
     .addCase(searchJourneys.pending, (state) => {
       state.loading = true;
 
@@ -102,9 +63,11 @@ const searchReducer = createReducer(initialState, (builder) => {
     })
     .addCase(searchJourneys.fulfilled, (state, action) => {
       state.journeys = action.payload;
+      state.loading = false;
     })
     .addCase(searchJourneys.rejected, (state, action) => {
       state.error = action.error.message || 'NUL';
+      state.loading = false;
     });
 });
 
