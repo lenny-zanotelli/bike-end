@@ -87,7 +87,7 @@ function SignupPage() {
     // password must contain 1 non-alpha numeric number
     // password is 8-16 characters with no space
     const pwdRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/;
-    const emailRegex = /^([a-zA-Z0-9_-.]+)@([a-zA-Z0-9_-.]+).([a-zA-Z])$/;
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$/;
     event.preventDefault();
 
     if (password !== passwordCheck) {
