@@ -1,11 +1,12 @@
-/* eslint-disable react/jsx-no-bind */
 import {
   Card, CardContent, CardMedia, Container, Grid, IconButton, Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
+import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../store/reducers/favorite';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 const styles = {
   container: {
@@ -37,25 +38,49 @@ const styles = {
     width: '100%',
   },
   favoriteIcon: {
-    position: 'absolute',
     top: '8px',
-    right: '8px',
+    left: '8px',
   },
 
 } as const;
 
 function ResultsPage() {
   const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
+  const favorites = useAppSelector((state) => state.favorite.favorite);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // Récupération des résultats depuis le localStorage
     const results = localStorage.getItem('results');
     if (results) {
       const localStorageResults = JSON.parse(results);
-      console.log('RESULT PAGE', localStorageResults);
-      setStoredJourneysArray(localStorageResults);
+      const updatedResults = localStorageResults.map((result: Journey) => ({
+        ...result,
+      }));
+      setStoredJourneysArray(updatedResults);
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  const handleFavoriteClick = useCallback((index: number) => {
+    setStoredJourneysArray((prevResults) => {
+      const updatedResults = [...prevResults];
+      updatedResults[index].isFavorite = !updatedResults[index].isFavorite;
+      return updatedResults;
+    });
+    const card = storedJourneysArray[index];
+    const cardId = card.queryUrl;
+
+    if (!card.isFavorite) {
+      dispatch(removeFavoriteCard(cardId));
+    } else {
+      dispatch(setFavoriteCard(card));
+      dispatch(sendFavoriteCard(card));
+    }
+  }, [dispatch, storedJourneysArray]);
 
   return (
     <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
@@ -79,18 +104,21 @@ function ResultsPage() {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         justifyContent="center"
       >
-        {storedJourneysArray.map((result: Journey) => (
+        {storedJourneysArray.map((result: Journey, index: number) => (
           <Grid
             component="article"
             item
-            key={result.from.id}
+            key={result.to.id}
             xs={5}
             sm={8}
             md={3}
           >
             <Card sx={styles.card}>
-              <IconButton sx={styles.favoriteIcon}>
-                <FavoriteIcon />
+              <IconButton
+                sx={styles.favoriteIcon}
+                onClick={() => handleFavoriteClick(index)}
+              >
+                <FavoriteIcon sx={{ color: result.isFavorite ? 'red' : 'inherit' }} />
               </IconButton>
               <CardMedia
                 sx={styles.image}

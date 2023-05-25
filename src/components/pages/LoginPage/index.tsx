@@ -9,6 +9,7 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
+import { ChangeEvent, FormEvent, useEffect } from 'react';
 import {
   ChangeEvent,
   FormEvent,
@@ -18,6 +19,7 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
+
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   login,
@@ -93,11 +95,13 @@ function LoginPage() {
       value: newValue,
     }));
   }
+  const navigate = useNavigate();
 
   function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     dispatch(setDisplaySnackbar({ severity: 'error', message: 'Email ou mot de passe incorrect' }));
     dispatch(login());
+    navigate('/');
   }
 
   useEffect(() => {
