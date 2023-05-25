@@ -5,7 +5,7 @@
 @endpointProd = https://bikeend-api.up.railway.app
 
 # Token du user connecté
-@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDkzNzY5NCwiZXhwIjoxNjg1NTQyNDk0fQ.hFRHdrBAx01TlYFnIU0r9ktXd_W07xKrorrVbLBZWK8
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NTAwMDk5NSwiZXhwIjoxNjg1NjA1Nzk1fQ.FpE456L1Jm7IjrrVdK3si9KJclWZABepYXpPBHSY1bM
 
 ### 404
 GET {{ endpoint }}/search
@@ -16,13 +16,13 @@ Authorization: {{ authorization }}
 #########################
 
 ### Obtenir des places existantes en auto-complete
-GET {{ endpoint }}/autocomplete/pornic
+GET {{ endpoint }}/autocomplete/aligre
 Authorization: {{authorization}}
 # ATTENDU : url = /autocomplete/<les caracteres recherchés>
 # RENVOI : results = {id: string, name: string}[]
 
 ### Obtenir des itineraires par filtre
-GET {{ endpoint }}/journey/search?from=stop_area:STE:OCE87481283&datetime=20230603T120007&max_duration=3600&per_page=10&current_page=1
+GET {{ endpoint }}/journey/search?from=2.3793433;48.8504715&datetime=20230603T120007&max_duration=3600&per_page=10&current_page=1
 Authorization: {{ authorization }}
 # ATTENDU : url = /journey/search 
 #           & req.query = {from: string, datetime: string(YYYYMMDDThhmmss), max_duration: integer(seconds)}

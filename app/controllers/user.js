@@ -1,14 +1,30 @@
 const { userDataMapper } = require('../models');
 
+/* BEGINNING : JS DOCS SWAGGER OBJECT DEFINITION */
 /**
- * @typedef {object} User
- * @property {number} id - Identifiant unique, Pk de la table
+ * @typedef {object} User l'utilisateur issu de la BDD
  * @property {string} email
  * @property {string} password
  * @property {string} firstname
  * @property {string} lastname
  * @property {boolean} accepted_conditions
  */
+
+/**
+ * @typedef {object} UserLogin l'utilisateur issu de la BDD
+ * @property {string} email
+ * @property {string} password
+ */
+
+/**
+ * @typedef {object} InputUser
+ * @property {string} email
+ * @property {string} password
+ * @property {string} firstname
+ * @property {string} lastname
+ * @property {boolean} acceptedConditions
+ */
+/* END : JS DOCS SWAGGER OBJECT DEFINITION */
 
 module.exports = {
     /**
@@ -29,11 +45,12 @@ module.exports = {
             // on renvoie un code 200 = success
             return res.status(200).json(user);
         } catch (error) {
-            error.status=500
-            error.type ='fetching user info'
+            error.status = 500
+            error.type = 'fetching user info'
             next(error)
         }
     },
+
     /**
      * User controller to update a record.
      * ExpressMiddleware signature
@@ -59,8 +76,8 @@ module.exports = {
             // on renvoie un code 200 = success
             return res.status(200).json(savedUser);
         } catch (error) {
-            error.status=500
-            error.type ='modifying user'
+            error.status = 500
+            error.type = 'modifying user'
             next(error)
         }
     },
@@ -82,7 +99,7 @@ module.exports = {
             // on renvoie un code 204 = no content
             return res.status(204).json('User deleted');
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'deleting user'
             next(error)
         }

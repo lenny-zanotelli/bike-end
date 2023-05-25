@@ -7,7 +7,7 @@
 # Base URL
 @endpoint = http://localhost:{{$dotenv PORT}}
 @endpointProd = https://bikeend-api.up.railway.app
-@tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NDkzNzY5NCwiZXhwIjoxNjg1NTQyNDk0fQ.hFRHdrBAx01TlYFnIU0r9ktXd_W07xKrorrVbLBZWK8
+@tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NTAwMDk5NSwiZXhwIjoxNjg1NjA1Nzk1fQ.FpE456L1Jm7IjrrVdK3si9KJclWZABepYXpPBHSY1bM
 
 @tokenDeJean = 
 

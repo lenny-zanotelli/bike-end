@@ -9,12 +9,14 @@ const { jwtAuth } = require('./jwtAuth');
 const { maxDuration } = require('./maxDuration');
 const { paginateAndCacheJourneys } = require('./cache');
 const { errorHandler } = require('./errorHandler');
+
 const encryptPwd = async (req, res, next) => {
     if (req.body.password) {
         req.body.password = await bcrypt.hash(req.body.password, 10);
     }
     next();
 };
+
 const isUserUnique = async (req, res, next) => {
     let error = false;
     switch (req.method) {
@@ -38,4 +40,4 @@ const isUserUnique = async (req, res, next) => {
     }
 };
 
-module.exports = { jwtAuth, isUserUnique, encryptPwd, maxDuration, paginateAndCacheJourneys ,errorHandler};
+module.exports = { jwtAuth, isUserUnique, encryptPwd, maxDuration, paginateAndCacheJourneys, errorHandler };
