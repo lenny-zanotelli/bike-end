@@ -8,14 +8,15 @@ import {
   Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useEffect } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
 import {
   getAllFavorite,
   removeFavoriteCard,
+  sendFavoriteCard,
 } from '../../../store/reducers/favorite';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 const styles = {
   container: {
@@ -53,30 +54,40 @@ const styles = {
 
 function FavoritePage() {
   const dispatch = useAppDispatch();
-  const [storedFavorites, setStoredFavorites] = useState<Journey[]>([]);
+  const favorites = useAppSelector((state) => state.favorite.favorite);
+  // const [storedFavorites, setStoredFavorites] = useState<Journey[]>([]);
 
+  // useEffect(() => {
+  //   dispatch(getAllFavorite());
+  //   const storedFavoritesJSON = localStorage.getItem('favorites');
+  //   if (storedFavoritesJSON) {
+  //     const favoriteIds = JSON.parse(storedFavoritesJSON);
+  //     const storedFavoritesTest = favorites.filter(
+  //       (favorite) => favoriteIds.includes(favorite.to.id),
+  //     );
+  //     setStoredFavorites(storedFavoritesTest);
+  //   } else {
+  //     setStoredFavorites([]);
+  //   }
+  // }, []);
   useEffect(() => {
     dispatch(getAllFavorite());
-    const storedFavoritesJSON = localStorage.getItem('favorites');
-    if (storedFavoritesJSON) {
-      const parsedFavorites = JSON.parse(storedFavoritesJSON);
-      setStoredFavorites(parsedFavorites);
+  }, [dispatch]);
+
+  const handleFavoriteClick = (journey: Journey) => {
+    const isFavorite = favorites.some((favorite) => favorite.to.id === journey.to.id);
+    if (isFavorite) {
+      dispatch(removeFavoriteCard(journey.queryUrl)).then(() => {
+        // Suppression réussie, mettez à jour l'état des favoris dans le store
+        dispatch(getAllFavorite());
+      });
+    } else {
+      dispatch(sendFavoriteCard(journey)).then(() => {
+        // Ajout réussi, mettez à jour l'état des favoris dans le store
+        dispatch(getAllFavorite());
+      });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleFavoriteClick = useCallback(
-    (index: number) => {
-      const updatedFavorites = [...storedFavorites];
-      const removedFavorite = updatedFavorites.splice(index, 1)[0];
-      setStoredFavorites(updatedFavorites);
-
-      dispatch(removeFavoriteCard(removedFavorite.queryUrl));
-
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    },
-    [dispatch, storedFavorites],
-  );
+  };
 
   return (
     <Container
@@ -102,7 +113,7 @@ function FavoritePage() {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         justifyContent="center"
       >
-        {storedFavorites.map((favorite: Journey, index: number) => (
+        {favorites.map((favorite) => (
           <Grid
             component="article"
             item
@@ -114,7 +125,7 @@ function FavoritePage() {
             <Card sx={styles.card}>
               <IconButton
                 sx={styles.favoriteIcon}
-                onClick={() => handleFavoriteClick(index)}
+                onClick={() => handleFavoriteClick(favorite)}
               >
                 <FavoriteIcon sx={{ color: 'red' }} />
               </IconButton>
