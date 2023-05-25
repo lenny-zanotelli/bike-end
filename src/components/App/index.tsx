@@ -39,7 +39,7 @@ function App() {
           path="/login"
           element={<LoginPage />}
         />
-        {isLogged ?? (
+        {isLogged ? (
           <>
             <Route
               path="/result"
@@ -54,7 +54,7 @@ function App() {
               element={<MyAccount />}
             />
           </>
-        )}
+        ) : ''}
         <Route
           path="*"
           element={<ErrorPage />}
