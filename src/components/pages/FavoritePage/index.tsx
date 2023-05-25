@@ -55,21 +55,7 @@ const styles = {
 function FavoritePage() {
   const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.favorite.favorite);
-  // const [storedFavorites, setStoredFavorites] = useState<Journey[]>([]);
 
-  // useEffect(() => {
-  //   dispatch(getAllFavorite());
-  //   const storedFavoritesJSON = localStorage.getItem('favorites');
-  //   if (storedFavoritesJSON) {
-  //     const favoriteIds = JSON.parse(storedFavoritesJSON);
-  //     const storedFavoritesTest = favorites.filter(
-  //       (favorite) => favoriteIds.includes(favorite.to.id),
-  //     );
-  //     setStoredFavorites(storedFavoritesTest);
-  //   } else {
-  //     setStoredFavorites([]);
-  //   }
-  // }, []);
   useEffect(() => {
     dispatch(getAllFavorite());
   }, [dispatch]);
