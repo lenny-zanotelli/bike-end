@@ -14,6 +14,7 @@ import MyAccount from '../pages/MyAccountPage';
 import ResultsPage from '../pages/ResultsPage';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { updateLoginStatus } from '../../store/reducers/login';
+import FavoritePage from '../pages/FavoritePage';
 
 function App() {
   const navigate = useNavigate();
@@ -52,6 +53,10 @@ function App() {
         <Route
           path="/result"
           element={<ResultsPage />}
+        />
+        <Route
+          path="/favorite"
+          element={<FavoritePage />}
         />
         <Route
           path="/myaccount"

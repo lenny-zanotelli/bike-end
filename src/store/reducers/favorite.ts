@@ -6,17 +6,23 @@ import { createAppAsyncThunk } from '../../utils/redux';
 import { Journey } from '../../@types/journey';
 
 const initialState = {
-  favorite: [],
+  favorite: [] as Journey[],
   sendingFavorite: false,
   sendFavoriteError: null,
 };
 
 export const SET_FAVORITE_CARD = 'SET_FAVORITE_CARD';
 export const REMOVE_FAVORITE_CARD = 'REMOVE_FAVORITE_CARD';
+export const FETCH_FAVORITE = 'FETCH_FAVORITE';
 
 export const setFavoriteCard = (card: Journey) => ({
   type: SET_FAVORITE_CARD,
   payload: card,
+});
+
+export const getFavorite = (favorites: Journey) => ({
+  type: FETCH_FAVORITE,
+  payload: favorites,
 });
 
 // ADD FAVORITE
@@ -33,7 +39,6 @@ export const sendFavoriteCard = createAppAsyncThunk(
           Authorization: `Bearer ${token}`,
         };
         const response = await axios.post('https://bikeend-api.up.railway.app/favorite', card, { headers });
-        console.log(response);
         return response.data;
       } catch (error) {
         console.log(error);
@@ -45,7 +50,7 @@ export const sendFavoriteCard = createAppAsyncThunk(
 // GET ALL FAVORITE
 
 export const getAllFavorite = createAppAsyncThunk(
-  'favorite/removeFavoriteCard',
+  'favorite/getAllFavorite',
   async () => {
     const tokenWithQuotes = localStorage.getItem('token');
     if (tokenWithQuotes) {
@@ -57,8 +62,10 @@ export const getAllFavorite = createAppAsyncThunk(
         };
 
         const response = await axios.get('https://bikeend-api.up.railway.app/favorite', { headers });
+        const favorites = response.data;
+        localStorage.setItem('favorites', JSON.stringify(favorites));
 
-        return response.data;
+        return favorites;
       } catch (error) {
         console.log(error);
       }
@@ -114,6 +121,10 @@ const favoriteReducer = createReducer(initialState, (builder) => {
     })
     .addCase(removeFavoriteCard.rejected, (state) => {
       state.sendingFavorite = false;
+    })
+    // GET FAVORITE
+    .addCase(getAllFavorite.fulfilled, (state, action) => {
+      state.favorite = action.payload;
     });
 });
 

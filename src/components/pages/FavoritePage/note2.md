@@ -5,7 +5,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useCallback, useEffect, useState } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
-import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../store/reducers/favorite';
+import {
+  getAllFavorite, removeFavoriteCard, sendFavoriteCard, setFavoriteCard,
+} from '../../../store/reducers/favorite';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 const styles = {
@@ -45,26 +47,15 @@ const styles = {
 
 } as const;
 
-function ResultsPage() {
-  const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
-  const favorites = useAppSelector((state) => state.favorite.favorite);
-
+function FavoritePage() {
   const dispatch = useAppDispatch();
+  const favorites = useAppSelector((state) => state.favorite.favorite);
+  const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
+  console.log(favorites);
 
   useEffect(() => {
-    const results = localStorage.getItem('results');
-    if (results) {
-      const localStorageResults = JSON.parse(results);
-      const updatedResults = localStorageResults.map((result: Journey) => ({
-        ...result,
-      }));
-      setStoredJourneysArray(updatedResults);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-  }, [favorites]);
+    dispatch(getAllFavorite());
+  }, [dispatch]);
 
   const handleFavoriteClick = useCallback((index: number) => {
     setStoredJourneysArray((prevResults) => {
@@ -84,7 +75,6 @@ function ResultsPage() {
   }, [dispatch, storedJourneysArray]);
 
   return (
-
     <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
       <Typography
         component="h2"
@@ -95,9 +85,7 @@ function ResultsPage() {
           fontWeight: 'bold',
         }}
       >
-        {`De nouveaux horizons à découvrir depuis 
-        ${storedJourneysArray.length > 0 ? storedJourneysArray[0].from.name : ''}. 
-        En selle !`}
+        Favoris
       </Typography>
       <Grid
         component="section"
@@ -106,11 +94,11 @@ function ResultsPage() {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         justifyContent="center"
       >
-        {storedJourneysArray.map((result: Journey, index: number) => (
+        {favorites.map((result: Journey, index: number) => (
           <Grid
             component="article"
             item
-            key={result.to.id}
+            key={result.from.id}
             xs={5}
             sm={8}
             md={3}
@@ -152,8 +140,6 @@ function ResultsPage() {
         ))}
       </Grid>
     </Container>
-
   );
 }
-
-export default ResultsPage;
+export default FavoritePage;
