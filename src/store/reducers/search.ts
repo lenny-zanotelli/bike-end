@@ -34,7 +34,7 @@ const initialState: SearchState = {
   loading: false,
 };
 
-export const fetchAutoComplete = createAppAsyncThunk('search/fetchAutoComplete', async (input: string) => {
+export const fetchAutoComplete = createAppAsyncThunk('search/FETCH_AUTOCOMPLETE', async (input: string) => {
   const tokenWithQuotes = localStorage.getItem('token');
   if (!input) {
     console.log('PAS DE REQUETE YA TCHI');
@@ -73,7 +73,6 @@ JourneySearchParams>(
         const response = await axios.get(`https://bikeend-api.up.railway.app/${url}`, { headers });
         console.log('DESTINATION: ', response);
         return response.data as Journey[];
-
       } catch (error) {
         console.log(error);
       }

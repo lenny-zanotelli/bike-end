@@ -121,7 +121,8 @@ function MyAccount() {
 
   useEffect(() => {
     dispatch(fetchUser());
-  }, [dispatch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container
@@ -179,7 +180,10 @@ function MyAccount() {
           }}
         >
           <Container sx={styles.containerModal}>
-            <Button onClick={handleClose} sx={styles.closeButton}>
+            <Button
+              onClick={() => setOpen(false)}
+              sx={styles.closeButton}
+            >
               <CloseIcon />
             </Button>
             <form
@@ -262,7 +266,7 @@ function MyAccount() {
           mt: '2rem',
           mb: '2rem',
         }}
-        href="/"
+        href="/favorite"
         underline="hover"
       >
         <FavoriteIcon />

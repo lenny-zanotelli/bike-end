@@ -1,34 +1,26 @@
-/* eslint-disable max-len */
-/* eslint-disable consistent-return */
-import { createReducer } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { createAppAsyncThunk } from '../../utils/redux';
 import { Journey } from '../../@types/journey';
 
-const initialState = {
-  favorite: [] as Journey[],
+interface FavoriteState {
+  favorite: Journey[];
+  sendingFavorite: boolean;
+  sendFavoriteError: string | null;
+}
+
+const initialState:FavoriteState = {
+  favorite: [],
   sendingFavorite: false,
   sendFavoriteError: null,
 };
 
-export const SET_FAVORITE_CARD = 'SET_FAVORITE_CARD';
-export const REMOVE_FAVORITE_CARD = 'REMOVE_FAVORITE_CARD';
-export const FETCH_FAVORITE = 'FETCH_FAVORITE';
-
-export const setFavoriteCard = (card: Journey) => ({
-  type: SET_FAVORITE_CARD,
-  payload: card,
-});
-
-export const getFavorite = (favorites: Journey) => ({
-  type: FETCH_FAVORITE,
-  payload: favorites,
-});
+export const setFavoriteCard = createAction<Journey>('favorite/SET_FAVORITE_CARD');
+export const getFavoriteCard = createAction<Journey>('favorite/FETCH_FAVORITE');
 
 // ADD FAVORITE
-
 export const sendFavoriteCard = createAppAsyncThunk(
-  'favorite/sendFavoriteCard',
+  'favorite/SEND_FAVORITE_CARD',
   async (card: Journey) => {
     const tokenWithQuotes = localStorage.getItem('token');
     if (tokenWithQuotes) {
@@ -43,14 +35,17 @@ export const sendFavoriteCard = createAppAsyncThunk(
       } catch (error) {
         console.log(error);
       }
+    } else {
+      console.log('Pas de Token');
     }
+    return [];
   },
 );
 
 // GET ALL FAVORITE
-
 export const getAllFavorite = createAppAsyncThunk(
-  'favorite/getAllFavorite',
+  'favorite/GET_ALL_FAVORITE',
+  // eslint-disable-next-line consistent-return
   async () => {
     const tokenWithQuotes = localStorage.getItem('token');
     if (tokenWithQuotes) {
@@ -69,14 +64,15 @@ export const getAllFavorite = createAppAsyncThunk(
       } catch (error) {
         console.log(error);
       }
+    } else {
+      console.log('PAS DE TOKEN');
     }
   },
 );
 
 // REMOVE FAVORITE
-
 export const removeFavoriteCard = createAppAsyncThunk(
-  'favorite/removeFavoriteCard',
+  'favorite/REMOVE_FAVORITE_CARD',
   async (cardId: string) => {
     const tokenWithQuotes = localStorage.getItem('token');
     if (tokenWithQuotes) {
@@ -98,7 +94,6 @@ export const removeFavoriteCard = createAppAsyncThunk(
 
 const favoriteReducer = createReducer(initialState, (builder) => {
   builder
-
   // ADD FAVORITE
     .addCase(sendFavoriteCard.pending, (state) => {
       state.sendingFavorite = true;

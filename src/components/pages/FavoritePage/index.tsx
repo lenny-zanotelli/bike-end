@@ -14,9 +14,8 @@ import { Journey } from '../../../@types/journey';
 import {
   getAllFavorite,
   removeFavoriteCard,
-  setFavoriteCard,
 } from '../../../store/reducers/favorite';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../hooks/redux';
 
 const styles = {
   container: {
@@ -54,7 +53,6 @@ const styles = {
 
 function FavoritePage() {
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector((state) => state.favorite.favorite);
   const [storedFavorites, setStoredFavorites] = useState<Journey[]>([]);
 
   useEffect(() => {
@@ -64,7 +62,8 @@ function FavoritePage() {
       const parsedFavorites = JSON.parse(storedFavoritesJSON);
       setStoredFavorites(parsedFavorites);
     }
-  }, [dispatch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFavoriteClick = useCallback(
     (index: number) => {
@@ -80,7 +79,11 @@ function FavoritePage() {
   );
 
   return (
-    <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
+    <Container
+      component="main"
+      maxWidth={false}
+      sx={{ height: '80vh', overflow: 'auto' }}
+    >
       <Typography
         component="h2"
         color="black"
@@ -100,9 +103,19 @@ function FavoritePage() {
         justifyContent="center"
       >
         {storedFavorites.map((favorite: Journey, index: number) => (
-          <Grid component="article" item key={favorite.to.id} xs={5} sm={8} md={3}>
+          <Grid
+            component="article"
+            item
+            key={favorite.to.id}
+            xs={5}
+            sm={8}
+            md={3}
+          >
             <Card sx={styles.card}>
-              <IconButton sx={styles.favoriteIcon} onClick={() => handleFavoriteClick(index)}>
+              <IconButton
+                sx={styles.favoriteIcon}
+                onClick={() => handleFavoriteClick(index)}
+              >
                 <FavoriteIcon sx={{ color: 'red' }} />
               </IconButton>
               <CardMedia

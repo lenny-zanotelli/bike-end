@@ -9,7 +9,6 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
-import { ChangeEvent, FormEvent, useEffect } from 'react';
 import {
   ChangeEvent,
   FormEvent,
@@ -95,7 +94,6 @@ function LoginPage() {
       value: newValue,
     }));
   }
-  const navigate = useNavigate();
 
   function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();

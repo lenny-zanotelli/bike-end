@@ -91,7 +91,7 @@ export const register = createAppAsyncThunk(
   },
 );
 
-export const deleteUser = createAppAsyncThunk('login/deleteUser', async () => {
+export const deleteUser = createAppAsyncThunk('login/DELETE_USER', async () => {
   const tokenWithQuotes = localStorage.getItem('token');
   if (tokenWithQuotes) {
     try {
@@ -107,7 +107,7 @@ export const deleteUser = createAppAsyncThunk('login/deleteUser', async () => {
 });
 
 // eslint-disable-next-line consistent-return
-export const modifyUser = createAppAsyncThunk('login/modifyUser', async (_, thunkAPI) => {
+export const modifyUser = createAppAsyncThunk('login/MODIFY_USER', async (_, thunkAPI) => {
   const tokenWithQuotes = localStorage.getItem('token');
   const state = thunkAPI.getState();
   const {
@@ -134,7 +134,7 @@ export const modifyUser = createAppAsyncThunk('login/modifyUser', async (_, thun
 });
 
 // eslint-disable-next-line consistent-return
-export const fetchUser = createAppAsyncThunk('user/fetchUser', async () => {
+export const fetchUser = createAppAsyncThunk('user/FETCH_USER', async () => {
   const tokenWithQuotes = localStorage.getItem('token');
   if (tokenWithQuotes) {
     try {
