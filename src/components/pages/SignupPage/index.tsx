@@ -1,12 +1,31 @@
 import {
-  Button, TextField, Checkbox, Container, Box, FormControlLabel, Typography,
+  Button,
+  TextField,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  Typography,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, FormEvent } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useEffect,
+  useState,
+} from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
-  KeysOfCredentials, changeCredentialsField, register, toggleAcceptedConditions,
+  KeysOfCredentials,
+  changeCredentialsField,
+  register,
+  setDisplaySnackbar,
+  toggleAcceptedConditions,
 } from '../../../store/reducers/login';
+import AlertMessage from '../../AlertMessage';
 
 const buttonStyle = {
   mt: '1rem',
@@ -38,8 +57,13 @@ function SignupPage() {
   const lastname = useAppSelector((state) => state.login.credentials.lastname);
   const passwordCheck = useAppSelector((state) => state.login.credentials.passwordCheck);
   const acceptedConditions = useAppSelector((state) => state.login.acceptedConditions);
-  const isError = useAppSelector((state) => state.login.error);
+  const isLogged = useAppSelector((state) => state.login.logged);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleClickPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
   const handleChangeField = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     const fieldName = event.target.name as KeysOfCredentials;
@@ -51,7 +75,6 @@ function SignupPage() {
 
   const handleChangeCheckBox = () => {
     dispatch(toggleAcceptedConditions());
-
     console.log('test checkbox');
   };
 
@@ -64,18 +87,23 @@ function SignupPage() {
     // password is 8-16 characters with no space
     const regex = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/;
     event.preventDefault();
+
     if (password !== passwordCheck) {
-      console.log('ca match pas');
+      dispatch(setDisplaySnackbar({ severity: 'error', message: 'Les mots de passe saisis ne sont pas identitiques' }));
       return;
     }
     if (!regex.test(password)) {
-      console.log('le mot de passe doit contenir...');
+      dispatch(setDisplaySnackbar({ severity: 'error', message: 'Votre mot de passe doit avoir une taille d\'au moins 8 charactères, maximum 16 caractères et contenir: une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial' }));
       return;
     }
     dispatch(register());
-    console.log('submit');
-    navigate('/');
   };
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/');
+    }
+  }, [isLogged, navigate]);
 
   return (
     <Container
@@ -160,24 +188,52 @@ function SignupPage() {
             required
             sx={inputStyle}
             color="success"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
             label="Mot de passe"
             value={password}
             onChange={handleChangeField}
             size="small"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
 
           <TextField
             required
             sx={inputStyle}
             color="success"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="passwordCheck"
             label="Confirmer le mot de passe"
             value={passwordCheck}
             onChange={handleChangeField}
             size="small"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
 
           <div className="container__createAccount__form_cgu">
@@ -214,7 +270,9 @@ function SignupPage() {
       >
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, dicta earum vero.
       </Typography>
-
+      {!isLogged && (
+      <AlertMessage />
+      )}
     </Container>
   );
 }

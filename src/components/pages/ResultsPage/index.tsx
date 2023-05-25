@@ -9,7 +9,6 @@ import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 const styles = {
-
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -84,7 +83,6 @@ function ResultsPage() {
   }, [dispatch, storedJourneysArray]);
 
   return (
-
     <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
       <Typography
         component="h2"

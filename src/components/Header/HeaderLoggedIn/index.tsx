@@ -1,5 +1,6 @@
 import TravelExploreRoundedIcon from '@mui/icons-material/TravelExploreRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
   Container, Link, Typography,
 } from '@mui/material';
@@ -7,12 +8,11 @@ import {
 const styles = {
   header: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'center',
     my: '0.5rem',
     '@media screen and (min-width : 768px)': {
       display: 'flex',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
       gap: '15rem',
       alignItems: 'center',
       textAlign: 'center',
@@ -25,6 +25,7 @@ const styles = {
     },
   },
   headerTitleTagline: {
+    display: 'none',
     '@media screen and (min-width : 768px)': {
       display: 'flex',
       width: '60rem',
@@ -42,11 +43,18 @@ const styles = {
     fontStyle: 'italic',
     fontWeight: 'bold',
     ml: '2%',
-
+  },
+  headerContainerRightIcons: {
+    display: 'flex',
+    gap: '0.5rem',
+    justifyContent: 'flex-end',
+    '@media screen and (min-width: 768px)': {
+      width: 'auto',
+    },
   },
 } as const;
 
-function SearchHeader() {
+function HeaderLoggedIn() {
   return (
     <Container
       component="header"
@@ -83,18 +91,33 @@ function SearchHeader() {
           Le planificateur des week-ends qui font du bien à la tête et à la planète !
         </Typography>
       </Container>
-      <Link
-        className="header__link"
-        href="/myaccount"
+      <Container
+        component="section"
+        disableGutters
+        className="header__container-right-icons"
+        sx={styles.headerContainerRightIcons}
       >
-        <AccountCircleRoundedIcon
-          fontSize="large"
-          color="action"
-        />
-      </Link>
-
+        <Link
+          className="header__link"
+          href="/favorite"
+        >
+          <FavoriteIcon
+            fontSize="large"
+            color="action"
+          />
+        </Link>
+        <Link
+          className="header__link"
+          href="/myaccount"
+        >
+          <AccountCircleRoundedIcon
+            fontSize="large"
+            color="action"
+          />
+        </Link>
+      </Container>
     </Container>
   );
 }
 
-export default SearchHeader;
+export default HeaderLoggedIn;

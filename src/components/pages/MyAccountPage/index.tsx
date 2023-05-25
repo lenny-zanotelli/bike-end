@@ -18,7 +18,7 @@ import {
 const styles = {
   containerAccount: {
     width: '70vw',
-    mt: '2rem',
+    mt: '1rem',
     borderRadius: '5px',
     p: '1rem',
     textAlign: 'center',
@@ -125,12 +125,13 @@ function MyAccount() {
 
   return (
     <Container
+      component="main"
       className="container"
       sx={{
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        mt: '1.5rem',
+        mt: '1rem',
         height: '80vh',
       }}
     >
