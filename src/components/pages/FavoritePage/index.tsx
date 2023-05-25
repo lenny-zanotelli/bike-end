@@ -104,7 +104,7 @@ function FavoritePage() {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           justifyContent="center"
         >
-          // ! fixed empty array, but put unformated text instead
+          {/* ! fixed empty array, but put unformated text instead */}
           {storedFavorites.length ? storedFavorites.map((favorite: Journey, index: number) => (
             <Grid
               component="article"
