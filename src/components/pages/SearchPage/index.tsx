@@ -205,6 +205,7 @@ function SearchPage() {
                 clearOnEscape
                 noOptionsText="No Destination"
                 options={uniqueOptions}
+                disabled={isLoading}
                 renderInput={(params) => (
                   <TextField
                     variant="outlined"
@@ -213,7 +214,7 @@ function SearchPage() {
                     {...params}
                     className="search-form__input-city"
                     fullWidth
-                    disabled={isLoading}
+
                     onChange={handleAutoCompleteChange}
                     name="city-start"
                     aria-placeholder="Lieu de départ"
