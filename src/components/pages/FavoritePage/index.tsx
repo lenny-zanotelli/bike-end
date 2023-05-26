@@ -1,23 +1,30 @@
 import {
+  Button,
   Card,
   CardContent,
   CardMedia,
   Container,
   Grid,
   IconButton,
+  TextField,
   Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useEffect } from 'react';
-import destinationImage from '../../../assets/images/result-card_background.png';
+import {
+  FormEvent, useEffect, useState,
+} from 'react';
 import { Journey } from '../../../@types/journey';
 import {
   getAllFavorite,
   removeFavoriteCard,
   sendFavoriteCard,
+  updateFavoriteComment,
+  setDisplaySnackbar,
 } from '../../../store/reducers/favorite';
+import { generateRandomImageUrl } from '../../../utils/RandomImage';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
+import AlertMessage from '../../AlertMessage';
 
 const styles = {
   container: {
@@ -32,7 +39,7 @@ const styles = {
   card: {
     margin: 'auto',
     position: 'relative',
-    border: 'solid 2px',
+    border: 'solid 1px',
   },
   image: {
     opacity: 0.2,
@@ -50,12 +57,16 @@ const styles = {
   favoriteIcon: {
     top: '8px',
     left: '8px',
+    position: 'absolute',
+    zIndex: '1',
   },
 } as const;
 
 function FavoritePage() {
   const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.favorite.favorite);
+  const { open } = useAppSelector((state) => state.favorite.alert);
+  const [commentValue, setCommentValue] = useState('');
 
   useEffect(() => {
     dispatch(getAllFavorite());
@@ -74,6 +85,18 @@ function FavoritePage() {
         dispatch(getAllFavorite());
       });
     }
+  };
+
+  const handleUpdateComment = (event: FormEvent<HTMLFormElement>, queryUrl: string) => {
+    event.preventDefault();
+    dispatch(updateFavoriteComment({ queryUrl, comment: commentValue }));
+    dispatch(setDisplaySnackbar({ severity: 'success', message: 'Ton commentaire a bien été ajouté ou modifié' }));
+  };
+
+  const formatDuration = (duration: number) => {
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    return `${hours}h${minutes.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -101,7 +124,8 @@ function FavoritePage() {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           justifyContent="center"
         >
-          {favorites.map((favorite) => (
+
+          {favorites.length ? favorites.map((favorite) => (
             <Grid
               component="article"
               item
@@ -120,7 +144,7 @@ function FavoritePage() {
                 <CardMedia
                   sx={styles.image}
                   component="img"
-                  image={destinationImage}
+                  image={generateRandomImageUrl()}
                   alt={favorite.to.name}
                 />
                 <CardContent sx={styles.content}>
@@ -135,13 +159,34 @@ function FavoritePage() {
                     {favorite.to.name}
                   </Typography>
                   <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
-                    {new Date(favorite.duration * 1000).toISOString().slice(11, 19)}
+                    {formatDuration(favorite.duration)}
                   </Typography>
+                  <form
+                    onSubmit={(event) => handleUpdateComment(event, favorite.queryUrl)}
+                  >
+                    <TextField
+                      label="Commentaire"
+                      name="comment"
+                      defaultValue={favorite.comment || ''}
+                      onChange={(event) => setCommentValue(event.target.value)}
+                      fullWidth
+                    />
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      fullWidth
+                    >
+                      Mettre à jour le commentaire
+                    </Button>
+                  </form>
                 </CardContent>
               </Card>
             </Grid>
-          ))}
+          )) : ''}
         </Grid>
+        {open && (
+        <AlertMessage />
+        )}
       </Container>
     </MainLayout>
   );
