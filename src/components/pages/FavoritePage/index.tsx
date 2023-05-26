@@ -63,7 +63,7 @@ const styles = {
 function FavoritePage() {
   const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.favorite.favorite);
-  const { open, severity, message } = useAppSelector((state) => state.favorite.alert);
+  const { open } = useAppSelector((state) => state.favorite.alert);
   const [commentValue, setCommentValue] = useState('');
 
   useEffect(() => {
