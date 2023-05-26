@@ -100,7 +100,6 @@ function LoginPage() {
     event.preventDefault();
     dispatch(setDisplaySnackbar({ severity: 'error', message: 'Email ou mot de passe incorrect' }));
     dispatch(login());
-    navigate('/');
   }
 
   useEffect(() => {
