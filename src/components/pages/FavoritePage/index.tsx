@@ -8,15 +8,18 @@ import {
   Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
+import MainLayout from '../../MainLayout';
 import {
   getAllFavorite,
   removeFavoriteCard,
+  sendFavoriteCard,
 } from '../../../store/reducers/favorite';
-import { useAppDispatch } from '../../../hooks/redux';
-import MainLayout from '../../MainLayout';
+
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+
 
 const styles = {
   container: {
@@ -54,30 +57,26 @@ const styles = {
 
 function FavoritePage() {
   const dispatch = useAppDispatch();
-  const [storedFavorites, setStoredFavorites] = useState<Journey[]>([]);
+  const favorites = useAppSelector((state) => state.favorite.favorite);
 
   useEffect(() => {
     dispatch(getAllFavorite());
-    const storedFavoritesJSON = localStorage.getItem('favorites');
-    if (storedFavoritesJSON) {
-      const parsedFavorites = JSON.parse(storedFavoritesJSON);
-      setStoredFavorites(parsedFavorites);
+  }, [dispatch]);
+
+  const handleFavoriteClick = (journey: Journey) => {
+    const isFavorite = favorites.some((favorite) => favorite.to.id === journey.to.id);
+    if (isFavorite) {
+      dispatch(removeFavoriteCard(journey.queryUrl)).then(() => {
+        // Suppression réussie, mettez à jour l'état des favoris dans le store
+        dispatch(getAllFavorite());
+      });
+    } else {
+      dispatch(sendFavoriteCard(journey)).then(() => {
+        // Ajout réussi, mettez à jour l'état des favoris dans le store
+        dispatch(getAllFavorite());
+      });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleFavoriteClick = useCallback(
-    (index: number) => {
-      const updatedFavorites = [...storedFavorites];
-      const removedFavorite = updatedFavorites.splice(index, 1)[0];
-      setStoredFavorites(updatedFavorites);
-
-      dispatch(removeFavoriteCard(removedFavorite.queryUrl));
-
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    },
-    [dispatch, storedFavorites],
-  );
+  };
 
   return (
     <MainLayout>
@@ -97,27 +96,43 @@ function FavoritePage() {
         >
           Favoris
         </Typography>
-        <Grid
-          component="section"
-          container
-          rowSpacing={2}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          justifyContent="center"
-        >
-          {/* ! fixed empty array, but put unformated text instead */}
-          {storedFavorites.length ? storedFavorites.map((favorite: Journey, index: number) => (
-            <Grid
-              component="article"
-              item
-              key={favorite.to.id}
-              xs={5}
-              sm={8}
-              md={3}
-            >
-              <Card sx={styles.card}>
-                <IconButton
-                  sx={styles.favoriteIcon}
-                  onClick={() => handleFavoriteClick(index)}
+      <Grid
+        component="section"
+        container
+        rowSpacing={2}
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        justifyContent="center"
+      >
+        {favorites.map((favorite) => (
+          <Grid
+            component="article"
+            item
+            key={favorite.to.id}
+            xs={5}
+            sm={8}
+            md={3}
+          >
+            <Card sx={styles.card}>
+              <IconButton
+                sx={styles.favoriteIcon}
+                onClick={() => handleFavoriteClick(favorite)}
+              >
+                <FavoriteIcon sx={{ color: 'red' }} />
+              </IconButton>
+              <CardMedia
+                sx={styles.image}
+                component="img"
+                image={destinationImage}
+                alt={favorite.to.name}
+              />
+              <CardContent sx={styles.content}>
+                <Typography
+                  color="black"
+                  align="center"
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: '0.8em',
+                  }}
                 >
                   <FavoriteIcon sx={{ color: 'red' }} />
                 </IconButton>
