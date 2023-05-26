@@ -83,6 +83,12 @@ function ResultsPage() {
     }
   }, [dispatch, storedJourneysArray]);
 
+  const formatDuration = (duration: number) => {
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    return `${hours}h${minutes.toString().padStart(2, '0')}`;
+  };
+
   return (
     <MainLayout>
       <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
@@ -144,7 +150,8 @@ function ResultsPage() {
                     align="center"
                     sx={{ fontSize: '0.8em' }}
                   >
-                    {new Date(result.duration * 1000).toISOString().slice(11, 19)}
+                    {formatDuration(result.duration)}
+
                   </Typography>
                 </CardContent>
               </Card>

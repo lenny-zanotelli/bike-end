@@ -76,6 +76,12 @@ function FavoritePage() {
     }
   };
 
+  const formatDuration = (duration: number) => {
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    return `${hours}h${minutes.toString().padStart(2, '0')}`;
+  };
+
   return (
     <MainLayout>
       <Container
@@ -135,7 +141,7 @@ function FavoritePage() {
                     {favorite.to.name}
                   </Typography>
                   <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
-                    {new Date(favorite.duration * 1000).toISOString().slice(11, 19)}
+                    {formatDuration(favorite.duration)}
                   </Typography>
                 </CardContent>
               </Card>
