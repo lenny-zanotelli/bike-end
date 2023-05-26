@@ -8,6 +8,7 @@ function Home() {
   return (
     <Container
       maxWidth="lg"
+      disableGutters
     >
       <HomeHeader />
       <HomeBody />
