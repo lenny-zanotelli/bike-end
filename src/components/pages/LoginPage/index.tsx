@@ -5,9 +5,9 @@ import {
   Box,
   TextField,
   Typography,
-  Link,
   InputAdornment,
   IconButton,
+  Link as MuiLink,
 } from '@mui/material';
 import {
   ChangeEvent,
@@ -16,7 +16,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -194,19 +194,23 @@ function LoginPage() {
               Valider
             </Button>
           </form>
-          <Link
-            href="/signup"
-            sx={styles.containerConnectForgotPassword}
-            underline="none"
-            variant="button"
-          >
-            Pas de compte ?
-            <Typography
-              component="span"
-              sx={styles.createAccountSpan}
+
+          <Link to="/signup">
+            <MuiLink
+              sx={styles.containerConnectForgotPassword}
+              underline="none"
+              variant="button"
             >
-              Créez un compte !
-            </Typography>
+
+              Pas de compte ?
+              <Typography
+                component="span"
+                sx={styles.createAccountSpan}
+              >
+                Créez un compte !
+              </Typography>
+
+            </MuiLink>
           </Link>
           <Button
             className="container__connect__forgotPassword"

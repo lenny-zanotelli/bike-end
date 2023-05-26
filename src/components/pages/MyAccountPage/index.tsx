@@ -1,7 +1,17 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-no-bind */
 import {
-  Box, Button, Container, Link, List, ListItem, ListItemButton, ListItemText, Modal, TextField, Typography,
+  Box,
+  Button,
+  Container,
+  Link as MuiLink,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Modal,
+  TextField,
+  Typography,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -9,10 +19,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import {
   ChangeEvent, FormEvent, useEffect, useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
-  KeysOfCredentials, changeCredentialsField, deleteUser, logout, modifyUser, fetchUser,
+  KeysOfCredentials,
+  changeCredentialsField,
+  deleteUser,
+  logout,
+  modifyUser,
+  fetchUser,
 } from '../../../store/reducers/login';
 import MainLayout from '../../MainLayout';
 
@@ -64,7 +79,6 @@ const styles = {
     '@media only screen and (min-device-width : 768px)': {
       maxWidth: '35%',
     },
-
   },
   closeButton: {
     position: 'absolute',
@@ -80,18 +94,22 @@ const styles = {
 function MyAccount() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { firstname, lastname, email } = useAppSelector((state) => state.login.credentials);
-  // MODAL
+  const { firstname, lastname, email } = useAppSelector(
+    (state) => state.login.credentials,
+  );
+    // MODAL
   const [open, setOpen] = useState(false);
   // const [text, setText] = useState('');
 
   const handleChangeField = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     const fieldName = event.target.name as KeysOfCredentials;
-    dispatch(changeCredentialsField({
-      propertyKey: fieldName,
-      value: newValue,
-    }));
+    dispatch(
+      changeCredentialsField({
+        propertyKey: fieldName,
+        value: newValue,
+      }),
+    );
   };
 
   const handleOpen = () => {
@@ -122,7 +140,7 @@ function MyAccount() {
 
   useEffect(() => {
     dispatch(fetchUser());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -186,9 +204,7 @@ function MyAccount() {
               >
                 <CloseIcon />
               </Button>
-              <form
-                onSubmit={handleUpdateUser}
-              >
+              <form onSubmit={handleUpdateUser}>
                 <Typography
                   variant="h2"
                   className="container__createAccount__title"
@@ -259,17 +275,19 @@ function MyAccount() {
             </ListItem>
           </List>
         </Box>
-        <Link
+        <Link     to="/favorite">
+        <MuiLink
           sx={{
             mt: '2rem',
             mb: '2rem',
           }}
-          href="/favorite"
+          
           underline="hover"
         >
           <FavoriteIcon />
           Mes voyages favoris
-        </Link>
+        </MuiLink>
+          </Link>
         <Button
           fullWidth
           type="submit"
@@ -289,7 +307,6 @@ function MyAccount() {
         </Button>
       </Container>
     </MainLayout>
-
   );
 }
 

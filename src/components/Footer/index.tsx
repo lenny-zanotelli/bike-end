@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom';
 import './styles.scss';
 
 function Footer() {
   return (
     <footer className="container__footer">
-      <a href="/" className="footer__content">Qui sommes-nous ?</a>
-      <a href="/" className="footer__content">Mentions Légales</a>
+      <Link to="/" className="footer__content">Qui sommes-nous ?</Link>
+      <Link to="/" className="footer__content">Mentions Légales</Link>
     </footer>
   );
 }
