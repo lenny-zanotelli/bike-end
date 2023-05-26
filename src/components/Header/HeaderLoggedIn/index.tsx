@@ -2,8 +2,9 @@ import TravelExploreRoundedIcon from '@mui/icons-material/TravelExploreRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
-  Container, Link, Typography,
+  Container, Typography,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const styles = {
   header: {
@@ -64,7 +65,7 @@ function HeaderLoggedIn() {
     >
       <Link
         className="header__link"
-        href="/"
+        to="/"
       >
         <TravelExploreRoundedIcon
           fontSize="large"
@@ -99,7 +100,7 @@ function HeaderLoggedIn() {
       >
         <Link
           className="header__link"
-          href="/favorite"
+          to="/favorite"
         >
           <FavoriteIcon
             fontSize="large"
@@ -108,7 +109,7 @@ function HeaderLoggedIn() {
         </Link>
         <Link
           className="header__link"
-          href="/myaccount"
+          to="/myaccount"
         >
           <AccountCircleRoundedIcon
             fontSize="large"
