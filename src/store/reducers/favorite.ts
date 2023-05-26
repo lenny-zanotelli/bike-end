@@ -7,12 +7,22 @@ interface FavoriteState {
   favorite: Journey[];
   sendingFavorite: boolean;
   sendFavoriteError: string | null;
+  alert: {
+    open: boolean;
+    severity: string;
+    message: string;
+  }
 }
 
 const initialState:FavoriteState = {
   favorite: [],
   sendingFavorite: false,
   sendFavoriteError: null,
+  alert: {
+    open: false,
+    severity: 'success',
+    message: '',
+  },
 };
 
 export const setFavoriteCard = createAction<Journey>('favorite/SET_FAVORITE_CARD');
@@ -92,6 +102,32 @@ export const removeFavoriteCard = createAppAsyncThunk(
   },
 );
 
+export const updateFavoriteComment = createAppAsyncThunk(
+  'favorite/UPDATE_FAVORITE_COMMENT',
+  // eslint-disable-next-line consistent-return
+  async ({ queryUrl, comment }: { queryUrl: string, comment: string }) => {
+    const tokenWithQuotes = localStorage.getItem('token');
+    if (tokenWithQuotes) {
+      try {
+        const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        const response = await axios.patch(`https://bikeend-api.up.railway.app/favorite/${queryUrl}`, { comment }, { headers });
+        console.log(queryUrl, comment);
+        return { queryUrl, comment };
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    }
+  },
+);
+
+export const setDisplaySnackbar = createAction<{
+  severity: string; message: string
+}>('login/SET_DISPLAY_SNACKBAR');
+
 const favoriteReducer = createReducer(initialState, (builder) => {
   builder
   // ADD FAVORITE
@@ -120,6 +156,23 @@ const favoriteReducer = createReducer(initialState, (builder) => {
     // GET FAVORITE
     .addCase(getAllFavorite.fulfilled, (state, action) => {
       state.favorite = action.payload;
+    })
+    // UPDATE FAVORITE
+    .addCase(updateFavoriteComment.fulfilled, (state, action) => {
+      const { queryUrl, comment } = action.payload || {};
+      if (queryUrl && comment) {
+        state.favorite = state.favorite.map((fav) => {
+          if (fav.queryUrl === queryUrl) {
+            return { ...fav, comment };
+          }
+          return fav;
+        });
+      }
+    })
+    .addCase(setDisplaySnackbar, (state, action) => {
+      state.alert.severity = action.payload ? action.payload.severity : state.alert.severity;
+      state.alert.message = action.payload ? action.payload.message : '';
+      state.alert.open = !state.alert.open;
     });
 });
 
