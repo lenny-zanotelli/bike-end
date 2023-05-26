@@ -1,21 +1,30 @@
 import {
+  Button,
   Card,
   CardContent,
   CardMedia,
   Container,
   Grid,
   IconButton,
+  TextField,
   Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  FormEvent, useEffect, useState,
+} from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
 import {
   getAllFavorite,
   removeFavoriteCard,
+  sendFavoriteCard,
+  updateFavoriteComment,
+  setDisplaySnackbar,
 } from '../../../store/reducers/favorite';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import MainLayout from '../../MainLayout';
+import AlertMessage from '../../AlertMessage';
 
 const styles = {
   container: {
@@ -53,97 +62,132 @@ const styles = {
 
 function FavoritePage() {
   const dispatch = useAppDispatch();
-  const [storedFavorites, setStoredFavorites] = useState<Journey[]>([]);
+  const favorites = useAppSelector((state) => state.favorite.favorite);
+  const { open } = useAppSelector((state) => state.favorite.alert);
+  const [commentValue, setCommentValue] = useState('');
 
   useEffect(() => {
     dispatch(getAllFavorite());
-    const storedFavoritesJSON = localStorage.getItem('favorites');
-    if (storedFavoritesJSON) {
-      const parsedFavorites = JSON.parse(storedFavoritesJSON);
-      setStoredFavorites(parsedFavorites);
+  }, [dispatch]);
+
+  const handleFavoriteClick = (journey: Journey) => {
+    const isFavorite = favorites.some((favorite) => favorite.to.id === journey.to.id);
+    if (isFavorite) {
+      dispatch(removeFavoriteCard(journey.queryUrl)).then(() => {
+        // Suppression réussie, mettez à jour l'état des favoris dans le store
+        dispatch(getAllFavorite());
+      });
+    } else {
+      dispatch(sendFavoriteCard(journey)).then(() => {
+        // Ajout réussi, mettez à jour l'état des favoris dans le store
+        dispatch(getAllFavorite());
+      });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
-  const handleFavoriteClick = useCallback(
-    (index: number) => {
-      const updatedFavorites = [...storedFavorites];
-      const removedFavorite = updatedFavorites.splice(index, 1)[0];
-      setStoredFavorites(updatedFavorites);
+  const handleUpdateComment = (event: FormEvent<HTMLFormElement>, queryUrl: string) => {
+    event.preventDefault();
+    dispatch(updateFavoriteComment({ queryUrl, comment: commentValue }));
+    dispatch(setDisplaySnackbar({ severity: 'success', message: 'Ton commentaire a bien été ajouté ou modifié' }));
+  };
 
-      dispatch(removeFavoriteCard(removedFavorite.queryUrl));
-
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    },
-    [dispatch, storedFavorites],
-  );
+  const formatDuration = (duration: number) => {
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    return `${hours}h${minutes.toString().padStart(2, '0')}`;
+  };
 
   return (
-    <Container
-      component="main"
-      maxWidth={false}
-      sx={{ height: '80vh', overflow: 'auto' }}
-    >
-      <Typography
-        component="h2"
-        color="black"
-        align="center"
-        sx={{
-          fontSize: '1em',
-          fontWeight: 'bold',
-        }}
+    <MainLayout>
+      <Container
+        component="main"
+        maxWidth={false}
+        sx={{ height: '80vh', overflow: 'auto' }}
       >
-        Favoris
-      </Typography>
-      <Grid
-        component="section"
-        container
-        rowSpacing={2}
-        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        justifyContent="center"
-      >
-        {storedFavorites.map((favorite: Journey, index: number) => (
-          <Grid
-            component="article"
-            item
-            key={favorite.to.id}
-            xs={5}
-            sm={8}
-            md={3}
-          >
-            <Card sx={styles.card}>
-              <IconButton
-                sx={styles.favoriteIcon}
-                onClick={() => handleFavoriteClick(index)}
-              >
-                <FavoriteIcon sx={{ color: 'red' }} />
-              </IconButton>
-              <CardMedia
-                sx={styles.image}
-                component="img"
-                image={destinationImage}
-                alt={favorite.to.name}
-              />
-              <CardContent sx={styles.content}>
-                <Typography
-                  color="black"
-                  align="center"
-                  sx={{
-                    fontWeight: 'bold',
-                    fontSize: '0.8em',
-                  }}
+        <Typography
+          component="h2"
+          color="black"
+          align="center"
+          sx={{
+            fontSize: '1em',
+            fontWeight: 'bold',
+          }}
+        >
+          Favoris
+        </Typography>
+        <Grid
+          component="section"
+          container
+          rowSpacing={2}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="center"
+        >
+          {favorites.map((favorite) => (
+            <Grid
+              component="article"
+              item
+              key={favorite.to.id}
+              xs={5}
+              sm={8}
+              md={3}
+            >
+              <Card sx={styles.card}>
+                <IconButton
+                  sx={styles.favoriteIcon}
+                  onClick={() => handleFavoriteClick(favorite)}
                 >
-                  {favorite.to.name}
-                </Typography>
-                <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
-                  {new Date(favorite.duration * 1000).toISOString().slice(11, 19)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+                  <FavoriteIcon sx={{ color: 'red' }} />
+                </IconButton>
+                <CardMedia
+                  sx={styles.image}
+                  component="img"
+                  image={destinationImage}
+                  alt={favorite.to.name}
+                />
+                <CardContent sx={styles.content}>
+                  <Typography
+                    color="black"
+                    align="center"
+                    sx={{
+                      fontWeight: 'bold',
+                      fontSize: '0.8em',
+                    }}
+                  >
+                    {favorite.to.name}
+                  </Typography>
+                  <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
+                    {formatDuration(favorite.duration)}
+                  </Typography>
+                  {/* Champ de saisie pour le commentaire */}
+                  <form
+                    onSubmit={(event) => handleUpdateComment(event, favorite.queryUrl)}
+                  >
+                    <TextField
+                      label="Commentaire"
+                      name="comment"
+                      defaultValue={favorite.comment || ''}
+                      onChange={(event) => setCommentValue(event.target.value)}
+                      fullWidth
+                    />
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      fullWidth
+                    >
+                      Mettre à jour le commentaire
+                    </Button>
+                  </form>
+
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+        {open && (
+        <AlertMessage />
+        )}
+      </Container>
+    </MainLayout>
   );
 }
 

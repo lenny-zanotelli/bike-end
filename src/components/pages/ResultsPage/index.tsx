@@ -8,6 +8,7 @@ import destinationImage from '../../../assets/images/result-card_background.png'
 import { Journey } from '../../../@types/journey';
 import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../store/reducers/favorite';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import MainLayout from '../../MainLayout';
 
 const styles = {
   container: {
@@ -90,7 +91,14 @@ function ResultsPage() {
     }
   }, [dispatch, storedJourneysArray]);
 
+  const formatDuration = (duration: number) => {
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    return `${hours}h${minutes.toString().padStart(2, '0')}`;
+  };
+
   return (
+   <MainLayout>
     <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
       <Typography
         component="h2"
@@ -150,14 +158,40 @@ function ResultsPage() {
                   align="center"
                   sx={{ fontSize: '0.8em' }}
                 >
-                  {new Date(result.duration * 1000).toISOString().slice(11, 19)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+                  <FavoriteIcon sx={{ color: result.isFavorite ? 'red' : 'inherit' }} />
+                </IconButton>
+                <CardMedia
+                  sx={styles.image}
+                  component="img"
+                  image={destinationImage}
+                  alt={result.to.name}
+                />
+                <CardContent sx={styles.content}>
+                  <Typography
+                    color="black"
+                    align="center"
+                    sx={{
+                      fontWeight: 'bold',
+                      fontSize: '0.8em',
+                    }}
+                  >
+                    {result.to.name}
+                  </Typography>
+                  <Typography
+                    color="black"
+                    align="center"
+                    sx={{ fontSize: '0.8em' }}
+                  >
+                    {formatDuration(result.duration)}
+
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </MainLayout>
 
   );
 }

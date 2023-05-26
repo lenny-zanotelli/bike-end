@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   KeysOfCredentials, changeCredentialsField, deleteUser, logout, modifyUser, fetchUser,
 } from '../../../store/reducers/login';
+import MainLayout from '../../MainLayout';
 
 const styles = {
   containerAccount: {
@@ -125,171 +126,169 @@ function MyAccount() {
   }, []);
 
   return (
-    <Container
-      component="main"
-      className="container"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        mt: '1rem',
-        height: '80vh',
-      }}
-    >
-      <Typography
-        variant="h1"
-        className="container__account__title"
+    <MainLayout>
+      <Container
+        component="main"
+        className="container"
         sx={{
-          fontSize: '1.8em',
-          mb: '1rem',
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          mt: '1rem',
+          height: '80vh',
         }}
       >
-        Mon compte
-      </Typography>
-      <Box
-        className="container__connect"
-        component="section"
-        sx={styles.containerAccount}
-      >
-
         <Typography
-          variant="h2"
-          className="container__createAccount__title"
+          variant="h1"
+          className="container__account__title"
           sx={{
-            fontSize: '1em',
+            fontSize: '1.8em',
             mb: '1rem',
-            py: '1rem',
-            px: '2rem',
           }}
         >
-          MES INFORMATIONS
-          <Button
-            startIcon={<EditIcon />}
-            onClick={handleOpen}
-            sx={{
-              position: 'absolute',
-
-            }}
-          />
+          Mon compte
         </Typography>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          sx={{
-            mt: '6.5rem',
-          }}
+        <Box
+          className="container__connect"
+          component="section"
+          sx={styles.containerAccount}
         >
-          <Container sx={styles.containerModal}>
+          <Typography
+            variant="h2"
+            className="container__createAccount__title"
+            sx={{
+              fontSize: '1em',
+              mb: '1rem',
+              py: '1rem',
+              px: '2rem',
+            }}
+          >
+            MES INFORMATIONS
             <Button
-              onClick={() => setOpen(false)}
-              sx={styles.closeButton}
-            >
-              <CloseIcon />
-            </Button>
-            <form
-              onSubmit={handleUpdateUser}
-            >
-              <Typography
-                variant="h2"
-                className="container__createAccount__title"
-                sx={{
-                  fontSize: '1.3em',
-                  mb: '1rem',
-                  py: '1rem',
-                  px: '2rem',
-                }}
-              >
-                Modifier vos informations
-              </Typography>
-              <TextField
-                sx={styles.inputStyle}
-                color="success"
-                name="lastname"
-                label="Nom"
-                size="small"
-                onChange={handleChangeField}
-              />
-
-              <TextField
-                sx={styles.inputStyle}
-                color="success"
-                fullWidth
-                name="firstname"
-                label="Prenom"
-                size="small"
-                onChange={handleChangeField}
-              />
-
-              <TextField
-                sx={styles.inputStyle}
-                color="success"
-                type="email"
-                name="email"
-                label="Email"
-                size="small"
-                onChange={handleChangeField}
-              />
+              startIcon={<EditIcon />}
+              onClick={handleOpen}
+              sx={{
+                position: 'absolute',
+              }}
+            />
+          </Typography>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            sx={{
+              mt: '6.5rem',
+            }}
+          >
+            <Container sx={styles.containerModal}>
               <Button
-                type="submit"
-                sx={{
-                  mt: '2rem',
-                  mb: '2rem',
-                }}
-                variant="contained"
-                color="primary"
+                onClick={() => setOpen(false)}
+                sx={styles.closeButton}
               >
-                Mettre à jour
+                <CloseIcon />
               </Button>
-            </form>
-          </Container>
-        </Modal>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary={lastname} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary={firstname} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary={email} />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Box>
-      <Link
-        sx={{
-          mt: '2rem',
-          mb: '2rem',
-        }}
-        href="/favorite"
-        underline="hover"
-      >
-        <FavoriteIcon />
-        Mes voyages favoris
-      </Link>
-      <Button
-        fullWidth
-        type="submit"
-        sx={styles.buttonStyle}
-        variant="contained"
-        onClick={handleLoggout}
-      >
-        Se deconnecter
-      </Button>
-      <Button
-        type="submit"
-        size="small"
-        sx={styles.deleteAccountButton}
-        onClick={handleDeleteUser}
-      >
-        Supprimer mon compte
-      </Button>
-    </Container>
+              <form
+                onSubmit={handleUpdateUser}
+              >
+                <Typography
+                  variant="h2"
+                  className="container__createAccount__title"
+                  sx={{
+                    fontSize: '1.3em',
+                    mb: '1rem',
+                    py: '1rem',
+                    px: '2rem',
+                  }}
+                >
+                  Modifier vos informations
+                </Typography>
+                <TextField
+                  sx={styles.inputStyle}
+                  color="success"
+                  name="lastname"
+                  label="Nom"
+                  size="small"
+                  onChange={handleChangeField}
+                />
+                <TextField
+                  sx={styles.inputStyle}
+                  color="success"
+                  fullWidth
+                  name="firstname"
+                  label="Prenom"
+                  size="small"
+                  onChange={handleChangeField}
+                />
+                <TextField
+                  sx={styles.inputStyle}
+                  color="success"
+                  type="email"
+                  name="email"
+                  label="Email"
+                  size="small"
+                  onChange={handleChangeField}
+                />
+                <Button
+                  type="submit"
+                  sx={{
+                    mt: '2rem',
+                    mb: '2rem',
+                  }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Mettre à jour
+                </Button>
+              </form>
+            </Container>
+          </Modal>
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary={lastname} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary={firstname} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary={email} />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
+        <Link
+          sx={{
+            mt: '2rem',
+            mb: '2rem',
+          }}
+          href="/favorite"
+          underline="hover"
+        >
+          <FavoriteIcon />
+          Mes voyages favoris
+        </Link>
+        <Button
+          fullWidth
+          type="submit"
+          sx={styles.buttonStyle}
+          variant="contained"
+          onClick={handleLoggout}
+        >
+          Se deconnecter
+        </Button>
+        <Button
+          type="submit"
+          size="small"
+          sx={styles.deleteAccountButton}
+          onClick={handleDeleteUser}
+        >
+          Supprimer mon compte
+        </Button>
+      </Container>
+    </MainLayout>
 
   );
 }

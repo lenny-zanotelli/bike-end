@@ -7,6 +7,7 @@ import {
   Typography,
   InputAdornment,
   IconButton,
+  Link,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -26,6 +27,7 @@ import {
   toggleAcceptedConditions,
 } from '../../../store/reducers/login';
 import AlertMessage from '../../AlertMessage';
+import MainLayout from '../../MainLayout';
 
 const buttonStyle = {
   mt: '1rem',
@@ -45,6 +47,19 @@ const inputStyle = {
   width: '80%',
   my: '0.5rem',
   backgroundColor: 'white',
+} as const;
+
+const alreadyAnAccount = {
+  my: '1rem',
+  fontSize: '0.6rem',
+  color: 'black',
+} as const;
+
+const alreadyAnAccountSpan = {
+  my: '1rem',
+  fontSize: '0.6rem',
+  color: 'blue',
+  pl: '0.3rem',
 } as const;
 
 function SignupPage() {
@@ -75,7 +90,7 @@ function SignupPage() {
 
   const handleChangeCheckBox = () => {
     dispatch(toggleAcceptedConditions());
-    console.log('test checkbox');
+    // console.log('test checkbox');
   };
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
@@ -85,15 +100,20 @@ function SignupPage() {
     // password must contain 1 lowercase letters
     // password must contain 1 non-alpha numeric number
     // password is 8-16 characters with no space
-    const regex = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/;
+    const pwdRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/;
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$/;
     event.preventDefault();
 
     if (password !== passwordCheck) {
       dispatch(setDisplaySnackbar({ severity: 'error', message: 'Les mots de passe saisis ne sont pas identitiques' }));
       return;
     }
-    if (!regex.test(password)) {
+    if (!pwdRegex.test(password)) {
       dispatch(setDisplaySnackbar({ severity: 'error', message: 'Votre mot de passe doit avoir une taille d\'au moins 8 charactères, maximum 16 caractères et contenir: une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial' }));
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      dispatch(setDisplaySnackbar({ severity: 'error', message: 'Votre email doit être au bon format : example@domain.xyz' }));
       return;
     }
     dispatch(register());
@@ -106,174 +126,183 @@ function SignupPage() {
   }, [isLogged, navigate]);
 
   return (
-    <Container
-      className="container"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        mt: '1.5rem',
-        height: '80vh',
-      }}
-    >
+    <MainLayout>
       <Container
-        className="container__createAccount"
-        maxWidth="sm"
+        className="container"
         sx={{
-          width: '80vw',
-          borderRadius: '5px',
-          py: '1rem',
-          textAlign: 'center',
-          backgroundColor: 'rgb(154, 183, 192, 0.3)',
           display: 'flex',
+          alignItems: 'center',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center',
+          mt: '1.5rem',
+          height: '80vh',
         }}
       >
-        <Typography
-          variant="h2"
-          className="container__createAccount__title"
+        <Container
+          className="container__createAccount"
+          maxWidth="sm"
           sx={{
-            fontSize: '1.8em',
-            mb: '1rem',
+            width: '80vw',
+            borderRadius: '5px',
+            py: '1rem',
+            textAlign: 'center',
+            backgroundColor: 'rgb(154, 183, 192, 0.3)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          Créer mon compte
-        </Typography>
-
-        <form
-          className="container__createAccount__form"
-          onSubmit={handleSubmitForm}
-        >
-
-          <TextField
-          // TODO Créer des errors sous les TextField pour informer l'user
-            sx={inputStyle}
-            color="success"
-            fullWidth
-            required
-            name="firstname"
-            label="Prénom"
-            value={firstname}
-            onChange={handleChangeField}
-            size="small"
-          />
-
-          <TextField
-            required
-            sx={inputStyle}
-            color="success"
-            name="lastname"
-            label="Nom"
-            value={lastname}
-            onChange={handleChangeField}
-            size="small"
-          />
-
-          <TextField
-            required
-            sx={inputStyle}
-            color="success"
-            type="email"
-            name="email"
-            label="Adresse e-mail"
-            value={email}
-            onChange={handleChangeField}
-            size="small"
-          />
-
-          <TextField
-            required
-            sx={inputStyle}
-            color="success"
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            label="Mot de passe"
-            value={password}
-            onChange={handleChangeField}
-            size="small"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
+          <Typography
+            variant="h2"
+            className="container__createAccount__title"
+            sx={{
+              fontSize: '1.8em',
+              mb: '1rem',
             }}
-          />
-
-          <TextField
-            required
-            sx={inputStyle}
-            color="success"
-            type={showPassword ? 'text' : 'password'}
-            name="passwordCheck"
-            label="Confirmer le mot de passe"
-            value={passwordCheck}
-            onChange={handleChangeField}
-            size="small"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          <div className="container__createAccount__form_cgu">
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={acceptedConditions}
-                  onChange={handleChangeCheckBox}
-                  color="success"
-                />
-                )}
-              label="J'accepte les CGU"
-            />
-          </div>
-
-          <Button
-            type="submit"
-            sx={buttonStyle}
-            variant="contained"
           >
-            Valider
-          </Button>
-        </form>
+            Créer mon compte
+          </Typography>
+          <form
+            className="container__createAccount__form"
+            onSubmit={handleSubmitForm}
+          >
+            <TextField
+            // TODO Créer des errors sous les TextField pour informer l'user
+              sx={inputStyle}
+              color="success"
+              fullWidth
+              required
+              name="firstname"
+              label="Prénom"
+              value={firstname}
+              onChange={handleChangeField}
+              size="small"
+            />
+            <TextField
+              required
+              sx={inputStyle}
+              color="success"
+              name="lastname"
+              label="Nom"
+              value={lastname}
+              onChange={handleChangeField}
+              size="small"
+            />
+            <TextField
+              required
+              sx={inputStyle}
+              color="success"
+              type="email"
+              name="email"
+              label="Adresse e-mail"
+              value={email}
+              onChange={handleChangeField}
+              size="small"
+            />
+            <TextField
+              required
+              sx={inputStyle}
+              color="success"
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              label="Mot de passe"
+              value={password}
+              onChange={handleChangeField}
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              required
+              sx={inputStyle}
+              color="success"
+              type={showPassword ? 'text' : 'password'}
+              name="passwordCheck"
+              label="Confirmer le mot de passe"
+              value={passwordCheck}
+              onChange={handleChangeField}
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <div className="container__createAccount__form_cgu">
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={acceptedConditions}
+                    onChange={handleChangeCheckBox}
+                    color="success"
+                  />
+                  )}
+                label="J'accepte les CGU"
+              />
+            </div>
+            <Link
+              href="/login"
+              sx={alreadyAnAccount}
+              underline="none"
+              variant="button"
+            >
+              Déjà un compte ?
+              <Typography
+                component="span"
+                sx={alreadyAnAccountSpan}
+              >
+                Connectez vous !
+              </Typography>
+            </Link>
+            <Button
+              type="submit"
+              sx={buttonStyle}
+              variant="contained"
+            >
+              Valider
+            </Button>
+          </form>
+        </Container>
+        <Typography
+          paragraph
+          sx={{
+            width: '80%',
+            textAlign: 'center',
+            fontSize: '0.7rem',
+            mt: '0.5rem',
+            fontStyle: 'italic',
+          }}
+          className="container-text"
+        >
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, dicta earum vero.
+        </Typography>
+        {!isLogged && (
+        <AlertMessage />
+        )}
       </Container>
-      <Typography
-        paragraph
-        sx={{
-          width: '80%',
-          textAlign: 'center',
-          mt: '0.5rem',
-          fontStyle: 'italic',
-        }}
-        className="container-text"
-      >
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, dicta earum vero.
-      </Typography>
-      {!isLogged && (
-      <AlertMessage />
-      )}
-    </Container>
+    </MainLayout>
   );
 }
 
