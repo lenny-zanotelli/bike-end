@@ -19,10 +19,11 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 // import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
 // import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded';
 import { useNavigate } from 'react-router-dom';
-import Header from '../../Header';
+import MainLayout from '../../MainLayout';
 import testImg from '../../../assets/images/test-searchPage-desktop.jpg';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { fetchAutoComplete, searchJourneys } from '../../../store/reducers/search';
+import { searchJourneys } from '../../../store/reducers/search';
+import { fetchAutoComplete } from '../../../store/reducers/autoComplete';
 
 const styles = {
   container: {
@@ -118,10 +119,11 @@ const styles = {
 function SearchPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const query = useAppSelector((state) => state.search.query);
+  const query = useAppSelector((state) => state.autoComplete.query);
   const searchParams = useAppSelector((state) => state.search.params);
   const maxDuration = useAppSelector((state) => state.search.params.max_duration);
   const journeys = useAppSelector((state) => state.search.journeys);
+  const isLoading = useAppSelector((state) => state.search.loading);
   const [selectedCityId, setSelectedCityId] = useState<string>('');
 
   const handleAutoCompleteChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -163,8 +165,7 @@ function SearchPage() {
   const uniqueOptions = Array.from(new Set(query?.map((item: { name: string }) => item.name)));
 
   return (
-    <>
-      <Header />
+    <MainLayout>
       <Container
         className="desktop-container"
         sx={styles.desktopContainer}
@@ -212,6 +213,7 @@ function SearchPage() {
                     {...params}
                     className="search-form__input-city"
                     fullWidth
+                    disabled={isLoading}
                     onChange={handleAutoCompleteChange}
                     name="city-start"
                     aria-placeholder="Lieu de départ"
@@ -231,17 +233,17 @@ function SearchPage() {
               />
               {/*
   <TextField
-    className="search-form__input-city"
-    fullWidth
-    name="city-end"
-    placeholder="Lieu d'arrivé"
-    aria-placeholder="Lieu d'arrivé"
-    color="success"
-    InputProps={{
-      endAdornment: (
-        <InputAdornment position="end">
-          <LocationOnIcon />
-        </InputAdornment>
+  className="search-form__input-city"
+  fullWidth
+  name="city-end"
+  placeholder="Lieu d'arrivé"
+  aria-placeholder="Lieu d'arrivé"
+  color="success"
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+      <LocationOnIcon />
+      </InputAdornment>
       ),
     }}
   /> */}
@@ -259,6 +261,7 @@ function SearchPage() {
                   name="date"
                   value={new Date().toISOString().split('T')[0]}
                   color="success"
+                  disabled={isLoading}
                 />
                 <TextField
                   fullWidth
@@ -268,24 +271,25 @@ function SearchPage() {
                   type="time"
                   name="time"
                   color="success"
+                  disabled={isLoading}
                 />
               </Container>
             </Container>
             {/* <Container
     component="section"
     className="container__filter-form"
-  />
-  <Container
+    />
+    <Container
     component="article"
     className="filter-form__criteria"
     sx={styles.filterFormCriteria}
-  >
-    <Typography
-      component="h2"
-      className="filter-form__title"
-      sx={styles.filterFormTitle}
     >
-      Filtres :
+    <Typography
+    component="h2"
+    className="filter-form__title"
+    sx={styles.filterFormTitle}
+    >
+    Filtres :
     </Typography>
     <TextField
       size="small"
@@ -296,12 +300,12 @@ function SearchPage() {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <EuroRoundedIcon />
+          <EuroRoundedIcon />
           </InputAdornment>
         ),
       }}
-    />
-    <TextField
+      />
+      <TextField
       size="small"
       className="filter-form__input_journey-travel"
       type="text"
@@ -310,12 +314,12 @@ function SearchPage() {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <UpdateRoundedIcon />
+          <UpdateRoundedIcon />
           </InputAdornment>
-        ),
-      }}
-    />
-  </Container> */}
+          ),
+        }}
+        />
+      </Container> */}
             <Container
               component="article"
               className="filter-form__btn"
@@ -327,6 +331,7 @@ function SearchPage() {
                 size="large"
                 variant="contained"
                 color="success"
+                disabled={isLoading}
               >
                 Recherche
               </Button>
@@ -337,7 +342,7 @@ function SearchPage() {
     size="large"
     variant="contained"
     color="error"
-  >
+    >
     Réinitialiser
   </Button> */}
             </Container>
@@ -364,7 +369,7 @@ function SearchPage() {
 
         </Container>
       </Container>
-    </>
+    </MainLayout>
 
   );
 }

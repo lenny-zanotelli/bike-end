@@ -1,6 +1,11 @@
+import MainLayout from '../MainLayout';
+
 function ErrorPage() {
   return (
-    <h2> 404 hihi</h2>
+    <MainLayout>
+      <h2> 404 hihi</h2>
+
+    </MainLayout>
   );
 }
 

@@ -11,12 +11,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useEffect } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
+import MainLayout from '../../MainLayout';
 import {
   getAllFavorite,
   removeFavoriteCard,
   sendFavoriteCard,
 } from '../../../store/reducers/favorite';
+
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+
 
 const styles = {
   container: {
@@ -76,22 +79,23 @@ function FavoritePage() {
   };
 
   return (
-    <Container
-      component="main"
-      maxWidth={false}
-      sx={{ height: '80vh', overflow: 'auto' }}
-    >
-      <Typography
-        component="h2"
-        color="black"
-        align="center"
-        sx={{
-          fontSize: '1em',
-          fontWeight: 'bold',
-        }}
+    <MainLayout>
+      <Container
+        component="main"
+        maxWidth={false}
+        sx={{ height: '80vh', overflow: 'auto' }}
       >
-        Favoris
-      </Typography>
+        <Typography
+          component="h2"
+          color="black"
+          align="center"
+          sx={{
+            fontSize: '1em',
+            fontWeight: 'bold',
+          }}
+        >
+          Favoris
+        </Typography>
       <Grid
         component="section"
         container
@@ -130,17 +134,35 @@ function FavoritePage() {
                     fontSize: '0.8em',
                   }}
                 >
-                  {favorite.to.name}
-                </Typography>
-                <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
-                  {new Date(favorite.duration * 1000).toISOString().slice(11, 19)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+                  <FavoriteIcon sx={{ color: 'red' }} />
+                </IconButton>
+                <CardMedia
+                  sx={styles.image}
+                  component="img"
+                  image={destinationImage}
+                  alt={favorite.to.name}
+                />
+                <CardContent sx={styles.content}>
+                  <Typography
+                    color="black"
+                    align="center"
+                    sx={{
+                      fontWeight: 'bold',
+                      fontSize: '0.8em',
+                    }}
+                  >
+                    {favorite.to.name}
+                  </Typography>
+                  <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
+                    {new Date(favorite.duration * 1000).toISOString().slice(11, 19)}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          )) : <p>No favorites</p>}
+        </Grid>
+      </Container>
+    </MainLayout>
   );
 }
 

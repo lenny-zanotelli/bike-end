@@ -28,6 +28,7 @@ import {
   setDisplaySnackbar,
 } from '../../../store/reducers/login';
 import AlertMessage from '../../AlertMessage';
+import MainLayout from '../../MainLayout';
 
 const styles = {
   containerConnect: {
@@ -115,111 +116,111 @@ function LoginPage() {
   });
 
   return (
-    <Container
-      className="container"
-      component="main"
-      maxWidth="lg"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
-      <Box
-        className="container__connect"
-        component="section"
-        sx={styles.containerConnect}
+    <MainLayout>
+      <Container
+        className="container"
+        component="main"
+        maxWidth="lg"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
       >
-        <Typography
-          className="container__connect__title"
-          component="h2"
-          sx={styles.containerConnectTitle}
+        <Box
+          className="container__connect"
+          component="section"
+          sx={styles.containerConnect}
         >
-          Connexion
-        </Typography>
-
-        <form
-          className="container__connect__form"
-          onSubmit={handleSubmitLogin}
-        >
-          <TextField
-            error={Boolean(error)}
-            sx={styles.input}
-            color="success"
-            variant="outlined"
-            margin="normal"
-            required
-            id="email"
-            label="Adresse email"
-            name="email"
-            value={email}
-            onChange={handleChangeField}
-          />
-          <TextField
-            error={Boolean(error)}
-            sx={styles.input}
-            color="success"
-            variant="outlined"
-            margin="normal"
-            required
-            name="password"
-            label="Mot de passe"
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            value={password}
-            onChange={handleChangeField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            className="container__connect__form-btn"
-            sx={styles.containerConnectFormBtn}
-            type="submit"
-            size="large"
-            variant="contained"
-          >
-            Valider
-          </Button>
-        </form>
-        <Link
-          href="/signup"
-          sx={styles.containerConnectForgotPassword}
-          underline="none"
-          variant="button"
-        >
-          Pas de compte ?
           <Typography
-            component="span"
-            sx={styles.createAccountSpan}
+            className="container__connect__title"
+            component="h2"
+            sx={styles.containerConnectTitle}
           >
-            Créez un compte !
+            Connexion
           </Typography>
-        </Link>
-        <Button
-          className="container__connect__forgotPassword"
-          size="small"
-          sx={styles.containerConnectForgotPassword}
-        >
-          Mot de passe oublié ?
-        </Button>
-        {error && (
-          <AlertMessage />
-        )}
-      </Box>
-
-    </Container>
+          <form
+            className="container__connect__form"
+            onSubmit={handleSubmitLogin}
+          >
+            <TextField
+              error={Boolean(error)}
+              sx={styles.input}
+              color="success"
+              variant="outlined"
+              margin="normal"
+              required
+              id="email"
+              label="Adresse email"
+              name="email"
+              value={email}
+              onChange={handleChangeField}
+            />
+            <TextField
+              error={Boolean(error)}
+              sx={styles.input}
+              color="success"
+              variant="outlined"
+              margin="normal"
+              required
+              name="password"
+              label="Mot de passe"
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              value={password}
+              onChange={handleChangeField}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button
+              className="container__connect__form-btn"
+              sx={styles.containerConnectFormBtn}
+              type="submit"
+              size="large"
+              variant="contained"
+            >
+              Valider
+            </Button>
+          </form>
+          <Link
+            href="/signup"
+            sx={styles.containerConnectForgotPassword}
+            underline="none"
+            variant="button"
+          >
+            Pas de compte ?
+            <Typography
+              component="span"
+              sx={styles.createAccountSpan}
+            >
+              Créez un compte !
+            </Typography>
+          </Link>
+          <Button
+            className="container__connect__forgotPassword"
+            size="small"
+            sx={styles.containerConnectForgotPassword}
+          >
+            Mot de passe oublié ?
+          </Button>
+          {error && (
+            <AlertMessage />
+          )}
+        </Box>
+      </Container>
+    </MainLayout>
   );
 }
 
