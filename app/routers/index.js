@@ -16,7 +16,3 @@ router.use('/', userRouter, searchRouter, favoriteRouter);
 router.use(errorHandler);
 
 module.exports = router;
-
-Prestation d’assistance à maîtrise d’ouvrage
-
-Des travaux spécifiques
