@@ -1,12 +1,34 @@
 /* eslint-disable react/jsx-no-bind */
 import {
-  Button, Container, Box, TextField, Typography,
+  Button,
+  Container,
+  Box,
+  TextField,
+  Typography,
+  Link,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
-import { ChangeEvent, FormEvent, useEffect } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useEffect,
+  useState,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
+
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
-  login, KeysOfCredentials, changeCredentialsField, updateLoginStatus,
+  login,
+  KeysOfCredentials,
+  changeCredentialsField,
+  updateLoginStatus,
+  setDisplaySnackbar,
 } from '../../../store/reducers/login';
+import AlertMessage from '../../AlertMessage';
+import MainLayout from '../../MainLayout';
 
 const styles = {
   containerConnect: {
@@ -39,16 +61,31 @@ const styles = {
   },
   containerConnectForgotPassword: {
     my: '1rem',
-    fontSize: '0.7rem',
+    fontSize: '0.6rem',
+    color: 'black',
+  },
+  createAccountSpan: {
+    my: '1rem',
+    fontSize: '0.6rem',
+    color: 'blue',
+    pl: '0.3rem',
   },
 };
 
 function LoginPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const email = useAppSelector((state) => state.login.credentials.email);
   const password = useAppSelector((state) => state.login.credentials.password);
   const isLogged = useAppSelector((state) => state.login.logged);
-  // const isLoading = useAppSelector((state) => state.login.error);
+  const error = useAppSelector((state) => state.login.error);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   function handleChangeField(event: ChangeEvent<HTMLInputElement>): void {
     const newValue = event.target.value;
@@ -61,8 +98,16 @@ function LoginPage() {
 
   function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
+    dispatch(setDisplaySnackbar({ severity: 'error', message: 'Email ou mot de passe incorrect' }));
     dispatch(login());
+    navigate('/');
   }
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/');
+    }
+  }, [isLogged, navigate]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -71,21 +116,17 @@ function LoginPage() {
   });
 
   return (
-
-    <Container
-      className="container"
-      component="main"
-      maxWidth="lg"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
-      {isLogged ? (
-        <h2>Tu es connecté</h2>
-
-      ) : (
+    <MainLayout>
+      <Container
+        className="container"
+        component="main"
+        maxWidth="lg"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
         <Box
           className="container__connect"
           component="section"
@@ -98,12 +139,12 @@ function LoginPage() {
           >
             Connexion
           </Typography>
-
           <form
             className="container__connect__form"
             onSubmit={handleSubmitLogin}
           >
             <TextField
+              error={Boolean(error)}
               sx={styles.input}
               color="success"
               variant="outlined"
@@ -116,6 +157,7 @@ function LoginPage() {
               onChange={handleChangeField}
             />
             <TextField
+              error={Boolean(error)}
               sx={styles.input}
               color="success"
               variant="outlined"
@@ -123,10 +165,24 @@ function LoginPage() {
               required
               name="password"
               label="Mot de passe"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               value={password}
               onChange={handleChangeField}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <Button
               className="container__connect__form-btn"
@@ -138,6 +194,20 @@ function LoginPage() {
               Valider
             </Button>
           </form>
+          <Link
+            href="/signup"
+            sx={styles.containerConnectForgotPassword}
+            underline="none"
+            variant="button"
+          >
+            Pas de compte ?
+            <Typography
+              component="span"
+              sx={styles.createAccountSpan}
+            >
+              Créez un compte !
+            </Typography>
+          </Link>
           <Button
             className="container__connect__forgotPassword"
             size="small"
@@ -145,11 +215,12 @@ function LoginPage() {
           >
             Mot de passe oublié ?
           </Button>
+          {error && (
+            <AlertMessage />
+          )}
         </Box>
-
-      )}
-
-    </Container>
+      </Container>
+    </MainLayout>
   );
 }
 

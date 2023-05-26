@@ -1,4 +1,6 @@
 export interface Journey {
+  to_id: string;
+  isFavorite: boolean;
   departure_date_time: string;
   duration: number;
   from: {
