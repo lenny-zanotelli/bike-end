@@ -43,6 +43,7 @@ function HeaderLoggedOut() {
       component="div"
       className="header__container"
       maxWidth={false}
+      disableGutters
       sx={styles.headerContainer}
     >
       <PedalBikeIcon
