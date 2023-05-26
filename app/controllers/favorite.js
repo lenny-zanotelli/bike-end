@@ -1,11 +1,6 @@
 const { favoriteDataMapper } = require('../models');
 
-/**
- * @typedef {object} Place
- * @property {number} id
- * @property {string} name
- */
-
+/* BEGINNING : JS DOCS SWAGGER OBJECT DEFINITION */
 /**
  * @typedef {object} Favorite
  * @property {string} departure_date_time
@@ -22,6 +17,7 @@ const { favoriteDataMapper } = require('../models');
  * @typedef {object} Comment
  * @property {string} comment
  */
+/* END : JS DOCS SWAGGER OBJECT DEFINITION */
 
 module.exports = {
     /**
@@ -72,52 +68,6 @@ module.exports = {
             next(error);
         }
     },
-
-    // ? to delete, unused
-    // /**
-    //  * Favorite controller to get a record
-    //  * ExpressMiddleware signature
-    //  * @param {object} req Express request object
-    //  * @param {object} res Express response object
-    //  * @returns Route API JSON response
-    //  */
-    // async getOneFavorite(req, res, next) {
-    //     try {
-    //         const favorite = await favoriteDataMapper.findByPk(
-    //             req.userId,
-    //             req.params.id
-    //         );
-
-    //         if (!favorite) {
-    //             return res.status(400).json('Favorite not found');
-    //         }
-
-    //         // On reconstruit la réponse JSON avec les données nécessaires
-    //         const favoriteResult = {
-    //             departure_date_time: favorite.departure_date_time,
-    //             duration: favorite.duration,
-    //             from: {
-    //                 id: favorite.from_id,
-    //                 name: favorite.from_name,
-    //             },
-    //             to: {
-    //                 id: favorite.to_id,
-    //                 name: favorite.to_name,
-    //             },
-    //             nb_transfers: favorite.nb_transfers,
-    //             queryUrl: favorite.queryUrl,
-    //             comment: favorite.comment,
-    //             isFavorite: true
-    //         };
-
-    //         // On renvoie l'objet "favorite" en version simplifié et lisible
-    //         return res.status(200).json(favoriteResult);
-    //     } catch (error) {
-    //         error.status = 500
-    //         error.type = 'fetching a favorite'
-    //         next(error)
-    //     }
-    // },
 
     /**
      * Favorite controller to create a record

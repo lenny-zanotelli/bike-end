@@ -1,11 +1,13 @@
 const autoCompleteDataMapper = require('../services/getAutoComplete');
 const isolateZipCode = require('../utils/isolateZipCode');
 
+/* BEGINNING : JS DOCS SWAGGER OBJECT DEFINITION */
 /**
  * @typedef {object} Place
  * @property {string} id
  * @property {string} name
  */
+/* END : JS DOCS SWAGGER OBJECT DEFINITION */
 
 module.exports = {
     async getPlacesByQuery(req, res) {
@@ -49,7 +51,7 @@ module.exports = {
             // On renvoie le tableau des objets "places" en version simplifié et lisible
             return res.status(200).json(placeResults);
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'autocompleting'
             next(error)
         }
