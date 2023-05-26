@@ -25,42 +25,40 @@ function App() {
   ]);
 
   return (
-    <div className="app">
-      <Routes>
-        <Route
-          path="/"
-          element={isLogged ? <SearchPage /> : <Home />}
-        />
-        <Route
-          path="/signup"
-          element={<SignupPage />}
-        />
-        <Route
-          path="/login"
-          element={<LoginPage />}
-        />
-        {isLogged ? (
-          <>
-            <Route
-              path="/result"
-              element={<ResultsPage />}
-            />
-            <Route
-              path="/favorite"
-              element={<FavoritePage />}
-            />
-            <Route
-              path="/myaccount"
-              element={<MyAccount />}
-            />
-          </>
-        ) : ''}
-        <Route
-          path="*"
-          element={<ErrorPage />}
-        />
-      </Routes>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={isLogged ? <SearchPage /> : <Home />}
+      />
+      <Route
+        path="/signup"
+        element={<SignupPage />}
+      />
+      <Route
+        path="/login"
+        element={<LoginPage />}
+      />
+      {isLogged ? (
+        <>
+          <Route
+            path="/result"
+            element={<ResultsPage />}
+          />
+          <Route
+            path="/favorite"
+            element={<FavoritePage />}
+          />
+          <Route
+            path="/myaccount"
+            element={<MyAccount />}
+          />
+        </>
+      ) : ''}
+      <Route
+        path="*"
+        element={<ErrorPage />}
+      />
+    </Routes>
   );
 }
 

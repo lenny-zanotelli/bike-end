@@ -23,8 +23,7 @@ const styles = {
   card: {
     margin: 'auto',
     position: 'relative',
-    border: 'solid 2px',
-
+    border: 'solid 1px',
   },
   image: {
     opacity: 0.2,
@@ -51,7 +50,6 @@ const styles = {
 function ResultsPage() {
   const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
   const favorites = useAppSelector((state) => state.favorite.favorite);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {

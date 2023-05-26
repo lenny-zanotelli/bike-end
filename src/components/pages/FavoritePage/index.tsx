@@ -39,7 +39,7 @@ const styles = {
   card: {
     margin: 'auto',
     position: 'relative',
-    border: 'solid 2px',
+    border: 'solid 1px',
   },
   image: {
     opacity: 0.2,
@@ -124,7 +124,8 @@ function FavoritePage() {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           justifyContent="center"
         >
-          {favorites.map((favorite) => (
+
+          {favorites.length ? favorites.map((favorite) => (
             <Grid
               component="article"
               item
@@ -160,7 +161,6 @@ function FavoritePage() {
                   <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
                     {formatDuration(favorite.duration)}
                   </Typography>
-                  {/* Champ de saisie pour le commentaire */}
                   <form
                     onSubmit={(event) => handleUpdateComment(event, favorite.queryUrl)}
                   >
@@ -179,11 +179,10 @@ function FavoritePage() {
                       Mettre à jour le commentaire
                     </Button>
                   </form>
-
                 </CardContent>
               </Card>
             </Grid>
-          ))}
+          )) : ''}
         </Grid>
         {open && (
         <AlertMessage />
