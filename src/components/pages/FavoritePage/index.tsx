@@ -1,20 +1,26 @@
 import {
+  Button,
   Card,
   CardContent,
   CardMedia,
   Container,
   Grid,
   IconButton,
+  TextField,
   Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useEffect } from 'react';
+import {
+  FormEvent, useEffect, useState,
+} from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
 import {
   getAllFavorite,
   removeFavoriteCard,
   sendFavoriteCard,
+  updateFavoriteComment,
+  setDisplaySnackbar,
 } from '../../../store/reducers/favorite';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
@@ -56,6 +62,7 @@ const styles = {
 function FavoritePage() {
   const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.favorite.favorite);
+  const [commentValue, setCommentValue] = useState('');
 
   useEffect(() => {
     dispatch(getAllFavorite());
@@ -74,6 +81,12 @@ function FavoritePage() {
         dispatch(getAllFavorite());
       });
     }
+  };
+
+  const handleUpdateComment = (event: FormEvent<HTMLFormElement>, queryUrl: string) => {
+    event.preventDefault();
+    dispatch(updateFavoriteComment({ queryUrl, comment: commentValue }));
+    dispatch(setDisplaySnackbar({ severity: 'success', message: 'Ton commentaire a bien été ajouté ou modifié' }));
   };
 
   const formatDuration = (duration: number) => {
@@ -143,6 +156,26 @@ function FavoritePage() {
                   <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
                     {formatDuration(favorite.duration)}
                   </Typography>
+                  {/* Champ de saisie pour le commentaire */}
+                  <form
+                    onSubmit={(event) => handleUpdateComment(event, favorite.queryUrl)}
+                  >
+                    <TextField
+                      label="Commentaire"
+                      name="comment"
+                      defaultValue={favorite.comment || ''}
+                      onChange={(event) => setCommentValue(event.target.value)}
+                      fullWidth
+                    />
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      fullWidth
+                    >
+                      Mettre à jour le commentaire
+                    </Button>
+                  </form>
+
                 </CardContent>
               </Card>
             </Grid>
