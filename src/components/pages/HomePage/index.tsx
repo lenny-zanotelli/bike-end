@@ -7,7 +7,8 @@ import Footer from '../../Footer';
 function Home() {
   return (
     <Container
-      maxWidth="lg"
+      disableGutters
+      maxWidth={false}
     >
       <HomeHeader />
       <HomeBody />

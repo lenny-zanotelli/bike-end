@@ -1,13 +1,14 @@
+/* eslint-disable consistent-return */
 import {
   Card, CardContent, CardMedia, Container, Grid, IconButton, Typography,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useCallback, useEffect, useState } from 'react';
-import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
 import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../store/reducers/favorite';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
+import { generateRandomImageUrl } from '../../../utils/RandomImage';
 
 const styles = {
   container: {
@@ -41,6 +42,8 @@ const styles = {
   favoriteIcon: {
     top: '8px',
     left: '8px',
+    position: 'absolute',
+    zIndex: '1',
   },
 
 } as const;
@@ -57,6 +60,7 @@ function ResultsPage() {
       const localStorageResults = JSON.parse(results);
       const updatedResults = localStorageResults.map((result: Journey) => ({
         ...result,
+        imageUrl: generateRandomImageUrl(),
       }));
       setStoredJourneysArray(updatedResults);
     }
@@ -83,6 +87,12 @@ function ResultsPage() {
     }
   }, [dispatch, storedJourneysArray]);
 
+  const formatDuration = (duration: number) => {
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    return `${hours}h${minutes.toString().padStart(2, '0')}`;
+  };
+
   return (
     <MainLayout>
       <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
@@ -95,9 +105,9 @@ function ResultsPage() {
             fontWeight: 'bold',
           }}
         >
-          {`De nouveaux horizons à découvrir depuis
-          ${storedJourneysArray.length > 0 ? storedJourneysArray[0].from.name : ''}.
-          En selle !`}
+          {`De nouveaux horizons à découvrir depuis 
+        ${storedJourneysArray.length > 0 ? storedJourneysArray[0].from.name : ''}. 
+        En selle !`}
         </Typography>
         <Grid
           component="section"
@@ -125,7 +135,7 @@ function ResultsPage() {
                 <CardMedia
                   sx={styles.image}
                   component="img"
-                  image={destinationImage}
+                  src={result.imageUrl}
                   alt={result.to.name}
                 />
                 <CardContent sx={styles.content}>
@@ -144,7 +154,8 @@ function ResultsPage() {
                     align="center"
                     sx={{ fontSize: '0.8em' }}
                   >
-                    {new Date(result.duration * 1000).toISOString().slice(11, 19)}
+                    {formatDuration(result.duration)}
+
                   </Typography>
                 </CardContent>
               </Card>

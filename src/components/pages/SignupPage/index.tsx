@@ -7,6 +7,7 @@ import {
   Typography,
   InputAdornment,
   IconButton,
+  Link,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -48,6 +49,19 @@ const inputStyle = {
   backgroundColor: 'white',
 } as const;
 
+const alreadyAnAccount = {
+  my: '1rem',
+  fontSize: '0.6rem',
+  color: 'black',
+} as const;
+
+const alreadyAnAccountSpan = {
+  my: '1rem',
+  fontSize: '0.6rem',
+  color: 'blue',
+  pl: '0.3rem',
+} as const;
+
 function SignupPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -76,7 +90,7 @@ function SignupPage() {
 
   const handleChangeCheckBox = () => {
     dispatch(toggleAcceptedConditions());
-    console.log('test checkbox');
+    // console.log('test checkbox');
   };
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
@@ -248,6 +262,20 @@ function SignupPage() {
                 label="J'accepte les CGU"
               />
             </div>
+            <Link
+              href="/login"
+              sx={alreadyAnAccount}
+              underline="none"
+              variant="button"
+            >
+              Déjà un compte ?
+              <Typography
+                component="span"
+                sx={alreadyAnAccountSpan}
+              >
+                Connectez vous !
+              </Typography>
+            </Link>
             <Button
               type="submit"
               sx={buttonStyle}
@@ -262,6 +290,7 @@ function SignupPage() {
           sx={{
             width: '80%',
             textAlign: 'center',
+            fontSize: '0.7rem',
             mt: '0.5rem',
             fontStyle: 'italic',
           }}

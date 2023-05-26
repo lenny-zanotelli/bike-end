@@ -1,4 +1,5 @@
 export interface Journey {
+  imageUrl: string;
   to_id: string;
   isFavorite: boolean;
   departure_date_time: string;
@@ -13,4 +14,5 @@ export interface Journey {
   };
   nb_transfers: number;
   queryUrl: string;
+  comment: string | null;
 }

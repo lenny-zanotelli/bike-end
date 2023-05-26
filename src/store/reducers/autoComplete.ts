@@ -20,7 +20,6 @@ const initialState: AutoCompleteState = {
 };
 
 export const fetchAutoComplete = createAppAsyncThunk('autoComplete/FETCH_AUTOCOMPLETE', async (input: string) => {
- 
   const tokenWithQuotes = localStorage.getItem('token');
   if (!input) {
     console.log('PAS DE REQUETE YA TCHI');

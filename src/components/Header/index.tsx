@@ -8,6 +8,7 @@ function Header() {
   return (
     <Container
       component="header"
+      disableGutters
       sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
       {isLogged ? (
