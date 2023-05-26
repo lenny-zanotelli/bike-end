@@ -172,7 +172,8 @@ const favoriteReducer = createReducer(initialState, (builder) => {
     .addCase(setDisplaySnackbar, (state, action) => {
       state.alert.severity = action.payload ? action.payload.severity : state.alert.severity;
       state.alert.message = action.payload ? action.payload.message : '';
-      state.alert.open = !state.alert.open;
+      state.alert.open = true;
+      // state.alert.open = !state.alert.open;
     });
 });
 

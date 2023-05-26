@@ -24,6 +24,7 @@ import {
 } from '../../../store/reducers/favorite';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
+import AlertMessage from '../../AlertMessage';
 
 const styles = {
   container: {
@@ -62,6 +63,7 @@ const styles = {
 function FavoritePage() {
   const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.favorite.favorite);
+  const { open, severity, message } = useAppSelector((state) => state.favorite.alert);
   const [commentValue, setCommentValue] = useState('');
 
   useEffect(() => {
@@ -181,6 +183,9 @@ function FavoritePage() {
             </Grid>
           ))}
         </Grid>
+        {open && (
+        <AlertMessage />
+        )}
       </Container>
     </MainLayout>
   );
