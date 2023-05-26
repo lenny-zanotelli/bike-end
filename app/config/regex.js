@@ -6,4 +6,5 @@ module.exports = {
     // password must contain 1 non-alpha numeric character
     // password is 8-16 characters with no space
     password : /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/,
+    email: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$/,
 }
