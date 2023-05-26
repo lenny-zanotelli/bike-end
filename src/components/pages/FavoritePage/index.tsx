@@ -11,15 +11,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useEffect } from 'react';
 import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
-import MainLayout from '../../MainLayout';
 import {
   getAllFavorite,
   removeFavoriteCard,
   sendFavoriteCard,
 } from '../../../store/reducers/favorite';
-
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-
+import MainLayout from '../../MainLayout';
 
 const styles = {
   container: {
@@ -96,43 +94,26 @@ function FavoritePage() {
         >
           Favoris
         </Typography>
-      <Grid
-        component="section"
-        container
-        rowSpacing={2}
-        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        justifyContent="center"
-      >
-        {favorites.map((favorite) => (
-          <Grid
-            component="article"
-            item
-            key={favorite.to.id}
-            xs={5}
-            sm={8}
-            md={3}
-          >
-            <Card sx={styles.card}>
-              <IconButton
-                sx={styles.favoriteIcon}
-                onClick={() => handleFavoriteClick(favorite)}
-              >
-                <FavoriteIcon sx={{ color: 'red' }} />
-              </IconButton>
-              <CardMedia
-                sx={styles.image}
-                component="img"
-                image={destinationImage}
-                alt={favorite.to.name}
-              />
-              <CardContent sx={styles.content}>
-                <Typography
-                  color="black"
-                  align="center"
-                  sx={{
-                    fontWeight: 'bold',
-                    fontSize: '0.8em',
-                  }}
+        <Grid
+          component="section"
+          container
+          rowSpacing={2}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="center"
+        >
+          {favorites.map((favorite) => (
+            <Grid
+              component="article"
+              item
+              key={favorite.to.id}
+              xs={5}
+              sm={8}
+              md={3}
+            >
+              <Card sx={styles.card}>
+                <IconButton
+                  sx={styles.favoriteIcon}
+                  onClick={() => handleFavoriteClick(favorite)}
                 >
                   <FavoriteIcon sx={{ color: 'red' }} />
                 </IconButton>
@@ -159,7 +140,7 @@ function FavoritePage() {
                 </CardContent>
               </Card>
             </Grid>
-          )) : <p>No favorites</p>}
+          ))}
         </Grid>
       </Container>
     </MainLayout>
