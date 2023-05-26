@@ -1,6 +1,6 @@
 const { createClient } = require('redis');
 const client = createClient(
-    {url : process.env.REDIS_URL}
+    { url: process.env.REDIS_URL }
 );
 // mise en place d'une erreur interne redis
 // client.on('error', (err) => {
@@ -36,7 +36,7 @@ module.exports = {
         try {
             const str = JSON.stringify(data);
             await client.set(key, str, { EX: timeout, NX: true });
-            console.log('Cached key : ',key);
+            console.log('Cached key : ', key);
             return true
         } catch (error) {
             throw error
@@ -46,7 +46,7 @@ module.exports = {
     flush: async () => {
         try {
             await client.del(key);
-            console.log('Flushed key : ',key);
+            console.log('Flushed key : ', key);
             return true
         } catch (error) {
             throw error

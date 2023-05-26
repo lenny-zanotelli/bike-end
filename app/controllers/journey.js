@@ -1,11 +1,6 @@
 const journeyDataMapper = require('../services/getJourneys');
 
-/**
- * @typedef {object} Place
- * @property {string} id
- * @property {string} name
- */
-
+/* BEGINNING : JS DOCS SWAGGER OBJECT DEFINITION */
 /**
  * @typedef {object} Journey
  * @property {string} departure_date_time
@@ -14,6 +9,7 @@ const journeyDataMapper = require('../services/getJourneys');
  * @property {Place} to
  * @property {integer} nb_transfers
  * @property {string} queryUrl
+ * @property {boolean} isFavorite
  */
 
 /**
@@ -36,6 +32,7 @@ const journeyDataMapper = require('../services/getJourneys');
  * @property {Place} to
  * @property {array<SectionItem>} sections
  */
+/* END : JS DOCS SWAGGER OBJECT DEFINITION */
 
 module.exports = {
     async getJourneysByFilters(req, res, next) {
@@ -84,6 +81,7 @@ module.exports = {
             next(error);
         }
     },
+
     async getJourneyDetails(req, res, next) {
         try {
             // On récupère tous les détails du journey choisi par l'utilisateur

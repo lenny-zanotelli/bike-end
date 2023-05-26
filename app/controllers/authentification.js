@@ -5,25 +5,14 @@ const bcrypt = require('bcrypt');
 const { userDataMapper } = require('../models');
 const { createTokenForUserId } = require('../services/jwt');
 
-/**
- * @typedef {object} User
- * @property {number} id - Identifiant unique, Pk de la table
- * @property {string} email
- * @property {string} password
- * @property {string} firstname
- * @property {string} lastname
- * @property {boolean} accepted_conditions
- */
-
-/**
- * User controller to get a record.
- * ExpressMiddleware signature
- * @param {object} req Express req.object
- * @param {object} res Express response object
- * @returns Route API JSON response
- */
-
 module.exports = {
+    /**
+     * User controller to get a record.
+     * ExpressMiddleware signature
+     * @param {object} req Express req.object
+     * @param {object} res Express response object
+     * @returns Route API JSON response
+     */
     login: async (req, res, next) => {
         try {
             // TODO mettre vérif password et email en middleware validation
@@ -47,11 +36,12 @@ module.exports = {
             // on renvoie un code 200 = success avec le token en body
             return res.status(200).json(token);
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'logging in'
             next(error)
         }
     },
+
     /**
      * User controller to create a record.
      * ExpressMiddleware signature
@@ -72,7 +62,7 @@ module.exports = {
             // On renvoie un code 201 = Created
             return res.status(201).json(token);
         } catch (error) {
-            error.status=500
+            error.status = 500
             error.type = 'signing up'
             next(error)
         }

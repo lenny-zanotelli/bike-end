@@ -25,28 +25,6 @@ module.exports = {
         return result.rows;
     },
 
-    // ? to delete, unused
-    // /**
-    //  * Récupère un favori par son id
-    //  * @param {number} favoriteId L'id du favori souhaité
-    //  * @returns {Favorite|null} Le favori souhaité ou null si aucun favori ne correspond à cet id
-    //  */
-    // async findByPk(userId, favoriteId) {
-    //     const result = await client.query(`SELECT * FROM "favorite"
-    //         WHERE "id" = $2 AND "user_id" = $1;`,
-    //         [
-    //             userId,
-    //             favoriteId
-    //         ]
-    //     );
-
-    //     if (result.rowCount === 0) {
-    //         return null;
-    //     }
-
-    //     return result.rows[0];
-    // },
-
     /**
      * Récupère un favori par son queryUrl
      * @param {string} favoriteQueryUrl Le queryUrl du favori souhaité

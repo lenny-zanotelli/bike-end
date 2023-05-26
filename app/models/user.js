@@ -1,23 +1,5 @@
 const client = require('../config/database');
 
-/**
- * @typedef {object} User le user issus de la bdd
- * @property {number} id - Indentifiant unique, Pk de la table
- * @property {string} email
- * @property {string} password
- * @property {string} firstname
- * @property {string} lastname
- * @property {boolean} accepted_conditions
- */
-
-/**
- * @typedef {object} InputUser
- * @property {string} email
- * @property {string} password
- * @property {string} firstname
- * @property {string} lastname
- * @property {boolean} acceptedConditions
- */
 module.exports = {
     /**
      * Récupère par son id
@@ -53,7 +35,7 @@ module.exports = {
                 userData.acceptedConditions,
             ]
         );
-        
+
         return savedUser.rows[0];
     },
 
@@ -71,9 +53,8 @@ module.exports = {
             "password" = $2,
             "firstname" = $3,
             "lastname" = $4,
-            "accepted_conditions" = $5,
             "updated_at" = now()
-            WHERE id = $6
+            WHERE id = $5
             RETURNING *
         `,
             [
@@ -81,7 +62,6 @@ module.exports = {
                 modifiedUserData.password,
                 modifiedUserData.firstname,
                 modifiedUserData.lastname,
-                modifiedUserData.accepted_conditions,
                 modifiedUserData.id,
             ]
         );
@@ -104,6 +84,7 @@ module.exports = {
         // On cast le truthy/falsy en vrai booléen
         return !!result.rowCount;
     },
+
     /**
      * Vérifie si
      * @param {number} userId - L'id à supprimer
