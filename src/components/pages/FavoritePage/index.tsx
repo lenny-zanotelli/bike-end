@@ -13,7 +13,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
   FormEvent, useEffect, useState,
 } from 'react';
-import destinationImage from '../../../assets/images/result-card_background.png';
 import { Journey } from '../../../@types/journey';
 import {
   getAllFavorite,
@@ -22,6 +21,7 @@ import {
   updateFavoriteComment,
   setDisplaySnackbar,
 } from '../../../store/reducers/favorite';
+import { generateRandomImageUrl } from '../../../utils/RandomImage';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
 import AlertMessage from '../../AlertMessage';
@@ -57,6 +57,8 @@ const styles = {
   favoriteIcon: {
     top: '8px',
     left: '8px',
+    position: 'absolute',
+    zIndex: '1',
   },
 } as const;
 
@@ -141,7 +143,7 @@ function FavoritePage() {
                 <CardMedia
                   sx={styles.image}
                   component="img"
-                  image={destinationImage}
+                  image={generateRandomImageUrl()}
                   alt={favorite.to.name}
                 />
                 <CardContent sx={styles.content}>
