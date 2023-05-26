@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import {
   Card, CardContent, CardMedia, Container, Grid, IconButton, Typography,
 } from '@mui/material';
@@ -40,6 +41,7 @@ const styles = {
   favoriteIcon: {
     top: '8px',
     left: '8px',
+    position: 'absolute',
   },
 
 } as const;
@@ -82,6 +84,11 @@ function ResultsPage() {
     }
   }, [dispatch, storedJourneysArray]);
 
+  const generateRandomImageUrl = () => {
+    const randomNumber = Math.floor(Math.random() * 220) + 1;
+    return `https://loremflickr.com/320/480/paris,${randomNumber}`;
+  };
+
   return (
     <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
       <Typography
@@ -123,7 +130,7 @@ function ResultsPage() {
               <CardMedia
                 sx={styles.image}
                 component="img"
-                image={destinationImage}
+                src={generateRandomImageUrl()}
                 alt={result.to.name}
               />
               <CardContent sx={styles.content}>
