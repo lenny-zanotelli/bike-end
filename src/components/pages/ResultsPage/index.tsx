@@ -42,6 +42,7 @@ const styles = {
     top: '8px',
     left: '8px',
     position: 'absolute',
+    zIndex: '1',
   },
 
 } as const;
@@ -51,6 +52,10 @@ function ResultsPage() {
   const favorites = useAppSelector((state) => state.favorite.favorite);
 
   const dispatch = useAppDispatch();
+  const generateRandomImageUrl = () => {
+    const randomNumber = Math.floor(Math.random() * 220) + 1;
+    return `https://loremflickr.com/320/480/paris,${randomNumber}`;
+  };
 
   useEffect(() => {
     const results = localStorage.getItem('results');
@@ -58,6 +63,7 @@ function ResultsPage() {
       const localStorageResults = JSON.parse(results);
       const updatedResults = localStorageResults.map((result: Journey) => ({
         ...result,
+        imageUrl: generateRandomImageUrl(),
       }));
       setStoredJourneysArray(updatedResults);
     }
@@ -83,11 +89,6 @@ function ResultsPage() {
       dispatch(sendFavoriteCard(card));
     }
   }, [dispatch, storedJourneysArray]);
-
-  const generateRandomImageUrl = () => {
-    const randomNumber = Math.floor(Math.random() * 220) + 1;
-    return `https://loremflickr.com/320/480/paris,${randomNumber}`;
-  };
 
   return (
     <Container component="main" maxWidth={false} sx={{ height: '80vh', overflow: 'auto' }}>
@@ -130,7 +131,7 @@ function ResultsPage() {
               <CardMedia
                 sx={styles.image}
                 component="img"
-                src={generateRandomImageUrl()}
+                src={result.imageUrl}
                 alt={result.to.name}
               />
               <CardContent sx={styles.content}>
