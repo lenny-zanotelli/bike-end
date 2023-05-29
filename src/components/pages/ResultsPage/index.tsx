@@ -8,7 +8,8 @@ import { Journey } from '../../../@types/journey';
 import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../store/reducers/favorite';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
-import { generateRandomImageUrl } from '../../../utils/RandomImage';
+import { generateRandomImageUrl } from '../../../utils/randomImage';
+import { formatDuration } from '../../../utils/formatDuration';
 
 const styles = {
   container: {
@@ -84,12 +85,6 @@ function ResultsPage() {
       dispatch(sendFavoriteCard(card));
     }
   }, [dispatch, storedJourneysArray]);
-
-  const formatDuration = (duration: number) => {
-    const hours = Math.floor(duration / 3600);
-    const minutes = Math.floor((duration % 3600) / 60);
-    return `${hours}h${minutes.toString().padStart(2, '0')}`;
-  };
 
   return (
     <MainLayout>
