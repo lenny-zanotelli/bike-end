@@ -70,10 +70,10 @@ const styles = {
     backgroundColor: 'white',
   },
   containerModal: {
+    position: 'relative',
     width: '70vw',
     mt: '2rem',
     borderRadius: '5px',
-    p: '1rem',
     textAlign: 'center',
     backgroundColor: 'rgb(154, 183, 192, 1)',
     '@media only screen and (min-device-width : 768px)': {
@@ -82,8 +82,8 @@ const styles = {
   },
   closeButton: {
     position: 'absolute',
-    top: '8px',
-    right: '8px',
+    top: '0.5rem',
+    right: '-0.5rem',
   },
   deleteAccountButton: {
     my: '1rem',
@@ -197,7 +197,9 @@ function MyAccount() {
               mt: '6.5rem',
             }}
           >
-            <Container sx={styles.containerModal}>
+            <Container
+              sx={styles.containerModal}
+            >
               <Button
                 onClick={() => setOpen(false)}
                 sx={styles.closeButton}
@@ -275,19 +277,18 @@ function MyAccount() {
             </ListItem>
           </List>
         </Box>
-        <Link     to="/favorite">
-        <MuiLink
-          sx={{
-            mt: '2rem',
-            mb: '2rem',
-          }}
-          
-          underline="hover"
-        >
-          <FavoriteIcon />
-          Mes voyages favoris
-        </MuiLink>
-          </Link>
+        <Link to="/favorite">
+          <MuiLink
+            sx={{
+              mt: '2rem',
+              mb: '2rem',
+            }}
+            underline="hover"
+          >
+            <FavoriteIcon />
+            Mes voyages favoris
+          </MuiLink>
+        </Link>
         <Button
           fullWidth
           type="submit"
