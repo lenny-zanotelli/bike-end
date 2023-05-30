@@ -8,7 +8,8 @@ import { Journey } from '../../../@types/journey';
 import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../store/reducers/favorite';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
-import { generateRandomImageUrl } from '../../../utils/RandomImage';
+import { generateRandomImageUrl } from '../../../utils/randomImage';
+import { formatDuration } from '../../../utils/formatDuration';
 
 const styles = {
   container: {
@@ -48,6 +49,7 @@ const styles = {
 } as const;
 
 function ResultsPage() {
+  const MAX_NAME_LENGTH = 20;
   const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
   const favorites = useAppSelector((state) => state.favorite.favorite);
   const dispatch = useAppDispatch();
@@ -84,12 +86,6 @@ function ResultsPage() {
       dispatch(sendFavoriteCard(card));
     }
   }, [dispatch, storedJourneysArray]);
-
-  const formatDuration = (duration: number) => {
-    const hours = Math.floor(duration / 3600);
-    const minutes = Math.floor((duration % 3600) / 60);
-    return `${hours}h${minutes.toString().padStart(2, '0')}`;
-  };
 
   return (
     <MainLayout>
@@ -145,7 +141,8 @@ function ResultsPage() {
                       fontSize: '0.8em',
                     }}
                   >
-                    {result.to.name}
+                    {result.to.name.slice(0, MAX_NAME_LENGTH)}
+                    {result.to.name.length > MAX_NAME_LENGTH ? '...' : ''}
                   </Typography>
                   <Typography
                     color="black"

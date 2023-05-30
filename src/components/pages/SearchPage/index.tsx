@@ -214,7 +214,6 @@ function SearchPage() {
                     {...params}
                     className="search-form__input-city"
                     fullWidth
-
                     onChange={handleAutoCompleteChange}
                     name="city-start"
                     aria-placeholder="Lieu de départ"
@@ -336,7 +335,6 @@ function SearchPage() {
               >
                 Recherche
               </Button>
-
               {/* <Button
     className="filter-form__btn-reset"
     type="button"
