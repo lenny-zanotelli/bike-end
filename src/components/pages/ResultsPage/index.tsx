@@ -49,6 +49,7 @@ const styles = {
 } as const;
 
 function ResultsPage() {
+  const MAX_NAME_LENGTH = 20;
   const [storedJourneysArray, setStoredJourneysArray] = useState<Journey[]>([]);
   const favorites = useAppSelector((state) => state.favorite.favorite);
   const dispatch = useAppDispatch();
@@ -140,7 +141,8 @@ function ResultsPage() {
                       fontSize: '0.8em',
                     }}
                   >
-                    {result.to.name}
+                    {result.to.name.slice(0, MAX_NAME_LENGTH)}
+                    {result.to.name.length > MAX_NAME_LENGTH ? '...' : ''}
                   </Typography>
                   <Typography
                     color="black"
