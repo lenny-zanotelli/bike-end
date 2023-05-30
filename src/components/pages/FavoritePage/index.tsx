@@ -203,18 +203,21 @@ function FavoritePage() {
                   <Typography color="black" align="center" sx={{ fontSize: '0.8em' }}>
                     {formatDuration(favorite.duration)}
                   </Typography>
-                  <Typography
-                    color="black"
-                    align="center"
-                    sx={{
-                      fontWeight: 'bold',
-                      fontSize: '0.8em',
-                      border: '1px solid grey',
-                      borderRadius: '5px',
-                    }}
-                  >
-                    {favorite.comment}
-                  </Typography>
+                  {favorite.comment ? (
+                    <Typography
+                      color="black"
+                      align="center"
+                      onClick={() => handleOpenModal(favorite.queryUrl)}
+                      sx={{
+                        fontWeight: 'bold',
+                        fontSize: '0.8em',
+                        border: '1px solid grey',
+                        borderRadius: '5px',
+                      }}
+                    >
+                      {favorite.comment}
+                    </Typography>
+                  ) : ''}
                 </CardContent>
                 {/* MODAL */}
                 <Modal open={openModal} onClose={handleCloseModal}>
