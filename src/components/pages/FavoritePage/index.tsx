@@ -78,8 +78,7 @@ const styles = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    boxShadow: 24,
-    border: '2px solid #000',
+    boxShadow: 30,
     p: 4,
   },
 } as const;
@@ -101,6 +100,8 @@ function FavoritePage() {
     const isFavorite = favorites.some((favorite) => favorite.to.id === journey.to.id);
     if (isFavorite) {
       dispatch(removeFavoriteCard(journey.queryUrl)).then(() => {
+        dispatch(setDisplaySnackbar({ severity: 'success', message: 'Ton favori a bien été supprimé' }));
+
         // Suppression réussie, mettez à jour l'état des favoris dans le store
         dispatch(getAllFavorite());
       });
@@ -219,17 +220,22 @@ function FavoritePage() {
                 <Modal open={openModal} onClose={handleCloseModal}>
                   <Container sx={styles.modalContainer}>
                     <Card>
-                      <CardContent>
+                      <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <Typography variant="h6">Modifier le commentaire</Typography>
                         <form onSubmit={handleUpdateComment}>
                           <TextField
                             label="Commentaire"
                             name="comment"
-                            defaultValue={favorite.comment || ''}
+                            defaultValue=""
                             onChange={(event) => setCommentValue(event.target.value)}
                             fullWidth
                           />
-                          <Button type="submit" variant="contained">
+                          <Button
+                            type="submit"
+                            color="success"
+                            variant="contained"
+                            sx={{ mt: '0.5rem' }}
+                          >
                             Enregistrer
                           </Button>
                         </form>
@@ -239,7 +245,14 @@ function FavoritePage() {
                 </Modal>
               </Card>
             </Grid>
-          )) : ''}
+          )) : (
+            <Typography
+              variant="h2"
+              sx={{ mt: '4rem', fontSize: '1rem', pl: '1rem' }}
+            >
+              Aucun favori actuellement
+            </Typography>
+          )}
         </Grid>
 
         {open && (
