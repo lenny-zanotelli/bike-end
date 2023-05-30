@@ -226,7 +226,7 @@ function FavoritePage() {
                           <TextField
                             label="Commentaire"
                             name="comment"
-                            defaultValue=""
+                            defaultValue={commentValue}
                             onChange={(event) => setCommentValue(event.target.value)}
                             fullWidth
                           />

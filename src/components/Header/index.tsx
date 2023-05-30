@@ -9,6 +9,7 @@ function Header() {
     <Container
       component="header"
       disableGutters
+      maxWidth={false}
       sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
       {isLogged ? (
