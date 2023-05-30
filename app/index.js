@@ -9,7 +9,6 @@ const router = require('./routers');
 
 const app = express();
 
-
 // Middleware pour parser le payload JSON
 app.use(express.json());
 
@@ -37,7 +36,7 @@ const options = {
     // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
     filesPattern: './**/*.js',
     // URL where SwaggerUI will be rendered
-    swaggerUIPath: '/api-docs',
+    swaggerUIPath: process.env.API_DOCUMENTATION_ROUTE,
     // Expose OpenAPI UI
     exposeSwaggerUI: true,
     // Expose Open API JSON Docs documentation in `apiDocsPath` path.
