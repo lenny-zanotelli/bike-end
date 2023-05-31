@@ -10,7 +10,7 @@ const isolateZipCode = require('../utils/isolateZipCode');
 /* END : JS DOCS SWAGGER OBJECT DEFINITION */
 
 module.exports = {
-    async getPlacesByQuery(req, res) {
+    async getPlacesByQuery(req, res, next) {
         try {
             // On récupère toutes les "places" en fonction de la demande utilisateur
             const places = await autoCompleteDataMapper.findAll(req.params.place);
