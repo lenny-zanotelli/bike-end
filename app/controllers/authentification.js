@@ -18,14 +18,14 @@ module.exports = {
             // TODO mettre vérif password et email en middleware validation
             const user = await userDataMapper.findByEmail(req.body.email);
             if (!user) {
-                res.status(401).json("Wrong email/password pairing");
+                return res.status(401).json("Wrong email/password pairing");
             }
             const isPasswordValid = await bcrypt.compare(
                 req.body.password,
                 user.password
             );
             if (!isPasswordValid) {
-                res.status(401).json("Wrong email/password pairing")
+                return res.status(401).json("Wrong email/password pairing")
             }
 
 
