@@ -18,13 +18,7 @@ client.on('error', (err) => {
 
 client
     .connect()
-    .then(() => console.log('Redis : client.isReady : ', client.isReady))
-    .then(() => console.log('Redis : process.env.REDISHOST : ', process.env.REDISHOST))
-    .then(() => console.log('Redis : process.env.REDISPORT : ', process.env.REDISPORT))
-    .then(() => console.log('Redis : process.env.REDISUSER : ', process.env.REDISUSER))
-    .then(() => console.log('Redis : process.env.REDISPASSWORD : ', process.env.REDISPASSWORD))
-    .then(() => console.log('Redis : client.socket : ', client));
-
+    .then(() => console.log('Redis : client.isReady : ', client.isReady));
 
 const timeout = process.env.REDIS_TIMEOUT;
 
