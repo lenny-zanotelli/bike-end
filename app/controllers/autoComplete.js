@@ -14,6 +14,7 @@ module.exports = {
         try {
             // On récupère toutes les "places" en fonction de la demande utilisateur
             const places = await autoCompleteDataMapper.findAll(req.params.place);
+            console.log('did we load places ? : ', places)
             if (!places) {
                 return res.status(400).json('No place for your search');
             }
