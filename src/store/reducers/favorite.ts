@@ -1,5 +1,5 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { axiosInstance as axios } from '../../utils/axios';
 import { createAppAsyncThunk } from '../../utils/redux';
 import { Journey } from '../../@types/journey';
 
@@ -32,23 +32,13 @@ export const getFavoriteCard = createAction<Journey>('favorite/FETCH_FAVORITE');
 export const sendFavoriteCard = createAppAsyncThunk(
   'favorite/SEND_FAVORITE_CARD',
   async (card: Journey) => {
-    const tokenWithQuotes = localStorage.getItem('token');
-    if (tokenWithQuotes) {
-      try {
-        const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
-
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        const response = await axios.post('https://bikeend-api.up.railway.app/favorite', card, { headers });
-        return response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      console.log('Pas de Token');
+    try {
+      const response = await axios.post('/favorite', card);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return [];
     }
-    return [];
   },
 );
 
@@ -57,25 +47,15 @@ export const getAllFavorite = createAppAsyncThunk(
   'favorite/GET_ALL_FAVORITE',
   // eslint-disable-next-line consistent-return
   async () => {
-    const tokenWithQuotes = localStorage.getItem('token');
-    if (tokenWithQuotes) {
-      try {
-        const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
+    try {
+      const response = await axios.get('/favorite');
+      const favorites = response.data;
+      localStorage.setItem('favorites', JSON.stringify(favorites));
 
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        const response = await axios.get('https://bikeend-api.up.railway.app/favorite', { headers });
-        const favorites = response.data;
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-
-        return favorites;
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      console.log('PAS DE TOKEN');
+      return favorites;
+    } catch (error) {
+      console.log(error);
+      return [];
     }
   },
 );
@@ -84,20 +64,11 @@ export const getAllFavorite = createAppAsyncThunk(
 export const removeFavoriteCard = createAppAsyncThunk(
   'favorite/REMOVE_FAVORITE_CARD',
   async (cardId: string) => {
-    const tokenWithQuotes = localStorage.getItem('token');
-    if (tokenWithQuotes) {
-      try {
-        const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
-
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        await axios.delete(`https://bikeend-api.up.railway.app/favorite${cardId}`, { headers });
-        console.log(cardId);
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await axios.delete(`/favorite${cardId}`);
+      console.log(cardId);
+    } catch (error) {
+      console.log(error);
     }
   },
 );
@@ -106,20 +77,13 @@ export const updateFavoriteComment = createAppAsyncThunk(
   'favorite/UPDATE_FAVORITE_COMMENT',
   // eslint-disable-next-line consistent-return
   async ({ queryUrl, comment }: { queryUrl: string, comment: string }) => {
-    const tokenWithQuotes = localStorage.getItem('token');
-    if (tokenWithQuotes) {
-      try {
-        const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        const response = await axios.patch(`https://bikeend-api.up.railway.app/favorite/${queryUrl}`, { comment }, { headers });
-        console.log(queryUrl, comment);
-        return { queryUrl, comment };
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    try {
+      const response = await axios.patch(`/favorite/${queryUrl}`, { comment });
+      console.log(queryUrl, comment);
+      return { queryUrl, comment };
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   },
 );
