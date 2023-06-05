@@ -11,8 +11,6 @@ module.exports = async (endpoint) => {
                 Authorization: token,
             },
         });
-        console.log('did we fetch with axios ? axios data : ', data)
-
         return data;
     } catch (error) {
         throw error;
