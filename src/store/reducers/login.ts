@@ -1,8 +1,7 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { axiosInstance as axios } from '../../utils/axios';
 import { createAppAsyncThunk } from '../../utils/redux';
 import { getUserDataFromLocalStorage, removeUserDataFromLocalStorage } from '../../utils/login';
-import { axiosInstance } from '../../utils/axios';
 
 interface LoginStates {
   logged: boolean;
@@ -61,7 +60,7 @@ export const login = createAppAsyncThunk(
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const { email, password } = state.login.credentials;
-    const { data } = await axiosInstance.post('/login', {
+    const { data } = await axios.post('/login', {
       email,
       password,
     });
@@ -79,7 +78,7 @@ export const register = createAppAsyncThunk(
       firstname, lastname, email, password,
     } = state.login.credentials;
     const { acceptedConditions } = state.login;
-    const { data } = await axiosInstance.post('/signup', {
+    const { data } = await axios.post('/signup', {
       firstname,
       lastname,
       email,
@@ -92,66 +91,41 @@ export const register = createAppAsyncThunk(
 );
 
 export const deleteUser = createAppAsyncThunk('login/DELETE_USER', async () => {
-  const tokenWithQuotes = localStorage.getItem('token');
-  if (tokenWithQuotes) {
-    try {
-      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      await axios.delete('https://bikeend-api.up.railway.app/user', { headers });
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    await axios.delete('/user');
+  } catch (error) {
+    console.log(error);
   }
 });
 
 // eslint-disable-next-line consistent-return
 export const modifyUser = createAppAsyncThunk('login/MODIFY_USER', async (_, thunkAPI) => {
-  const tokenWithQuotes = localStorage.getItem('token');
   const state = thunkAPI.getState();
   const {
     firstname, lastname, email,
   } = state.login.credentials;
-  if (tokenWithQuotes) {
-    try {
-      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.patch('https://bikeend-api.up.railway.app/user', {
-        firstname,
-        lastname,
-        email,
-      }, {
-        headers,
-      });
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
+
+  try {
+    const response = await axios.patch('/user', {
+      firstname,
+      lastname,
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 });
 
 // eslint-disable-next-line consistent-return
 export const fetchUser = createAppAsyncThunk('user/FETCH_USER', async () => {
-  const tokenWithQuotes = localStorage.getItem('token');
-  if (tokenWithQuotes) {
-    try {
-      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get('https://bikeend-api.up.railway.app/user', { headers });
-      const res = response.data;
-      console.log(response);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  } else {
-    console.log('Pas de TOKEN');
+  try {
+    const response = await axios.get('/user');
+    const res = response.data;
+    console.log(response);
+    return res;
+  } catch (error) {
+    console.log(error);
   }
 });
 

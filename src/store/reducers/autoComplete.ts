@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { axiosInstance as axios } from '../../utils/axios';
 import { createAppAsyncThunk } from '../../utils/redux';
 
 export interface Query {
@@ -20,23 +20,14 @@ const initialState: AutoCompleteState = {
 };
 
 export const fetchAutoComplete = createAppAsyncThunk('autoComplete/FETCH_AUTOCOMPLETE', async (input: string) => {
-  const tokenWithQuotes = localStorage.getItem('token');
   if (!input) {
     console.log('PAS DE REQUETE YA TCHI');
-  } else if (tokenWithQuotes) {
-    try {
-      const token = tokenWithQuotes.replace(/^"(.*)"$/, '$1');
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get(`https://bikeend-api.up.railway.app/autocomplete/${input}`, { headers });
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  } else {
-    console.log('Pas de TOKEN');
+  }
+  try {
+    const response = await axios.get(`/autocomplete/${input}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
   return [];
 });
