@@ -20,14 +20,14 @@ const initialState: AutoCompleteState = {
 };
 
 export const fetchAutoComplete = createAppAsyncThunk('autoComplete/FETCH_AUTOCOMPLETE', async (input: string) => {
-  if (!input) {
+  if (input) {
     console.log('PAS DE REQUETE YA TCHI');
-  }
-  try {
-    const response = await axios.get(`/autocomplete/${input}`);
-    return response.data;
-  } catch (error) {
-    console.log(error);
+    try {
+      const response = await axios.get(`/autocomplete/${input}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
   return [];
 });
