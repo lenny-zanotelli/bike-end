@@ -1,11 +1,21 @@
 const { createClient } = require('redis');
-const client = createClient(
-    { url: process.env.REDIS_URL }
-);
+// const client = createClient(
+//     { url: process.env.REDIS_URL }
+// );
+const client = createClient({
+    socket: {
+        host: process.env.REDISHOST,
+        port: process.env.REDISPORT
+    },
+    username: process.env.REDISUSER,
+    password: process.env.REDISPASSWORD
+});
+
 // mise en place d'une erreur interne redis
-// client.on('error', (err) => {
-//     console.log(err);
-// });
+client.on('error', (err) => {
+    console.log('--- Redis error ---\n', err);
+});
+
 client
     .connect()
     .then(() => console.log('Redis : client.isReady : ', client.isReady));
