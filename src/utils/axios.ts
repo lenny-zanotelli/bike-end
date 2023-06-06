@@ -4,6 +4,6 @@ import axios from 'axios';
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_PRIVATE_API_URL,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')?.replace(/^"(.*)"$/, '$1')}`,
+    Authorization: `Bearer ${await localStorage.getItem('token')?.replace(/^"(.*)"$/, '$1')}`,
   },
 });

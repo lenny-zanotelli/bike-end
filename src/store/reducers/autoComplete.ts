@@ -23,6 +23,7 @@ export const fetchAutoComplete = createAppAsyncThunk('autoComplete/FETCH_AUTOCOM
   if (input) {
     try {
       const response = await axios.get(`/autocomplete/${input}`);
+      console.log('response.headers : ',response.headers)
       return response.data;
     } catch (error) {
       console.log(error);
