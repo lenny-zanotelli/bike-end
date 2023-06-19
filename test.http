@@ -6,7 +6,7 @@
 
 # Base URL
 @endpoint = http://localhost:{{$dotenv PORT}}
-@endpointProd = https://bikeend-api.up.railway.app
+@endpointProd = http://localhost:{{$dotenv PORT}}
 @tokenDePierre = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NTAwMDk5NSwiZXhwIjoxNjg1NjA1Nzk1fQ.FpE456L1Jm7IjrrVdK3si9KJclWZABepYXpPBHSY1bM
 
 @tokenDeJean = 
@@ -56,7 +56,7 @@ content-type: application/json
 
 {
   "email": "jeanjacques@gmail.com",
-  "password": "Jjbesos-1234"
+  "password": "Torigon57290//"
 }
 
 ### Login d'un compte seedé
