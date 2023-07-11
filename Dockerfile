@@ -1,6 +1,6 @@
 # build stage
 FROM node:lts-alpine as build
-WORKDIR /
+WORKDIR /app
 COPY package*.json ./
 RUN yarn
 COPY . .
