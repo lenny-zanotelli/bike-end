@@ -5,7 +5,7 @@ const router = express.Router();
 const { autoCompleteController, journeyController } = require('../controllers/');
 
 // Importation des middlewares
-const { maxDuration, paginateAndCacheJourneys } = require('../middlewares');
+const { maxDuration, fetchAndCacheJourneys } = require('../middlewares');
 
 /**
  * SEARCH
@@ -87,7 +87,7 @@ router
      */
     .get(
         maxDuration,
-        paginateAndCacheJourneys,
+        fetchAndCacheJourneys,
         journeyController.getJourneysByFilters
     );
 

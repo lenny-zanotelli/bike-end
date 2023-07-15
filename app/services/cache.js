@@ -1,7 +1,6 @@
+const flatted = require('flatted');
 const { createClient } = require('redis');
-// const client = createClient(
-//     { url: process.env.REDIS_URL }
-// );
+
 const client = createClient({
     socket: {
         host: process.env.REDISHOST,
@@ -11,22 +10,28 @@ const client = createClient({
     password: process.env.REDISPASSWORD
 });
 
+(async () => {
+    await client.connect();
+})();
+
+client.on('ready', () => {
+    console.log('Redis : client.isReady');
+})
+
 // mise en place d'une erreur interne redis
 client.on('error', (err) => {
     console.log('--- Redis error ---\n', err);
 });
-
-client
-    .connect()
-    .then(() => console.log('Redis : client.isReady : ', client.isReady));
 
 const timeout = process.env.REDIS_TIMEOUT;
 
 module.exports = {
     isInCache: async (key) => {
         try {
-            return await client.exists(key);
+            const exists = await client.exists(key);
+            return exists === 1;
         } catch (error) {
+            console.error('Error checking cache existence:', error);
             throw error
         }
     },
@@ -34,9 +39,12 @@ module.exports = {
     getCache: async (key) => {
         try {
             const cachedString = await client.get(key);
-            const cachedValue = JSON.parse(cachedString);
-            console.log('Got key : ', key)
-            return cachedValue;
+            if(cachedString) {
+                const cachedValue = flatted.parse(cachedString);
+                console.log('Got key : ', key)
+                return cachedValue;
+            }
+            return null;
         } catch (error) {
             throw error
         }
@@ -44,11 +52,13 @@ module.exports = {
 
     addToCache: async (key, data) => {
         try {
-            const str = JSON.stringify(data);
+            console.log('Data to be cached:', data);
+            const str = flatted.stringify(data);
             await client.set(key, str, { EX: timeout, NX: true });
             console.log('Cached key : ', key);
             return true
         } catch (error) {
+            console.error('Error while caching data:', error);
             throw error
         }
     },
