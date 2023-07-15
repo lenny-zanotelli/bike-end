@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {
   ChangeEvent, FormEvent, useEffect, useState,
 } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   KeysOfCredentials,
@@ -263,18 +263,18 @@ function MyAccount() {
             </ListItem>
           </List>
         </Box>
-        <Link to="/favorite">
-          <MuiLink
-            sx={{
-              mt: '2rem',
-              mb: '2rem',
-            }}
-            underline="hover"
-          >
-            <FavoriteIcon />
-            Mes voyages favoris
-          </MuiLink>
-        </Link>
+        <MuiLink
+          component={RouterLink}
+          to="/favorite"
+          sx={{
+            mt: '2rem',
+            mb: '2rem',
+          }}
+          underline="hover"
+        >
+          <FavoriteIcon />
+          Mes voyages favoris
+        </MuiLink>
         <Button
           type="submit"
           sx={styles.buttonStyle}
