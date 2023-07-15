@@ -42,9 +42,9 @@ module.exports = {
                 // `/journeys${req._parsedUrl.search}`
                 `/journeys${req.search}`
             );
-            if (!journeys) {
-                return res.status(400).json('No journey for your search');
-            }
+            // if (!journeys) {
+            //     return res.status(400).json('No journey for your search');
+            // }
             const minJourneyDuration = process.env.MIN_DURATION;
             // On reconstruit la réponse JSON avec les données nécessaires
             const journeyResults = [];
