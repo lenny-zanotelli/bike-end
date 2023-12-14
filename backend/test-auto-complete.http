@@ -1,0 +1,76 @@
+# TESTS search auto-complete
+
+# Base URL
+@endpoint = http://localhost:{{$dotenv PORT}}
+@endpointProd = https://bikeend-api.up.railway.app
+
+# Token du user connecté
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY4NTAwMDk5NSwiZXhwIjoxNjg1NjA1Nzk1fQ.FpE456L1Jm7IjrrVdK3si9KJclWZABepYXpPBHSY1bM
+
+### 404
+GET {{ endpoint }}/search
+Authorization: {{ authorization }}
+
+#########################
+#         SEARCH        #
+#########################
+
+### Obtenir des places existantes en auto-complete
+GET {{ endpoint }}/autocomplete/aligre
+Authorization: {{authorization}}
+# ATTENDU : url = /autocomplete/<les caracteres recherchés>
+# RENVOI : results = {id: string, name: string}[]
+
+### Obtenir des itineraires par filtre
+GET {{ endpoint }}/journey/search?from=2.3793433;48.8504715&datetime=20230603T120007&max_duration=3600&per_page=10&current_page=1
+Authorization: {{ authorization }}
+# ATTENDU : url = /journey/search 
+#           & req.query = {from: string, datetime: string(YYYYMMDDThhmmss), max_duration: integer(seconds)}
+# RENVOI : results = {
+#    departure_date_time: string(YYYYMMDDThhmmss),
+#    duration: integer(seconds),
+#    from: {
+#        id: string,
+#        name: string,
+#    },
+#    to: {
+#        id: string,
+#        name: string,
+#    },
+#    nb_transfers: integer,
+#    queryUrl:string
+# }[]
+
+### Obtenir le détail d'un itinéraire sélectionné
+GET {{ endpoint }}/journey/detail?from=stop_area%3ASTE%3AOCE87481283&datetime=20230603T120007&to=stop_point%3AP44%3A44PLAIcentU
+Authorization: {{ authorization }}
+# ATTENDU : url = /journey/detail/ + journey.queryUrl
+# RENVOI : results = {
+#    departure_date_time: string(YYYYMMDDThhmmss),
+#    arrival_date_time: string(YYYYMMDDThhmmss),
+#    duration: integer(seconds),
+#    nb_transfers: integer,
+#    from: {
+#        id: string,
+#        name: string,
+#    },
+#    to: {
+#        id: string,
+#        name: string,
+#    },
+#    sections: {
+#       departure_date_time: string(YYYYMMDDThhmmss),
+#       arrival_date_time: string(YYYYMMDDThhmmss),
+#       duration: integer(seconds),
+#       nb_transfers: integer,
+#       from: {
+#           id: string,
+#           name: string,
+#       },
+#       to: {
+#           id: string,
+#           name: string,
+#       },
+#       transportMode: string
+#    }[]
+#   }
