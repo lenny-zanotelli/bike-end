@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-# Bike-End-Front
-
-Ce dépôt est destiné à l'application React de "Bike-End"
-
-## Installation du front
-
-```
-git clone git@github.com:O-clock-Quarks/Bike-End-Front.git ~/Bike-End-Front
-cd ~/Bike-End-Front
-yarn
-```
-Créer un .env à la racine du dossier, et le completer selon .env.example
-
-## Démarrage du serveur front
-
-`yarn start`
-
-Ouvrir votre navigateur à l'url `http://localhost:5473`
-=======
 # Bike-End-Back
 
 - Installation des modules nécessaires à l'application `npm install -y`
@@ -41,4 +21,3 @@ Ouvrir votre navigateur à l'url `http://localhost:5473`
 > - Démarrage avec `npm run builddev` en mode dev (correspond à `npm i && sqitch deploy`)
 > - Démarrage avec `npm run buildprod` en mode prod (correspond à `sqitch --target production deploy`)
 > - Réinitialisation avec `npm run resetdb` en mode dev (correspond à `sqitch revert -y && sqitch deploy`)
->>>>>>> backend/main
