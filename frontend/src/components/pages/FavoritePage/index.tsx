@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddCommentRoundedIcon from '@mui/icons-material/AddCommentRounded';
-import {
+import React, {
   FormEvent, useEffect, useState,
 } from 'react';
 import { Journey } from '../../../@types/journey';
@@ -23,11 +23,11 @@ import {
   updateFavoriteComment,
   setDisplaySnackbar,
 } from '../../../store/reducers/favorite';
-import { generateRandomImageUrl } from '../../../utils/randomImage';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
 import AlertMessage from '../../AlertMessage';
 import { formatDuration } from '../../../utils/formatDuration';
+import imageCard from '../../../assets/images/result-card_background.webp';
 
 const styles = {
   container: {
@@ -189,7 +189,7 @@ function FavoritePage() {
                 <CardMedia
                   sx={styles.image}
                   component="img"
-                  image={generateRandomImageUrl()}
+                  image={imageCard}
                   alt={favorite.to.name}
                 />
                 <CardContent sx={styles.content}>

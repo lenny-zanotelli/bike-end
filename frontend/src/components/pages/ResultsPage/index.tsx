@@ -8,8 +8,8 @@ import { Journey } from '../../../@types/journey';
 import { setFavoriteCard, sendFavoriteCard, removeFavoriteCard } from '../../../store/reducers/favorite';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import MainLayout from '../../MainLayout';
-import { generateRandomImageUrl } from '../../../utils/randomImage';
 import { formatDuration } from '../../../utils/formatDuration';
+import imageCard from '../../../assets/images/result-card_background.webp';
 
 const styles = {
   container: {
@@ -60,7 +60,7 @@ function ResultsPage() {
       const localStorageResults = JSON.parse(results);
       const updatedResults = localStorageResults.map((result: Journey) => ({
         ...result,
-        imageUrl: generateRandomImageUrl(),
+        imageUrl: imageCard,
       }));
       setStoredJourneysArray(updatedResults);
     }
